@@ -429,9 +429,12 @@ nav a:hover {
   overflow: hidden;
 }
 .logo-img {
-  height: 160px;
+  height: 100px;
   margin-left: 1rem;
   object-fit: contain;
+}
+#particles-js {
+  pointer-events: none;
 }
 /* Responsive */
 @media screen and (max-width: 768px) {
