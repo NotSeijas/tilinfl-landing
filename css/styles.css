@@ -50,7 +50,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #0078d4;
+  color: #903f7d;
 }
 
 /* Secciones */
@@ -116,7 +116,6 @@ nav a:hover {
   padding: 3rem 1rem;
 }
 
-/* Producto */
 .info {
   max-width: 400px;
 }
@@ -159,7 +158,7 @@ nav a:hover {
   transform: scale(1.05);
 }
 
-/* Botones nav */
+/* Flechas nav */
 .nav-buttons {
   position: absolute;
   width: 100%;
@@ -183,6 +182,106 @@ nav a:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Carrito mejorado */
+.carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+  min-height: 100vh;
+  background: linear-gradient(to right, #b2fefa, #e1bee7);
+}
+
+.carrito-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.carrito-container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+}
+
+.lista-carrito {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.lista-carrito li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  color: #444;
+}
+
+.resumen {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #222;
+}
+
+.resumen div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.resumen .total {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.resumen .free {
+  color: #1ebe59;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  display: block;
+  margin-top: 2rem;
+  background-color: #903f7d;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background-color: #732f63;
+}
+
+/* Cart icon */
+#cart-icon {
+  position: relative;
+  color: #903f7d;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+#cart-count {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #903f7d;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+}
+
 /* Footer */
 .footer {
   background: white;
@@ -190,11 +289,8 @@ nav a:hover {
   padding: 2rem 1rem;
   font-size: 1rem;
   color: #333;
-  position: relative;
-  z-index: 2;
   border-top: 1px solid #eee;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .footer .social-icons {
@@ -239,6 +335,15 @@ nav a:hover {
   animation: runDog 10s linear infinite;
 }
 
+@keyframes runDog {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 /* Contacto */
 .contacto {
   display: flex;
@@ -248,25 +353,12 @@ nav a:hover {
   gap: 2rem;
   padding: 4rem 2rem;
   background: #f9f5ef;
-  position: relative;
-  z-index: 1;
-  box-sizing: border-box;
 }
 
 .contacto-img img {
   max-width: 280px;
   border-radius: 10px;
   object-fit: cover;
-}
-
-.contacto-form {
-  flex: 1 1 300px;
-  max-width: 400px;
-}
-
-.contacto-intro {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
 }
 
 .contacto-form input,
@@ -291,80 +383,74 @@ nav a:hover {
   cursor: pointer;
 }
 
-.contacto-info {
-  flex: 0 1 220px;
-  max-width: 220px;
+/* Colores correctos para íconos de redes sociales en la sección de contacto */
+.contacto-info .social-icons a[href*="facebook"] {
+  color: #1877f2;
 }
 
-.contacto-info h3 {
-  margin-top: 1rem;
-  margin-bottom: 0.3rem;
+.contacto-info .social-icons a[href*="instagram"] {
+  color: #e4405f;
 }
 
-.contacto-info p {
-  margin: 0 0 0.8rem 0;
-  font-size: 0.95rem;
-}
-
-.contacto-info .social-icons a {
-  margin-right: 10px;
-  font-size: 1.5rem;
-  color: #000;
-  transition: transform 0.3s ease;
+.contacto-info .social-icons a[href*="twitter"] {
+  color: #1da1f2;
 }
 
 .contacto-info .social-icons a:hover {
   transform: scale(1.2);
 }
 
-@keyframes runDog {
-  0% {
-    left: -150px;
-  }
-  100% {
-    left: 100%;
-  }
+/* Cards de TikTok embebidas */
+.videos-tilin {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
 }
 
-/* Ocultar todas las secciones al inicio */
-#productos,
-#inicio,
-#contacto {
-  display: none;
+.videos-tilin blockquote.tiktok-embed {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(144, 63, 125, 0.15);
+  max-width: 400px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Mobile Responsive */
+.videos-tilin blockquote.tiktok-embed:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(144, 63, 125, 0.25);
+}
+
+.videos-tilin section {
+  border-radius: 10px;
+  overflow: hidden;
+}
+.logo-img {
+  height: 160px;
+  margin-left: 1rem;
+  object-fit: contain;
+}
+/* Responsive */
 @media screen and (max-width: 768px) {
-  .inicio,
   .slider,
+  .inicio,
   .contacto {
-    padding: 4rem 1.2rem;
-    text-align: left;
+    padding: 4rem 1rem;
+    text-align: center;
   }
 
+  .info,
   .intro-content {
-    padding: 2rem 1.5rem;
-    text-align: left;
-  }
-
-  .info {
-    padding: 1rem 0.5rem;
-    text-align: left;
-  }
-
-  .contacto-intro {
-    text-align: left;
+    text-align: center;
+    padding: 1rem;
   }
 
   .contacto-form,
   .contacto-info {
     max-width: 100%;
-  }
-
-  .slider {
-    flex-direction: column;
-    gap: 2rem;
-    text-align: center;
   }
 
   .nav-buttons {
@@ -373,16 +459,9 @@ nav a:hover {
 
   nav {
     gap: 12px;
-    margin-right: 0.5rem;
-  }
-
-  #product-title {
-    font-size: 1.8rem;
   }
 
   .footer {
     padding: 2rem 1rem;
-    text-align: center;
-    overflow-x: hidden;
   }
 }
