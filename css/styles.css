@@ -442,6 +442,18 @@ nav a:hover {
   border-radius: 10px;
   overflow: hidden;
 }
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #0078d4; /* azul estilo enlace */
+  text-decoration: underline;
+}
+
+.map-link:hover {
+  color: #005a9e;
+}
 
 /* Responsive */
 @media screen and (max-width: 768px) {
