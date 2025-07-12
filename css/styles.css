@@ -101,10 +101,10 @@ nav a:hover {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-  pointer-events: none;
+  pointer-events: none; /* <- Esto es importante para que no bloquee clics */
 }
 
 /* Slider */

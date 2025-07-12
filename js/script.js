@@ -48,33 +48,29 @@ function prevSlide() {
 function initParticles() {
   particlesJS("particles-js", {
     particles: {
-      number: { value: 60 },
-      color: { value: "#8bc34a" },
-      shape: { type: "circle" },
-      opacity: { value: 0.5 },
-      size: { value: 3 },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#8bc34a",
-        opacity: 0.4,
-        width: 1,
+      number: {
+        value: 40,
+      },
+      shape: {
+        type: "image",
+        image: {
+          src: "images/patitas.svg",
+          width: 20,
+          height: 20,
+        },
+      },
+      size: {
+        value: 16,
+      },
+      opacity: {
+        value: 1,
       },
       move: {
         enable: true,
-        speed: 3,
+        speed: 2,
       },
     },
-    interactivity: {
-      events: {
-        onhover: { enable: true, mode: "repulse" },
-        onclick: { enable: true, mode: "push" },
-      },
-      modes: {
-        repulse: { distance: 100 },
-        push: { particles_nb: 4 },
-      },
-    },
+    retina_detect: true,
   });
 }
 

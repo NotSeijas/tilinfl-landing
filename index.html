@@ -63,10 +63,15 @@
     </section>
 
     <!-- Productos -->
+    <!-- Productos -->
     <section id="productos" class="slider" style="display: none">
       <div class="info">
         <h2 id="product-title"></h2>
         <p id="product-desc"></p>
+
+        <!-- Select de opciones -->
+        <select id="product-options" style="margin-bottom: 1rem"></select>
+
         <button id="product-btn" onclick="agregarAlCarrito()">
           Agregar al carrito
         </button>
@@ -215,25 +220,37 @@
     <script>
       const productos = [
         {
-          nombre: "Tilin Cats",
-          precio: 35,
+          nombre: "Tilin Perros 4.5 a 10 kg",
           descripcion:
-            "Pipeta antipulgas para gatos de hasta 8kg. Elimina pulgas y garrapatas.",
-          imagen: "images/pipeta-cats.png",
+            "Pipeta antipulgas para perros de 4.5 a 10 kg. Protección eficaz para perros pequeños y medianos.",
+          imagen: "images/Perros-4.5-10kg.jpg",
+          opciones: [
+            { tipo: "Unidad", precio: 40 },
+            { tipo: "Media docena", precio: 150 },
+            { tipo: "Docena", precio: 300 },
+          ],
         },
         {
-          nombre: "Tilin Perros Grandes",
-          precio: 50,
+          nombre: "Tilin Perros 10 a 20 kg",
           descripcion:
-            "Pipeta antipulgas para perros grandes. Protección avanzada.",
-          imagen: "images/tilin-grandes.png",
+            "Pipeta antipulgas para perros de 10 a 20 kg. Ideal para razas medianas.",
+          imagen: "images/Perros-10-20kg.jpg",
+          opciones: [
+            { tipo: "Unidad", precio: 45 },
+            { tipo: "Media docena", precio: 165 },
+            { tipo: "Docena", precio: 330 },
+          ],
         },
         {
-          nombre: "Tilin Pipeta 10ml",
-          precio: 45,
+          nombre: "Tilin Perros 20 a 40 kg",
           descripcion:
-            "Tilin en presentación de 10ml. Eficaz y fácil de aplicar.",
-          imagen: "images/tilin-pipeta-10.png",
+            "Pipeta antipulgas para perros de 20 a 40 kg. Protección avanzada para perros grandes.",
+          imagen: "images/Perros-20-40kg.jpg",
+          opciones: [
+            { tipo: "Unidad", precio: 50 },
+            { tipo: "Media docena", precio: 180 },
+            { tipo: "Docena", precio: 360 },
+          ],
         },
       ];
 
@@ -253,8 +270,20 @@
         document.getElementById("cart-count").textContent = carrito.length;
       }
 
+      function actualizarContadorCarrito() {
+        document.getElementById("cart-count").textContent = carrito.length;
+      }
+
       function agregarAlCarrito() {
-        carrito.push(productos[currentIndex]);
+        const producto = productos[currentIndex];
+        const opcionIndex = document.getElementById("product-options").value;
+        const opcion = producto.opciones[opcionIndex];
+
+        carrito.push({
+          nombre: `${producto.nombre} - ${opcion.tipo}`,
+          precio: opcion.precio,
+        });
+
         actualizarContadorCarrito();
       }
 
@@ -273,7 +302,7 @@
           lista.appendChild(li);
         });
 
-        total.textContent = `Total: S/ ${suma}`;
+        total.textContent = `S/ ${suma}`;
         btn.href = `https://wa.me/51963195119?text=Hola,%20quiero%20comprar:%0A${carrito
           .map((p) => `- ${p.nombre} (S/ ${p.precio})`)
           .join("%0A")}%0ATotal:%20S/%20${suma}`;
@@ -314,6 +343,15 @@
         document.getElementById("product-desc").textContent =
           producto.descripcion;
         document.getElementById("product-img").src = producto.imagen;
+
+        const select = document.getElementById("product-options");
+        select.innerHTML = "";
+        producto.opciones.forEach((opcion, i) => {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = `${opcion.tipo} - S/ ${opcion.precio}`;
+          select.appendChild(option);
+        });
       }
 
       function nextSlide() {
