@@ -31,9 +31,10 @@ header {
   z-index: 10;
 }
 
-header h1 {
+.logo-img {
+  height: 100px;
   margin-left: 1rem;
-  font-weight: bold;
+  object-fit: contain;
 }
 
 nav {
@@ -56,7 +57,8 @@ nav a:hover {
 /* Secciones */
 .inicio,
 .slider,
-.contacto {
+.contacto,
+.carrito {
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
@@ -102,6 +104,7 @@ nav a:hover {
   width: 100vw;
   height: 100vh;
   z-index: 0;
+  pointer-events: none;
 }
 
 /* Slider */
@@ -182,13 +185,12 @@ nav a:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Carrito mejorado */
+/* Carrito */
 .carrito {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 4rem 1rem;
-  min-height: 100vh;
   background: linear-gradient(to right, #b2fefa, #e1bee7);
 }
 
@@ -315,6 +317,9 @@ nav a:hover {
 .footer .social-icons a[aria-label="WhatsApp"] {
   color: #25d366;
 }
+.footer .social-icons a[aria-label="TikTok"] {
+  color: #000;
+}
 
 .footer .social-icons a:hover {
   transform: scale(1.2);
@@ -353,6 +358,8 @@ nav a:hover {
   gap: 2rem;
   padding: 4rem 2rem;
   background: #f9f5ef;
+  position: relative;
+  z-index: 2;
 }
 
 .contacto-img img {
@@ -383,24 +390,30 @@ nav a:hover {
   cursor: pointer;
 }
 
-/* Colores correctos para íconos de redes sociales en la sección de contacto */
-.contacto-info .social-icons a[href*="facebook"] {
+.contacto-info .social-icons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 20px;
+}
+
+.contacto-info .social-icons a[aria-label="Facebook"] {
   color: #1877f2;
 }
-
-.contacto-info .social-icons a[href*="instagram"] {
+.contacto-info .social-icons a[aria-label="Instagram"] {
   color: #e4405f;
 }
-
-.contacto-info .social-icons a[href*="twitter"] {
-  color: #1da1f2;
+.contacto-info .social-icons a[aria-label="WhatsApp"] {
+  color: #25d366;
+}
+.contacto-info .social-icons a[aria-label="TikTok"] {
+  color: #000;
 }
 
 .contacto-info .social-icons a:hover {
   transform: scale(1.2);
 }
 
-/* Cards de TikTok embebidas */
+/* TikTok embebido */
 .videos-tilin {
   margin-top: 2rem;
   display: flex;
@@ -428,40 +441,36 @@ nav a:hover {
   border-radius: 10px;
   overflow: hidden;
 }
-.logo-img {
-  height: 100px;
-  margin-left: 1rem;
-  object-fit: contain;
-}
-#particles-js {
-  pointer-events: none;
-}
+
 /* Responsive */
 @media screen and (max-width: 768px) {
   .slider,
   .inicio,
   .contacto {
-    padding: 4rem 1rem;
+    padding: 2rem 1rem;
     text-align: center;
+    flex-direction: column;
+    align-items: center;
   }
 
+  .intro-content,
   .info,
-  .intro-content {
-    text-align: center;
-    padding: 1rem;
-  }
-
   .contacto-form,
   .contacto-info {
-    max-width: 100%;
+    width: 100%;
+    max-width: 90%;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
   }
 
-  .nav-buttons {
-    padding: 0 0.5rem;
+  .contacto-img img {
+    max-width: 220px;
   }
 
-  nav {
-    gap: 12px;
+  .social-icons {
+    justify-content: center;
+    gap: 16px;
   }
 
   .footer {

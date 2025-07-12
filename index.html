@@ -163,7 +163,8 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
+    <!-- Footer -->
+    <footer class="footer" id="footer-inicio">
       <p>Síguenos en redes sociales:</p>
       <div class="social-icons">
         <a
@@ -264,7 +265,7 @@
         });
 
         total.textContent = `Total: S/ ${suma}`;
-        btn.href = `https://wa.me/51999999999?text=Hola,%20quiero%20comprar:%0A${carrito
+        btn.href = `https://wa.me/51963195119?text=Hola,%20quiero%20comprar:%0A${carrito
           .map((p) => `- ${p.nombre} (S/ ${p.precio})`)
           .join("%0A")}%0ATotal:%20S/%20${suma}`;
 
@@ -279,7 +280,7 @@
       function mostrarInicio() {
         ocultarTodasLasSecciones();
         document.getElementById("inicio").style.display = "flex";
-        document.querySelector(".footer").style.display = "block";
+        document.getElementById("footer-inicio").style.display = "block";
         initParticles();
       }
 
@@ -294,7 +295,7 @@
       function mostrarContacto() {
         ocultarTodasLasSecciones();
         document.getElementById("contacto").style.display = "flex";
-        document.querySelector(".footer").style.display = "block";
+        document.getElementById("footer-inicio").style.display = "none";
         destroyParticles();
       }
 
