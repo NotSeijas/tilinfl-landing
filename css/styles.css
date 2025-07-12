@@ -267,10 +267,9 @@ nav a:hover {
 
 /* Cart icon */
 #cart-icon {
-  position: relative;
-  color: #903f7d;
-  font-size: 1.2rem;
-  cursor: pointer;
+  margin-left: 0;
+  margin-right: 0;
+  justify-content: center;
 }
 
 #cart-count {
