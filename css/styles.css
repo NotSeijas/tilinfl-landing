@@ -526,6 +526,23 @@ nav.responsive a {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.cart-mobile-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-mobile-wrapper .cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: #903f7d;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
