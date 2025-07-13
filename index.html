@@ -71,7 +71,14 @@
         Producto agregado, visualiza tus productos en el carrito
       </div>
 
-      <img src="images/TILIN-LOGO.png" alt="Tilin Logo" class="logo-img" />
+      <img
+        src="images/TILIN-LOGO.png"
+        alt="Tilin Logo"
+        class="logo-img"
+        onclick="mostrarInicio()"
+        style="cursor: pointer"
+      />
+
       <div class="menu-toggle" onclick="toggleMenu()">
         <div></div>
         <div></div>
@@ -639,6 +646,14 @@
 
       window.addEventListener("scroll", fadeInImagesOnScroll);
       window.addEventListener("load", fadeInImagesOnScroll);
+      document
+        .querySelector(".logo-img")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document
+            .querySelector("#inicio")
+            .scrollIntoView({ behavior: "smooth" });
+        });
     </script>
   </body>
 </html>

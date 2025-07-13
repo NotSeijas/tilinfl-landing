@@ -213,6 +213,9 @@ nav.responsive a {
   margin-bottom: 2rem;
   color: #333;
 }
+.logo {
+  cursor: pointer;
+}
 
 #product-btn {
   padding: 0.7rem 1.5rem;
