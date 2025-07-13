@@ -14,23 +14,87 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      .menu-toggle div {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 4px 0;
+      }
+
+      nav.responsive {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 200px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      nav.responsive a {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        nav.desktop {
+          display: none;
+        }
+        .menu-toggle {
+          display: flex;
+        }
+      }
+    </style>
   </head>
   <body id="main-body">
+    <div id="particles-js" class="particles"></div>
     <header>
       <img src="images/TILIN-LOGO.png" alt="Tilin Logo" class="logo-img" />
-      <nav>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <nav class="desktop">
         <a href="#" onclick="mostrarInicio()">Inicio</a>
         <a href="#" onclick="mostrarProductos()">Productos</a>
         <a href="#" onclick="mostrarContacto()">Contacto</a>
+        <a href="#" onclick="mostrarProyectos()">Proyectos</a>
         <a href="#" onclick="mostrarCarritoManual()" id="cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cart-count">0</span>
+        </a>
+      </nav>
+      <nav class="responsive" id="mobileMenu">
+        <a href="#" onclick="mostrarInicio(); toggleMenu()">Inicio</a>
+        <a href="#" onclick="mostrarProductos(); toggleMenu()">Productos</a>
+        <a href="#" onclick="mostrarContacto(); toggleMenu()">Contacto</a>
+        <a href="#" onclick="mostrarProyectos(); toggleMenu()">Proyectos</a>
+
+        <a
+          href="#"
+          onclick="mostrarCarritoManual(); toggleMenu()"
+          id="cart-icon"
+        >
           <i class="fas fa-shopping-cart"></i>
           <span id="cart-count">0</span>
         </a>
       </nav>
     </header>
     <section id="inicio" class="inicio">
-      <div id="particles-js" class="particles"></div>
-
       <div class="intro-content full">
         <div class="new-layout">
           <div class="intro-text">
@@ -190,6 +254,30 @@
       <button onclick="prevSlide()">‹</button>
       <button onclick="nextSlide()">›</button>
     </div>
+    <!-- Proyectos -->
+    <section id="proyectos" class="proyectos" style="display: none">
+      <div class="proyectos-container">
+        <h2>Nuevos Proyectos en Desarrollo</h2>
+        <p>
+          En Tilin, seguimos innovando. Actualmente estamos desarrollando nuevos
+          productos como antipulgas para <strong>cucarachas y hormigas</strong>,
+          un <strong>champú antipulgas</strong>
+          para perros, y otros productos orientados a la salud y el cuidado de
+          tus mascotas.
+        </p>
+        <p>
+          ¡Próximamente disponibles para que sigas protegiendo a quienes más
+          quieres!
+        </p>
+        <div class="proyectos-imgs">
+          <img
+            src="images/proyecto1.jpg"
+            alt="Producto contra cucarachas y hormigas"
+          />
+          <img src="images/proyecto2.jpg" alt="Champú antipulgas para perros" />
+        </div>
+      </div>
+    </section>
 
     <!-- Footer -->
     <!-- Footer -->
@@ -271,7 +359,10 @@
 
       let carrito = [];
       let currentIndex = 0;
-
+      function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+      }
       function ocultarTodasLasSecciones() {
         document.getElementById("inicio").style.display = "none";
         document.getElementById("productos").style.display = "none";
@@ -417,6 +508,20 @@
       window.onload = () => {
         mostrarInicio();
       };
+
+      function mostrarInicio() {
+        ocultarTodasLasSecciones();
+        document.getElementById("inicio").style.display = "flex";
+        document.getElementById("footer-inicio").style.display = "block";
+        initParticles();
+      }
+
+      function mostrarProyectos() {
+        ocultarTodasLasSecciones();
+        document.getElementById("proyectos").style.display = "block";
+        document.getElementById("footer-inicio").style.display = "block";
+        initParticles();
+      }
     </script>
   </body>
 </html>

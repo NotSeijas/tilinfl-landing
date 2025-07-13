@@ -92,6 +92,12 @@ function mostrarProductos() {
   document.getElementById("contacto").style.display = "none";
   destroyParticles();
 }
+function mostrarProyectos() {
+  ocultarTodasLasSecciones();
+  document.getElementById("proyectos").style.display = "block";
+  document.getElementById("footer-inicio").style.display = "block";
+  destroyParticles();
+}
 
 window.onload = () => {
   showSlide(index);
