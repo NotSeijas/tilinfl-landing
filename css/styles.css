@@ -32,7 +32,7 @@ header {
 }
 
 .logo-img {
-  height: 100px;
+  height: 150px;
   margin-left: 1rem;
   object-fit: contain;
 }
@@ -157,7 +157,7 @@ nav.responsive a {
 }
 
 .intro-image img {
-  max-width: 300px;
+  max-width: 400px;
   height: auto;
 }
 
@@ -657,7 +657,7 @@ img.fade-in {
   }
 
   .intro-image img {
-    max-width: 200px;
+    max-width: 300px;
   }
 
   .video-row {
@@ -687,4 +687,69 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+.bio-doctor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: #fef8fc;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
+}
+.bio-imgs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 1rem;
+}
+.bio-img {
+  max-width: 250px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.bio-text {
+  flex: 2;
+  font-family: "Poppins", sans-serif;
+}
+.bio-text h3 {
+  color: #903f7d;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.bio-text p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+.btn-biografia {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #903f7d;
+  color: #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.btn-biografia:hover {
+  background-color: #722d63;
+}
+.bio-section {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .bio-section {
+    flex-direction: column-reverse; /* Invierte el orden en móviles */
+    margin-top: 4rem;
+  }
 }
