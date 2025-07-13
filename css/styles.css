@@ -543,6 +543,42 @@ nav.responsive a {
   padding: 2px 6px;
   border-radius: 50%;
 }
+.btn-eliminar {
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-eliminar:hover {
+  color: darkred;
+}
+.mensaje-agregado {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background-color: #903f7d;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: fadeOut 3s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 /* Responsive */
 @media (max-width: 768px) {

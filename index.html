@@ -62,6 +62,10 @@
   <body id="main-body">
     <div id="particles-js" class="particles"></div>
     <header>
+      <div id="mensaje-agregado" class="mensaje-agregado" style="display: none">
+        Producto agregado, visualiza tus productos en el carrito
+      </div>
+
       <img src="images/TILIN-LOGO.png" alt="Tilin Logo" class="logo-img" />
       <div class="menu-toggle" onclick="toggleMenu()">
         <div></div>
@@ -96,6 +100,7 @@
         </div>
       </nav>
     </header>
+
     <section id="inicio" class="inicio">
       <div class="intro-content full">
         <div class="new-layout">
@@ -407,6 +412,7 @@
         });
 
         actualizarContadorCarrito();
+        mostrarMensajeAgregado();
       }
 
       function mostrarCarrito() {
@@ -417,10 +423,13 @@
         lista.innerHTML = "";
         let suma = 0;
 
-        carrito.forEach((item) => {
+        carrito.forEach((item, index) => {
           suma += item.precio;
           const li = document.createElement("li");
-          li.textContent = `${item.nombre} - S/ ${item.precio}`;
+          li.innerHTML = `
+      ${item.nombre} - S/ ${item.precio}
+      <button onclick="eliminarDelCarrito(${index})" class="btn-eliminar">x</button>
+    `;
           lista.appendChild(li);
         });
 
@@ -431,6 +440,11 @@
 
         ocultarTodasLasSecciones();
         document.getElementById("carrito").style.display = "flex";
+      }
+      function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
+        actualizarContadorCarrito();
+        mostrarCarrito(); // Vuelve a mostrar el carrito actualizado
       }
 
       function mostrarCarritoManual() {
@@ -537,6 +551,14 @@
         document.getElementById("proyectos").style.display = "block";
         document.getElementById("footer-inicio").style.display = "block";
         initParticles();
+      }
+      function mostrarMensajeAgregado() {
+        const mensaje = document.getElementById("mensaje-agregado");
+        mensaje.style.display = "block";
+
+        setTimeout(() => {
+          mensaje.style.display = "none";
+        }, 3000);
       }
     </script>
   </body>
