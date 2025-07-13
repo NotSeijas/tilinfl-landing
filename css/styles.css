@@ -596,7 +596,9 @@ img.fade-in {
   opacity: 1;
   transform: translateY(0);
 }
-
+img.fade-in:hover {
+  transform: scale(1.05);
+}
 /* Responsive */
 @media (max-width: 768px) {
   .slider,
@@ -686,11 +688,13 @@ img.fade-in {
 }
 
 img {
-  animation: fadeIn 0.8s ease forwards;
-  opacity: 0;
   max-width: 100%;
-  height: auto;
-  display: block;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, opacity 0.6s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform;
 }
 .bio-doctor {
   display: flex;
@@ -715,6 +719,7 @@ img {
   max-width: 250px;
   border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 .bio-text {
   flex: 2;
@@ -755,5 +760,6 @@ img {
   .bio-section {
     flex-direction: column-reverse; /* Invierte el orden en móviles */
     margin-top: 4rem;
+    transition: transform 0.3s ease;
   }
 }
