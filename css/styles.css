@@ -567,6 +567,10 @@ nav.responsive a {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   animation: fadeOut 3s ease-in-out forwards;
 }
+.mensaje-agregado:hover {
+  background-color: #7c3569;
+  text-decoration: underline;
+}
 
 @keyframes fadeOut {
   0% {

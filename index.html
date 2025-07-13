@@ -62,7 +62,12 @@
   <body id="main-body">
     <div id="particles-js" class="particles"></div>
     <header>
-      <div id="mensaje-agregado" class="mensaje-agregado" style="display: none">
+      <div
+        id="mensaje-agregado"
+        class="mensaje-agregado"
+        onclick="mostrarCarritoManual()"
+        style="display: none; cursor: pointer"
+      >
         Producto agregado, visualiza tus productos en el carrito
       </div>
 
@@ -195,34 +200,20 @@
 
     <!-- Contacto -->
     <section id="contacto" class="contacto" style="display: none">
-      <div class="contacto-img">
-        <img src="images/tilinproduct.jpg" alt="Tilin Product" />
+      <div class="contacto-img" style="text-align: center; margin-bottom: 1rem">
+        <img
+          src="images/tilinproduct.jpg"
+          alt="Tilin Product"
+          style="max-width: 400px; width: 200%; height: auto"
+        />
       </div>
-      <div class="contacto-form">
-        <p class="contacto-intro">
-          ¿Te interesa nuestro producto?, Contáctanos!
-        </p>
-        <form>
-          <input type="text" placeholder="Full Name" required />
-          <input type="email" placeholder="E-mail" required />
-          <textarea placeholder="Message" required></textarea>
-          <button type="submit">Contact Us</button>
-        </form>
-      </div>
+
       <div class="contacto-info">
-        <h3>Contact</h3>
-        <p>Corporacionplop2025@hotmail.com</p>
-        <h3>Based in</h3>
-        <p>Calle 2 Mz D lote 36 cooperativa libertad Los Olivos - Lima</p>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
-          width="600"
-          height="450"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        <p class="contacto-intro">
+          ¿Te interesa nuestro producto?<br />
+          <strong>Contáctanos directamente por nuestras redes:</strong>
+        </p>
+
         <div class="social-icons">
           <a
             href="https://www.facebook.com/tilinflperu"
@@ -253,6 +244,22 @@
             <i class="fab fa-tiktok"></i>
           </a>
         </div>
+
+        <h3>Correo</h3>
+        <p>Corporacionplop2025@hotmail.com</p>
+
+        <h3>Dirección</h3>
+        <p>Calle 2 Mz D lote 36 cooperativa libertad, Los Olivos - Lima</p>
+
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
     </section>
 
