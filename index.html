@@ -125,6 +125,11 @@
               parásitos. Tilin es el resultado de un compromiso continuo con la
               salud animal y el bienestar de las familias.
             </p>
+            <p>
+              ¿Te interesa comprar algunos de nuestros productos?, ¡Visita la
+              sección de productos!, allí encontrarás nuestro catálogo de
+              productos disponibles.
+            </p>
           </div>
           <div class="intro-image">
             <img src="images/matax.png" alt="Dr. Tilin Investigador" />
@@ -274,8 +279,8 @@
         <h2>Nuevos Proyectos en Desarrollo</h2>
         <p>
           En Tilin, seguimos innovando. Actualmente estamos desarrollando nuevos
-          productos como antipulgas para <strong>cucarachas y hormigas</strong>,
-          un <strong>champú antipulgas</strong>
+          productos contra <strong>cucarachas y hormigas</strong>, un
+          <strong>champú antipulgas</strong>
           para perros, y otros productos orientados a la salud y el cuidado de
           tus mascotas.
         </p>
@@ -401,6 +406,7 @@
         document.getElementById("carrito").style.display = "none";
         document.querySelector(".footer").style.display = "none";
         document.getElementById("nav-arrows").style.display = "none";
+        document.getElementById("proyectos").style.display = "none";
       }
 
       function actualizarContadorCarrito() {
@@ -567,6 +573,21 @@
           mensaje.style.display = "none";
         }, 3000);
       }
+      function fadeInImagesOnScroll() {
+        const images = document.querySelectorAll("img:not(.fade-in)");
+        const triggerBottom = window.innerHeight * 0.9;
+
+        images.forEach((img) => {
+          const imgTop = img.getBoundingClientRect().top;
+
+          if (imgTop < triggerBottom) {
+            img.classList.add("fade-in");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", fadeInImagesOnScroll);
+      window.addEventListener("load", fadeInImagesOnScroll);
     </script>
   </body>
 </html>
