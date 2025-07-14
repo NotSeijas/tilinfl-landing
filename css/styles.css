@@ -37,8 +37,7 @@ header {
   box-shadow: none !important;
   border: none !important;
   image-rendering: auto;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
+
   height: auto;
   max-height: 100px; /* Ajusta según tu diseño */
 }
