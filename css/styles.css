@@ -222,6 +222,11 @@ nav.responsive a {
   cursor: pointer;
 }
 
+.product-img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
 #product-btn {
   padding: 0.7rem 1.5rem;
   border: none;
