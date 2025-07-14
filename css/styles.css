@@ -29,11 +29,11 @@ header {
   padding: 0 1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   z-index: 10;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .logo-img {
-  max-width: 130px;
+  max-width: 80px;
   height: auto;
   display: block;
   object-fit: contain;
