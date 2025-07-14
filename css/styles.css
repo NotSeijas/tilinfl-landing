@@ -33,11 +33,14 @@ header {
 }
 
 .logo-img {
-  max-width: 75px;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
   height: auto;
-  display: block;
-  object-fit: contain;
-  cursor: pointer;
+  max-height: 100px; /* Ajusta según tu diseño */
 }
 
 nav {
@@ -412,6 +415,16 @@ nav.responsive a {
 }
 
 /* Animación perro */
+
+.perrito,
+.perrito img {
+  object-fit: contain;
+  width: auto;
+  height: 100%;
+  max-height: 100px;
+  padding: 0;
+  margin: 0;
+}
 .dog-animation {
   position: relative;
   width: 100%;
@@ -420,10 +433,19 @@ nav.responsive a {
   margin-top: 2rem;
 }
 
+.perrito {
+  position: absolute;
+  height: 100px; /* o el tamaño que desees */
+  object-fit: contain;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  animation: runDog 20s linear infinite;
+}
+
 .dog-animation img {
   position: absolute;
   height: 140px;
-  animation: runDog 10s linear infinite;
+  animation: runDog 20s linear infinite;
 }
 
 @keyframes runDog {
@@ -593,6 +615,9 @@ img {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
 img.fade-in {
@@ -644,7 +669,7 @@ img.fade-in:hover {
 
   .logo-img {
     margin-left: 0.2rem;
-    height: 70px;
+    height: 150px;
   }
 
   nav {
