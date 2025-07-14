@@ -439,13 +439,13 @@ nav.responsive a {
   object-fit: contain;
   background-color: transparent !important;
   box-shadow: none !important;
-  animation: runDog 20s linear infinite;
+  animation: runDog 15s linear infinite;
 }
 
 .dog-animation img {
   position: absolute;
   height: 140px;
-  animation: runDog 20s linear infinite;
+  animation: runDog 15s linear infinite;
 }
 
 @keyframes runDog {
