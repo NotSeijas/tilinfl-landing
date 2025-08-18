@@ -548,32 +548,46 @@
         mostrarMensajeAgregado();
       }
 
-      function mostrarCarrito() {
-        const lista = document.getElementById("lista-carrito");
-        const total = document.getElementById("total-carrito");
-        const btn = document.getElementById("whatsapp-btn");
+    function mostrarCarrito() {
+  const lista = document.getElementById("lista-carrito");
+  const total = document.getElementById("total-carrito");
+  const btn = document.getElementById("whatsapp-btn");
 
-        lista.innerHTML = "";
-        let suma = 0;
+  lista.innerHTML = "";
+  let suma = 0;
 
-        carrito.forEach((item, index) => {
-          suma += item.precio;
-          const li = document.createElement("li");
-          li.innerHTML = `
+  carrito.forEach((item, index) => {
+    suma += item.precio;
+    const li = document.createElement("li");
+    li.innerHTML = `
       ${item.nombre} - S/ ${item.precio}
       <button onclick="eliminarDelCarrito(${index})" class="btn-eliminar">x</button>
     `;
-          lista.appendChild(li);
-        });
+    lista.appendChild(li);
+  });
 
-        total.textContent = `S/ ${suma}`;
-        btn.href = `https://wa.me/51963195119?text=Hola,%20quiero%20comprar:%0A${carrito
-          .map((p) => `- ${p.nombre} (S/ ${p.precio})`)
-          .join("%0A")}%0ATotal:%20S/%20${suma}`;
+  total.textContent = `S/ ${suma}`;
+  btn.href = `https://wa.me/51963195119?text=Hola,%20quiero%20comprar:%0A${carrito
+    .map((p) => `- ${p.nombre} (S/ ${p.precio})`)
+    .join("%0A")}%0ATotal:%20S/%20${suma}`;
 
-        ocultarTodasLasSecciones();
-        document.getElementById("carrito").style.display = "flex";
-      }
+  // 🔹 Eliminar cualquier evento anterior y agregar el de conversión
+  btn.replaceWith(btn.cloneNode(true));
+  const newBtn = document.getElementById("whatsapp-btn");
+
+  newBtn.addEventListener("click", function () {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-17490215386/mUR0CMH9-IgbENqD_pNB',
+      'value': suma,
+      'currency': 'PEN'
+    });
+  });
+
+  ocultarTodasLasSecciones();
+  document.getElementById("carrito").style.display = "flex";
+}
+
+
       function eliminarDelCarrito(index) {
         carrito.splice(index, 1);
         actualizarContadorCarrito();
