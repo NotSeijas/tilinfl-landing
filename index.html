@@ -579,25 +579,30 @@
   newBtn.addEventListener("click", function (e) {
     e.preventDefault(); // Evitar salida inmediata a WhatsApp
 
-    gtag('event', 'conversion', {
-      'send_to': 'AW-17490215386/mUR0CMH9-IgbENqD_pNB',
-      'value': suma,
-      'currency': 'PEN',
-      'event_callback': function () {
-        // Redirigir a WhatsApp después de enviar el evento
-        window.location.href = newBtn.href;
-      }
-    });
+    if (suma > 0) { // ✅ Solo disparar conversión si hay productos
+      gtag('event', 'conversion', {
+        'send_to': 'AW-17490215386/mUR0CMH9-IgbENqD_pNB',
+        'value': suma,
+        'currency': 'PEN',
+        'event_callback': function () {
+          window.location.href = newBtn.href;
+        }
+      });
 
-    // 🔹 Si gtag no responde, redirigir igual en 1s
-    setTimeout(function () {
+      // 🔹 Si gtag no responde, redirigir igual en 1s
+      setTimeout(function () {
+        window.location.href = newBtn.href;
+      }, 1000);
+    } else {
+      // 🔹 Si carrito vacío, ir directo a WhatsApp sin conversión
       window.location.href = newBtn.href;
-    }, 1000);
+    }
   });
 
   ocultarTodasLasSecciones();
   document.getElementById("carrito").style.display = "flex";
 }
+
 
 
 
