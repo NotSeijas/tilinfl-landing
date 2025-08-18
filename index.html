@@ -571,21 +571,34 @@
     .map((p) => `- ${p.nombre} (S/ ${p.precio})`)
     .join("%0A")}%0ATotal:%20S/%20${suma}`;
 
-  // 🔹 Eliminar cualquier evento anterior y agregar el de conversión
+  // 🔹 Clonar botón para limpiar eventos previos
   btn.replaceWith(btn.cloneNode(true));
   const newBtn = document.getElementById("whatsapp-btn");
 
-  newBtn.addEventListener("click", function () {
+  // 🔹 Agregar evento de conversión con callback
+  newBtn.addEventListener("click", function (e) {
+    e.preventDefault(); // Evitar salida inmediata a WhatsApp
+
     gtag('event', 'conversion', {
       'send_to': 'AW-17490215386/mUR0CMH9-IgbENqD_pNB',
       'value': suma,
-      'currency': 'PEN'
+      'currency': 'PEN',
+      'event_callback': function () {
+        // Redirigir a WhatsApp después de enviar el evento
+        window.location.href = newBtn.href;
+      }
     });
+
+    // 🔹 Si gtag no responde, redirigir igual en 1s
+    setTimeout(function () {
+      window.location.href = newBtn.href;
+    }, 1000);
   });
 
   ocultarTodasLasSecciones();
   document.getElementById("carrito").style.display = "flex";
 }
+
 
 
       function eliminarDelCarrito(index) {
