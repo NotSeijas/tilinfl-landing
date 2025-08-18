@@ -705,6 +705,14 @@
 
       window.addEventListener("scroll", fadeInImagesOnScroll);
       window.addEventListener("load", fadeInImagesOnScroll);
+      window.addEventListener("hashchange", () => {
+        const seccion = window.location.hash.substring(1);
+        if (seccion === "productos") mostrarProductos();
+        else if (seccion === "contacto") mostrarContacto();
+        else if (seccion === "proyectos") mostrarProyectos();
+        else mostrarInicio();
+      });
+
       document
         .querySelector(".logo-img")
         .addEventListener("click", function (e) {
