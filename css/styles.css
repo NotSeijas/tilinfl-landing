@@ -225,7 +225,7 @@ nav.responsive a {
 .product-img {
   width: 100%;
   max-width: 400px;
-  height: auto;
+  height: 300;
 }
 #product-btn {
   padding: 0.7rem 1.5rem;
