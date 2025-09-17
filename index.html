@@ -390,7 +390,7 @@
         <h3>Dirección</h3>
         <p>📍 Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad, Los Olivos - Lima</p>
         <p>📍 Santiago De Surco: Jiron Pablo picasso 158</p>
-
+        <p>📍 Santiago De Surco: Av caminos del inca 941,surco</p>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
           width="600"
@@ -587,11 +587,11 @@
   btn.replaceWith(btn.cloneNode(true));
   const newBtn = document.getElementById("whatsapp-btn");
 
-  // 🔹 Agregar evento de conversión con callback
+ 
   newBtn.addEventListener("click", function (e) {
-    e.preventDefault(); // Evitar salida inmediata a WhatsApp
+    e.preventDefault(); 
 
-    if (suma > 0) { // ✅ Solo disparar conversión si hay productos
+    if (suma > 0) { 
       gtag('event', 'conversion', {
         'send_to': 'AW-17490215386/mUR0CMH9-IgbENqD_pNB',
         'value': suma,
@@ -621,7 +621,7 @@
       function eliminarDelCarrito(index) {
         carrito.splice(index, 1);
         actualizarContadorCarrito();
-        mostrarCarrito(); // Vuelve a mostrar el carrito actualizado
+        mostrarCarrito(); 
       }
 
       function mostrarCarritoManual() {
