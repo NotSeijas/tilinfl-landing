@@ -16,7 +16,7 @@
   />
   <meta name="author" content="Dr. Augusto Durand" />
 
-  <!-- Open Graph (Facebook, LinkedIn) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Dr. Augusto Durand" />
   <meta
     property="og:description"
@@ -71,7 +71,7 @@
   />
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-  <!-- Google tag (gtag.js) -->
+  
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17490215386"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -316,7 +316,7 @@
         <ul id="lista-carrito" class="lista-carrito"></ul>
 
         <div class="resumen">
-          <div class="subtotal">
+          <div class="subtotal"> 
             <span>Subtotal</span>
             <span id="subtotal">S/ 0</span>
           </div>
@@ -601,12 +601,10 @@
         }
       });
 
-      // 🔹 Si gtag no responde, redirigir igual en 1s
       setTimeout(function () {
         window.location.href = newBtn.href;
       }, 1000);
     } else {
-      // 🔹 Si carrito vacío, ir directo a WhatsApp sin conversión
       window.location.href = newBtn.href;
     }
   });
