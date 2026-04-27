@@ -202,98 +202,238 @@
   ══════════════════════════════════════════════════════════ -->
     <section id="inicio" class="seccion">
       <div class="intro-content">
-        <!-- Biografía del Doctor -->
-        <div class="bio-section">
-          <div class="bio-images anim">
+        <!-- ── HERO ─────────────────────────────────────────── -->
+        <div class="hero">
+          <div class="hero-text anim">
+            <span class="hero-badge">🐾 Protección veterinaria premium</span>
+            <h1>Cuida a tu mascota<br />con <em>ciencia y confianza</em></h1>
+            <p class="hero-tagline">
+              Tilin es la pastilla masticable antipulgas, antigarrapatas y
+              ácaros que protege a tu perro por
+              <strong>3 meses continuos</strong>. Sin inyecciones. Sin estrés.
+              Formulada por el Dr. Plop.
+            </p>
+            <div class="hero-ctas">
+              <a
+                href="#productos"
+                onclick="mostrarProductos()"
+                class="btn-hero-primary"
+              >
+                <i class="fas fa-shopping-cart"></i> Comprar ahora
+              </a>
+              <a
+                href="#contacto"
+                onclick="mostrarContacto()"
+                class="btn-hero-secondary"
+              >
+                <i class="fab fa-whatsapp"></i> Consultar
+              </a>
+            </div>
+          </div>
+          <div class="hero-image anim anim-delay-2">
+            <div class="hero-image-glow"></div>
             <img
-              src="images/imgDocPix.png"
-              alt="Dr. Augusto Durand"
-              class="bio-img"
-              loading="lazy"
+              src="images/tilin4k.jpeg"
+              alt="Tilin — pastilla antipulgas para perros"
+              class="hero-product-img"
+              loading="eager"
             />
           </div>
-          <div class="bio-text anim anim-delay-1">
-            <h3>Bienvenido a Dr. Plop</h3>
+        </div>
+
+        <!-- ── STATS BAR ──────────────────────────────────── -->
+        <div class="stats-bar anim">
+          <div class="stat-item">
+            <span class="stat-number" data-count="25" data-suffix="+">0+</span>
+            <span class="stat-label">Años de experiencia</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="6" data-suffix="">0</span>
+            <span class="stat-label">Productos en catálogo</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="3" data-suffix=" meses"
+              >0 meses</span
+            >
+            <span class="stat-label">Protección continua</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="100" data-suffix="%">0%</span>
+            <span class="stat-label">Fórmula peruana</span>
+          </div>
+        </div>
+
+        <!-- ── BENEFICIOS ─────────────────────────────────── -->
+        <div class="beneficios-section">
+          <h2 class="anim">¿Por qué elegir Tilin?</h2>
+          <p class="section-subtitle anim anim-delay-1">
+            Ventajas que lo hacen único en el mercado
+          </p>
+          <div class="beneficios-grid">
+            <div class="beneficio-card anim">
+              <span class="beneficio-icon">💊</span>
+              <h4>Pastilla masticable</h4>
+              <p>
+                Sin pipetas ni sprays. Fácil de dar, igual que una golosina.
+              </p>
+            </div>
+            <div class="beneficio-card anim anim-delay-1">
+              <span class="beneficio-icon">🛡️</span>
+              <h4>3 meses de protección</h4>
+              <p>
+                Una sola dosis protege contra pulgas, garrapatas y ácaros por 90
+                días.
+              </p>
+            </div>
+            <div class="beneficio-card anim anim-delay-2">
+              <span class="beneficio-icon">🔬</span>
+              <h4>Respaldo científico</h4>
+              <p>
+                Formulada por el Dr. Augusto Durand con más de 25 años en salud
+                animal.
+              </p>
+            </div>
+            <div class="beneficio-card anim">
+              <span class="beneficio-icon">🐕</span>
+              <h4>Para todos los tamaños</h4>
+              <p>
+                Disponible para perros de 4.5 a 40 kg. Dosis exacta según el
+                peso.
+              </p>
+            </div>
+            <div class="beneficio-card anim anim-delay-1">
+              <span class="beneficio-icon">⚡</span>
+              <h4>Acción desde adentro</h4>
+              <p>
+                Actúa sistémicamente: el parásito muere al entrar en contacto
+                con la piel.
+              </p>
+            </div>
+            <div class="beneficio-card anim anim-delay-2">
+              <span class="beneficio-icon">🇵🇪</span>
+              <h4>Hecho en Perú</h4>
+              <p>Marca 100% peruana con distribución directa al consumidor.</p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- ── BIO DEL DOCTOR ─────────────────────────────── -->
+        <div class="bio-section-v2 anim">
+          <div class="bio-foto-wrap">
+            <img
+              src="images/imgDocPix.png"
+              alt="Dr. Augusto Durand — Dr. Plop"
+              loading="lazy"
+            />
+            <span class="bio-foto-badge">Dr. Plop</span>
+          </div>
+          <div class="bio-contenido">
+            <h3>El Dr. Augusto Durand</h3>
             <p>
-              Me presento, soy el
-              <strong>Dr. Augusto Juan Durand Merino</strong>, conocido como
-              <strong>Dr. Plop</strong>. Soy un destacado profesional peruano
-              con más de
-              <strong>25 años de experiencia en el mundo empresarial</strong>,
+              Profesional peruano con más de
+              <strong>25 años de experiencia</strong> en el mundo empresarial,
               especializado en el desarrollo de productos para la salud animal y
               el control de plagas.
             </p>
             <p>
-              Soy el <strong>creador de toda la marca Plop</strong>, y he
-              liderado la creación de productos innovadores como
-              <strong
-                >Plop Forte, Tilin Antipulgas, Xtrim, Shampoo Pillin,
-                Curabicheras</strong
-              >
-              y muchos más.
+              Creador de toda la <strong>marca Plop</strong>: Plop Forte, Tilin
+              Antipulgas, Xtrim, Shampoo Pillin, Curabicheras,
+              <strong>MATAX</strong> y muchos más.
             </p>
             <p>
-              Mi creación más reciente:
-              <strong style="color: var(--color-primary)">Tilin</strong>, una
-              <strong
-                >pastilla masticable antipulgas, antigarrapatas y ácaros</strong
-              >
-              que protege a tu mascota por <strong>3 MESES</strong>.
+              Su compromiso con la innovación y la ciencia lo llevó a
+              desarrollar
+              <strong style="color: var(--color-primary)">Tilin</strong>, la
+              solución antiparasitaria más práctica y duradera del mercado
+              peruano.
             </p>
-            <p>
-              También presentamos
-              <strong style="color: var(--color-accent-blue)">MATAX</strong>:
-              <strong style="color: #5a8f00">Mata Cucarachas</strong> y
-              <strong style="color: #5a8f00">Mata Hormigas</strong>,
-              insecticidas de alto rendimiento que eliminan la plaga desde la
-              raíz e inhiben su ciclo reproductivo.
-            </p>
-          </div>
-        </div>
-
-        <!-- ¿Qué es Tilin? -->
-        <div class="new-layout">
-          <div class="intro-text anim">
-            <h2>¿Qué es Tilin?</h2>
-            <p>
-              <strong style="color: var(--color-primary)">Tilin</strong> es una
-              <strong
-                >pastilla masticable antipulgas, antigarrapatas y ácaros</strong
-              >
-              para perros, desarrollada científicamente para ofrecer una
-              solución efectiva, práctica y segura. Actúa desde el interior,
-              protegiendo a tu mascota por más tiempo y con mayor eficacia.
-            </p>
-            <p>
-              Nuestra fórmula fue desarrollada por el Dr. Augusto Durand con más
-              de
-              <strong>25 años de experiencia</strong> en el control de
-              parásitos.
-            </p>
-            <p>
-              ¿Te interesa comprar? ¡Visita la sección de productos y conoce
-              nuestro catálogo!
-            </p>
-            <div style="margin-top: 1.5rem">
-              <a
-                href="#productos"
-                onclick="mostrarProductos()"
-                class="btn-biografia"
-              >
-                Conoce nuestros productos
-              </a>
+            <div class="bio-tags">
+              <span class="bio-tag">🏥 Salud Animal</span>
+              <span class="bio-tag">🐛 Control de Plagas</span>
+              <span class="bio-tag">🧪 I+D Veterinario</span>
+              <span class="bio-tag">🇵🇪 25+ años</span>
             </div>
           </div>
-          <div class="intro-image anim anim-delay-2">
-            <img
-              src="images/tilin4k.jpeg"
-              alt="Tilin producto antipulgas"
-              loading="lazy"
-            />
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- ── TESTIMONIOS ─────────────────────────────────── -->
+        <div class="testimonios-section">
+          <h2 class="anim">Lo que dicen nuestros clientes</h2>
+          <p class="section-subtitle anim anim-delay-1">
+            Familias que ya protegen a sus mascotas con Tilin
+          </p>
+          <div class="testimonios-carousel anim anim-delay-2">
+            <div class="testimonios-track">
+              <div class="testimonio-card">
+                <div class="testimonio-estrellas">★★★★★</div>
+                <p class="testimonio-texto">
+                  "Increíble producto. Mi perro tenía muchas pulgas y en menos
+                  de una semana desaparecieron por completo. Llevo 2 meses y no
+                  ha vuelto ninguna. Totalmente recomendado."
+                </p>
+                <div class="testimonio-autor">
+                  <div class="testimonio-avatar">🐶</div>
+                  <div class="testimonio-info">
+                    <strong>María R.</strong>
+                    <span>Lima · Perro Beagle 12 kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonio-card">
+                <div class="testimonio-estrellas">★★★★★</div>
+                <p class="testimonio-texto">
+                  "Lo mejor es que es una pastilla, mi perro se la come sin
+                  problema mezclada con la comida. Antes con las pipetas era un
+                  drama. Muy práctico y efectivo."
+                </p>
+                <div class="testimonio-autor">
+                  <div class="testimonio-avatar">🐕</div>
+                  <div class="testimonio-info">
+                    <strong>Carlos M.</strong>
+                    <span>San Isidro · Labrador 28 kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonio-card">
+                <div class="testimonio-estrellas">★★★★★</div>
+                <p class="testimonio-texto">
+                  "Compré el PACK 360 y es excelente. Protección completa,
+                  interna y externa. El Dr. Durand sabe lo que hace, se nota la
+                  diferencia con otros productos."
+                </p>
+                <div class="testimonio-autor">
+                  <div class="testimonio-avatar">🐩</div>
+                  <div class="testimonio-info">
+                    <strong>Luisa V.</strong>
+                    <span>Miraflores · Caniche 7 kg</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonios-nav">
+            <button onclick="prevTestimonio()" aria-label="Testimonio anterior">
+              &#8249;
+            </button>
+            <div class="testimonios-dots"></div>
+            <button
+              onclick="nextTestimonio()"
+              aria-label="Testimonio siguiente"
+            >
+              &#8250;
+            </button>
           </div>
         </div>
 
-        <!-- Videos TikTok -->
+        <hr class="section-divider" />
+
+        <!-- ── VIDEOS TIKTOK ──────────────────────────────── -->
         <div class="video-row">
           <blockquote
             class="tiktok-embed anim"

@@ -379,3 +379,113 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.addEventListener("hashchange", rutearHash);
+
+// ============================================================
+//  INICIO — Stats animados + Carrusel de testimonios
+// ============================================================
+
+// ── Contadores animados ──────────────────────────────────────
+function animarContador(el, target, duracion, sufijo) {
+  var inicio = 0;
+  var incremento = target / (duracion / 16);
+  var timer = setInterval(function () {
+    inicio += incremento;
+    if (inicio >= target) {
+      inicio = target;
+      clearInterval(timer);
+    }
+    el.textContent = Math.floor(inicio) + sufijo;
+  }, 16);
+}
+
+function initStats() {
+  var statsBar = document.querySelector(".stats-bar");
+  if (!statsBar) return;
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var items = entry.target.querySelectorAll("[data-count]");
+          items.forEach(function (item) {
+            var target = parseFloat(item.dataset.count);
+            var sufijo = item.dataset.suffix || "";
+            animarContador(item, target, 1400, sufijo);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 },
+  );
+
+  observer.observe(statsBar);
+}
+
+// ── Carrusel de testimonios ──────────────────────────────────
+(function () {
+  var track, dots, total, current;
+
+  function initCarrusel() {
+    track = document.querySelector(".testimonios-track");
+    if (!track) return;
+    total = track.children.length;
+    current = 0;
+    renderDots();
+    updateCarrusel();
+
+    // Auto-play
+    setInterval(function () {
+      moverTestimonio(1);
+    }, 5000);
+  }
+
+  function renderDots() {
+    var container = document.querySelector(".testimonios-dots");
+    if (!container) return;
+    container.innerHTML = "";
+    for (var i = 0; i < total; i++) {
+      var dot = document.createElement("span");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.dataset.index = i;
+      dot.onclick = (function (idx) {
+        return function () {
+          irA(idx);
+        };
+      })(i);
+      container.appendChild(dot);
+    }
+  }
+
+  function updateCarrusel() {
+    if (!track) return;
+    track.style.transform = "translateX(-" + current * 100 + "%)";
+    var allDots = document.querySelectorAll(".testimonios-dots .dot");
+    allDots.forEach(function (d, i) {
+      d.classList.toggle("active", i === current);
+    });
+  }
+
+  function moverTestimonio(dir) {
+    current = (current + dir + total) % total;
+    updateCarrusel();
+  }
+
+  function irA(idx) {
+    current = idx;
+    updateCarrusel();
+  }
+
+  // Exponer para botones inline
+  window.prevTestimonio = function () {
+    moverTestimonio(-1);
+  };
+  window.nextTestimonio = function () {
+    moverTestimonio(1);
+  };
+
+  document.addEventListener("DOMContentLoaded", initCarrusel);
+})();
+
+// Llamar initStats al cargar
+document.addEventListener("DOMContentLoaded", initStats);
