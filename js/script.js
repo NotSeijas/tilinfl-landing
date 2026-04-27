@@ -1,5 +1,5 @@
 // ============================================================
-//  TILIN FL — script.js  (versión optimizada)
+//  TILIN FL — script.js  (versión completa optimizada)
 // ============================================================
 
 // ── Datos de productos ──────────────────────────────────────
@@ -73,37 +73,41 @@ const productos = [
 ];
 
 // ── Estado global ───────────────────────────────────────────
-let carrito = [];
-let currentIndex = 0;
-let particlesInitialized = false;
+var carrito = [];
+var currentIndex = 0;
+var particlesActive = false;
 
 // ── Utilidades ──────────────────────────────────────────────
-const $ = (id) => document.getElementById(id);
-const $$ = (sel) => document.querySelectorAll(sel);
+var $ = function (id) {
+  return document.getElementById(id);
+};
+var $$ = function (sel) {
+  return document.querySelectorAll(sel);
+};
 
 // ── Navegación de secciones ─────────────────────────────────
-const SECCIONES = ["inicio", "productos", "contacto", "carrito", "proyectos"];
+var SECCIONES = ["inicio", "productos", "contacto", "carrito", "proyectos"];
 
 function ocultarTodasLasSecciones() {
-  SECCIONES.forEach((id) => {
-    const el = $(id);
+  SECCIONES.forEach(function (id) {
+    var el = $(id);
     if (el) el.classList.remove("seccion-visible");
   });
   $("nav-arrows").classList.remove("seccion-visible");
   $("footer-inicio").classList.remove("seccion-visible");
+  desactivarParticulas();
 }
 
 function mostrarSeccion(id, opts) {
-  const { arrows = false, footer = false, particles = false } = opts || {};
+  opts = opts || {};
   ocultarTodasLasSecciones();
-  const el = $(id);
+  var el = $(id);
   if (!el) return;
-  requestAnimationFrame(() => {
+  requestAnimationFrame(function () {
     el.classList.add("seccion-visible");
-    if (arrows) $("nav-arrows").classList.add("seccion-visible");
-    if (footer) $("footer-inicio").classList.add("seccion-visible");
-    if (particles) initParticles();
-    else destroyParticles();
+    if (opts.arrows) $("nav-arrows").classList.add("seccion-visible");
+    if (opts.footer) $("footer-inicio").classList.add("seccion-visible");
+    if (opts.particles) activarParticulas();
   });
 }
 
@@ -129,7 +133,7 @@ function mostrarCarritoManual() {
 function toggleMenu() {
   var menu = $("mobileMenu");
   var isOpen = menu.classList.toggle("open");
-  menu.setAttribute("aria-expanded", isOpen);
+  menu.setAttribute("aria-expanded", String(isOpen));
 }
 
 document.addEventListener("click", function (e) {
@@ -145,11 +149,17 @@ document.addEventListener("click", function (e) {
   }
 });
 
-// ── Productos ───────────────────────────────────────────────
+// ── Productos mejorado ──────────────────────────────────────
 function actualizarProducto() {
   var producto = productos[currentIndex];
   var img = $("product-img");
 
+  // Contador
+  var counter = $("product-counter");
+  if (counter)
+    counter.textContent = currentIndex + 1 + " de " + productos.length;
+
+  // Animación slide
   img.classList.add("product-slide-out");
   setTimeout(function () {
     $("product-title").textContent = producto.nombre;
@@ -163,6 +173,7 @@ function actualizarProducto() {
     }, 400);
   }, 200);
 
+  // Select de opciones
   var select = $("product-options");
   select.innerHTML = "";
   producto.opciones.forEach(function (opcion, i) {
@@ -171,6 +182,21 @@ function actualizarProducto() {
     option.textContent = opcion.tipo + " — S/ " + opcion.precio.toFixed(2);
     select.appendChild(option);
   });
+
+  // Actualizar thumbnails
+  actualizarThumbs();
+}
+
+function actualizarThumbs() {
+  var thumbs = $$(".product-thumb");
+  thumbs.forEach(function (t, i) {
+    t.classList.toggle("active", i === currentIndex);
+  });
+}
+
+function irAProducto(idx) {
+  currentIndex = idx;
+  actualizarProducto();
 }
 
 function nextSlide() {
@@ -214,8 +240,25 @@ function renderCarrito() {
   var btn = $("whatsapp-btn");
 
   lista.innerHTML = "";
-  var suma = 0;
 
+  // Estado vacío
+  if (carrito.length === 0) {
+    lista.innerHTML =
+      '<div class="carrito-vacio">' +
+      '<span class="empty-icon">🛒</span>' +
+      "<p>Tu carrito está vacío</p>" +
+      '<a href="#productos" onclick="mostrarProductos()">Ver productos</a>' +
+      "</div>";
+    if (subtotalEl) subtotalEl.textContent = "S/ 0.00";
+    if (totalEl) totalEl.textContent = "S/ 0.00";
+    btn.href = "#";
+    btn.onclick = function (e) {
+      e.preventDefault();
+    };
+    return;
+  }
+
+  var suma = 0;
   carrito.forEach(function (item, index) {
     suma += item.precio;
     var li = document.createElement("li");
@@ -278,49 +321,116 @@ function mostrarToast(mensaje) {
   }, 3000);
 }
 
-// ── Partículas ───────────────────────────────────────────────
-function initParticles() {
-  if (particlesInitialized) return;
-  if (typeof particlesJS === "undefined") return;
-  particlesInitialized = true;
-  particlesJS("particles-js", {
-    particles: {
-      number: { value: 45 },
-      color: { value: "#903f7d" },
-      shape: { type: "circle" },
-      opacity: { value: 0.4, random: true },
-      size: { value: 3, random: true },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#903f7d",
-        opacity: 0.3,
-        width: 1,
-      },
-      move: { enable: true, speed: 2, out_mode: "out" },
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: { enable: true, mode: "repulse" },
-        onclick: { enable: true, mode: "push" },
-      },
-      modes: { repulse: { distance: 100 }, push: { particles_nb: 3 } },
-    },
-    retina_detect: true,
-  });
-}
+// ── Partículas CSS (sin librería externa) ────────────────────
+var particleEls = [];
 
-function destroyParticles() {
-  if (!particlesInitialized) return;
-  particlesInitialized = false;
-  if (window.pJSDom && window.pJSDom.length > 0) {
-    window.pJSDom[0].pJS.fn.vendors.destroypJS();
-    window.pJSDom = [];
+function crearParticulas() {
+  var container = $("particles-css");
+  if (!container || container.children.length > 0) return;
+  var colores = ["#903f7d", "#c04fa0", "#d4a0c0", "#e8c8dc"];
+  for (var i = 0; i < 40; i++) {
+    var p = document.createElement("span");
+    p.className = "particle";
+    var size = Math.random() * 6 + 3;
+    var left = Math.random() * 100;
+    var delay = Math.random() * 12;
+    var duration = Math.random() * 10 + 8;
+    var color = colores[Math.floor(Math.random() * colores.length)];
+    p.style.cssText =
+      "width:" +
+      size +
+      "px;" +
+      "height:" +
+      size +
+      "px;" +
+      "left:" +
+      left +
+      "%;" +
+      "background:" +
+      color +
+      ";" +
+      "animation-duration:" +
+      duration +
+      "s;" +
+      "animation-delay:" +
+      delay +
+      "s;";
+    container.appendChild(p);
   }
 }
 
-// ── IntersectionObserver para animaciones de scroll ─────────
+function activarParticulas() {
+  if (particlesActive) return;
+  crearParticulas();
+  var container = $("particles-css");
+  if (container) container.classList.add("active");
+  particlesActive = true;
+}
+
+function desactivarParticulas() {
+  if (!particlesActive) return;
+  var container = $("particles-css");
+  if (container) container.classList.remove("active");
+  particlesActive = false;
+}
+
+// ── Barra de anuncio ─────────────────────────────────────────
+function initAnnouncementBar() {
+  var bar = document.querySelector(".announcement-bar");
+  if (!bar) return;
+  var barH = bar.offsetHeight;
+  document.documentElement.style.setProperty("--bar-h", barH + "px");
+  document.body.classList.add("has-announcement");
+}
+
+function cerrarAnuncio() {
+  var bar = document.querySelector(".announcement-bar");
+  if (!bar) return;
+  bar.style.transition = "opacity 0.3s, transform 0.3s";
+  bar.style.opacity = "0";
+  bar.style.transform = "translateY(-100%)";
+  setTimeout(function () {
+    bar.remove();
+    document.body.classList.remove("has-announcement");
+    document.documentElement.style.removeProperty("--bar-h");
+  }, 300);
+}
+
+// ── Stats animados ───────────────────────────────────────────
+function animarContador(el, target, duracion, sufijo) {
+  var inicio = 0;
+  var incremento = target / (duracion / 16);
+  var timer = setInterval(function () {
+    inicio = Math.min(inicio + incremento, target);
+    el.textContent = Math.floor(inicio) + sufijo;
+    if (inicio >= target) clearInterval(timer);
+  }, 16);
+}
+
+function initStats() {
+  var statsBar = document.querySelector(".stats-bar");
+  if (!statsBar) return;
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll("[data-count]").forEach(function (item) {
+          animarContador(
+            item,
+            parseFloat(item.dataset.count),
+            1400,
+            item.dataset.suffix || "",
+          );
+        });
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.3 },
+  );
+  observer.observe(statsBar);
+}
+
+// ── Animaciones scroll (IntersectionObserver) ─────────────────
 function initScrollAnimations() {
   var observer = new IntersectionObserver(
     function (entries) {
@@ -331,13 +441,68 @@ function initScrollAnimations() {
         }
       });
     },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
   );
-
   $$(".anim").forEach(function (el) {
     observer.observe(el);
   });
 }
+
+// ── Carrusel testimonios ─────────────────────────────────────
+(function () {
+  var track,
+    total,
+    current = 0;
+
+  function init() {
+    track = document.querySelector(".testimonios-track");
+    if (!track) return;
+    total = track.children.length;
+    renderDots();
+    update();
+    setInterval(function () {
+      mover(1);
+    }, 5500);
+  }
+
+  function renderDots() {
+    var c = document.querySelector(".testimonios-dots");
+    if (!c) return;
+    c.innerHTML = "";
+    for (var i = 0; i < total; i++) {
+      var d = document.createElement("span");
+      d.className = "dot" + (i === 0 ? " active" : "");
+      d.setAttribute("data-i", i);
+      d.onclick = (function (idx) {
+        return function () {
+          current = idx;
+          update();
+        };
+      })(i);
+      c.appendChild(d);
+    }
+  }
+
+  function update() {
+    if (track) track.style.transform = "translateX(-" + current * 100 + "%)";
+    $$(".testimonios-dots .dot").forEach(function (d, i) {
+      d.classList.toggle("active", i === current);
+    });
+  }
+
+  function mover(dir) {
+    current = (current + dir + total) % total;
+    update();
+  }
+
+  window.prevTestimonio = function () {
+    mover(-1);
+  };
+  window.nextTestimonio = function () {
+    mover(1);
+  };
+  document.addEventListener("DOMContentLoaded", init);
+})();
 
 // ── Swipe táctil en el slider ────────────────────────────────
 function initSwipe() {
@@ -361,131 +526,38 @@ function initSwipe() {
 
 // ── Routing por hash ─────────────────────────────────────────
 function rutearHash() {
-  var hash = window.location.hash.slice(1);
   var rutas = {
     productos: mostrarProductos,
     contacto: mostrarContacto,
     proyectos: mostrarProyectos,
     carrito: mostrarCarritoManual,
   };
-  (rutas[hash] || mostrarInicio)();
+  (rutas[window.location.hash.slice(1)] || mostrarInicio)();
 }
 
 // ── Inicialización ───────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", function () {
   initScrollAnimations();
   initSwipe();
+  initStats();
+  initAnnouncementBar();
   rutearHash();
 });
 
 window.addEventListener("hashchange", rutearHash);
 
-// ============================================================
-//  INICIO — Stats animados + Carrusel de testimonios
-// ============================================================
-
-// ── Contadores animados ──────────────────────────────────────
-function animarContador(el, target, duracion, sufijo) {
-  var inicio = 0;
-  var incremento = target / (duracion / 16);
-  var timer = setInterval(function () {
-    inicio += incremento;
-    if (inicio >= target) {
-      inicio = target;
-      clearInterval(timer);
-    }
-    el.textContent = Math.floor(inicio) + sufijo;
-  }, 16);
-}
-
-function initStats() {
-  var statsBar = document.querySelector(".stats-bar");
-  if (!statsBar) return;
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var items = entry.target.querySelectorAll("[data-count]");
-          items.forEach(function (item) {
-            var target = parseFloat(item.dataset.count);
-            var sufijo = item.dataset.suffix || "";
-            animarContador(item, target, 1400, sufijo);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.3 },
-  );
-
-  observer.observe(statsBar);
-}
-
-// ── Carrusel de testimonios ──────────────────────────────────
-(function () {
-  var track, dots, total, current;
-
-  function initCarrusel() {
-    track = document.querySelector(".testimonios-track");
-    if (!track) return;
-    total = track.children.length;
-    current = 0;
-    renderDots();
-    updateCarrusel();
-
-    // Auto-play
-    setInterval(function () {
-      moverTestimonio(1);
-    }, 5000);
-  }
-
-  function renderDots() {
-    var container = document.querySelector(".testimonios-dots");
-    if (!container) return;
-    container.innerHTML = "";
-    for (var i = 0; i < total; i++) {
-      var dot = document.createElement("span");
-      dot.className = "dot" + (i === 0 ? " active" : "");
-      dot.dataset.index = i;
-      dot.onclick = (function (idx) {
-        return function () {
-          irA(idx);
-        };
-      })(i);
-      container.appendChild(dot);
-    }
-  }
-
-  function updateCarrusel() {
-    if (!track) return;
-    track.style.transform = "translateX(-" + current * 100 + "%)";
-    var allDots = document.querySelectorAll(".testimonios-dots .dot");
-    allDots.forEach(function (d, i) {
-      d.classList.toggle("active", i === current);
-    });
-  }
-
-  function moverTestimonio(dir) {
-    current = (current + dir + total) % total;
-    updateCarrusel();
-  }
-
-  function irA(idx) {
-    current = idx;
-    updateCarrusel();
-  }
-
-  // Exponer para botones inline
-  window.prevTestimonio = function () {
-    moverTestimonio(-1);
-  };
-  window.nextTestimonio = function () {
-    moverTestimonio(1);
-  };
-
-  document.addEventListener("DOMContentLoaded", initCarrusel);
-})();
-
-// Llamar initStats al cargar
-document.addEventListener("DOMContentLoaded", initStats);
+// Exponer al scope global para onclick inline
+Object.assign(window, {
+  toggleMenu,
+  mostrarInicio,
+  mostrarProductos,
+  mostrarContacto,
+  mostrarProyectos,
+  mostrarCarritoManual,
+  agregarAlCarrito,
+  eliminarDelCarrito,
+  nextSlide,
+  prevSlide,
+  irAProducto,
+  cerrarAnuncio,
+});

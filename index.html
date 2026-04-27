@@ -79,8 +79,13 @@
     <!-- Estilos propios -->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Favicon y color de tema -->
+    <link
+      rel="icon"
+      href="images/Tilin-logo-transparent.png"
+      type="image/png"
+    />
+    <meta name="theme-color" content="#903f7d" />
 
     <!-- Google Ads -->
     <script
@@ -98,8 +103,33 @@
   </head>
 
   <body>
-    <!-- Fondo de partículas -->
-    <div id="particles-js"></div>
+    <!-- Barra de anuncio -->
+    <div class="announcement-bar">
+      🔥 Compra en docena y ahorra hasta <strong>S/120</strong> &nbsp;·&nbsp;
+      <a onclick="mostrarProductos()" href="#productos">Ver oferta →</a>
+      <button
+        class="announcement-close"
+        onclick="cerrarAnuncio()"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Botón flotante WhatsApp -->
+    <a
+      class="whatsapp-fab"
+      href="https://wa.me/51969780198"
+      target="_blank"
+      rel="noopener"
+      aria-label="Contactar por WhatsApp"
+    >
+      <i class="fab fa-whatsapp"></i>
+      <span class="whatsapp-fab-tooltip">¡Escríbenos!</span>
+    </a>
+
+    <!-- Partículas CSS (sin librería externa) -->
+    <div id="particles-css" aria-hidden="true"></div>
 
     <!-- ── HEADER ─────────────────────────────────────────────── -->
     <header>
@@ -460,12 +490,59 @@
   ══════════════════════════════════════════════════════════ -->
     <section id="productos" class="seccion">
       <div class="info">
+        <p class="product-counter" id="product-counter">1 de 6</p>
         <h2 id="product-title"></h2>
         <p id="product-desc"></p>
         <select id="product-options" aria-label="Opciones de producto"></select>
         <button id="product-btn" onclick="agregarAlCarrito()">
-          Agregar al carrito
+          <i class="fas fa-cart-plus" style="margin-right: 6px"></i>Agregar al
+          carrito
         </button>
+        <!-- Thumbnails de navegación rápida -->
+        <div class="product-thumbnails">
+          <img
+            class="product-thumb active"
+            src="images/Perros-4.5-10kg.jpg"
+            alt="Tilin 4.5-10kg"
+            onclick="irAProducto(0)"
+            loading="lazy"
+          />
+          <img
+            class="product-thumb"
+            src="images/Perros-10-20kg.jpg"
+            alt="Tilin 10-20kg"
+            onclick="irAProducto(1)"
+            loading="lazy"
+          />
+          <img
+            class="product-thumb"
+            src="images/Perros-20-40kg.jpg"
+            alt="Tilin 20-40kg"
+            onclick="irAProducto(2)"
+            loading="lazy"
+          />
+          <img
+            class="product-thumb"
+            src="images/TILIN360.png"
+            alt="Pack 360"
+            onclick="irAProducto(3)"
+            loading="lazy"
+          />
+          <img
+            class="product-thumb"
+            src="images/cucarachas.png"
+            alt="Matax cucarachas"
+            onclick="irAProducto(4)"
+            loading="lazy"
+          />
+          <img
+            class="product-thumb"
+            src="images/hormigas.png"
+            alt="Matax hormigas"
+            onclick="irAProducto(5)"
+            loading="lazy"
+          />
+        </div>
       </div>
       <img
         id="product-img"
@@ -525,55 +602,52 @@
         <img
           src="images/Tilin-logo-transparent.png"
           alt="Tilin Logo"
-          style="max-width: 240px"
+          style="max-width: 220px; border-radius: 0; box-shadow: none"
           loading="lazy"
         />
       </div>
-      <div class="contacto-info anim anim-delay-1">
+      <div class="contacto-card anim anim-delay-1">
         <p class="contacto-intro">
           ¿Te interesa nuestro producto?<br />
           <strong>Contáctanos directamente por nuestras redes:</strong>
         </p>
-        <div class="social-icons">
+        <span class="contacto-social-label">Síguenos en</span>
+        <div class="contacto-pills">
           <a
             href="https://www.facebook.com/tilinflperu"
             target="_blank"
             rel="noopener"
-            aria-label="Facebook"
+            class="social-pill fb"
+            ><i class="fab fa-facebook-f"></i> Facebook</a
           >
-            <i class="fab fa-facebook-f"></i>
-          </a>
           <a
             href="https://www.instagram.com/tilinflperu"
             target="_blank"
             rel="noopener"
-            aria-label="Instagram"
+            class="social-pill ig"
+            ><i class="fab fa-instagram"></i> Instagram</a
           >
-            <i class="fab fa-instagram"></i>
-          </a>
           <a
-            href="https://wa.me/51963365372"
+            href="https://wa.me/51969780198"
             target="_blank"
             rel="noopener"
-            aria-label="WhatsApp"
+            class="social-pill wa"
+            ><i class="fab fa-whatsapp"></i> WhatsApp</a
           >
-            <i class="fab fa-whatsapp"></i>
-          </a>
           <a
             href="https://www.tiktok.com/@drplop_oficial"
             target="_blank"
             rel="noopener"
-            aria-label="TikTok"
+            class="social-pill tt"
+            ><i class="fab fa-tiktok"></i> TikTok</a
           >
-            <i class="fab fa-tiktok"></i>
-          </a>
         </div>
-        <h3>Correo</h3>
+        <h3>✉️ Correo</h3>
         <p>Corporacionplop2025@hotmail.com</p>
-        <h3>Dirección</h3>
-        <p>📍 Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</p>
-        <p>📍 Santiago De Surco: Jiron Pablo Picasso 158</p>
-        <p>📍 Santiago De Surco: Av. Caminos del Inca 941</p>
+        <h3>📍 Direcciones</h3>
+        <p>Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</p>
+        <p>Surco: Jiron Pablo Picasso 158</p>
+        <p>Surco: Av. Caminos del Inca 941</p>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
           loading="lazy"
@@ -620,43 +694,60 @@
 
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
     <footer class="footer" id="footer-inicio">
-      <p>Síguenos en redes sociales:</p>
-      <div class="social-icons">
-        <a
-          href="https://www.facebook.com/tilinflperu"
-          target="_blank"
-          rel="noopener"
-          aria-label="Facebook"
-        >
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a
-          href="https://www.instagram.com/tilinflperu"
-          target="_blank"
-          rel="noopener"
-          aria-label="Instagram"
-        >
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a
-          href="https://wa.me/51963365372"
-          target="_blank"
-          rel="noopener"
-          aria-label="WhatsApp"
-        >
-          <i class="fab fa-whatsapp"></i>
-        </a>
-        <a
-          href="https://www.tiktok.com/@drplop_oficial"
-          target="_blank"
-          rel="noopener"
-          aria-label="TikTok"
-        >
-          <i class="fab fa-tiktok"></i>
-        </a>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img
+            src="images/Tilin-logo-transparent.png"
+            alt="Tilin FL"
+            style="max-height: 50px; border-radius: 0; box-shadow: none"
+            loading="lazy"
+          />
+        </div>
+        <nav class="footer-links" aria-label="Links del footer">
+          <a href="#inicio" onclick="mostrarInicio()">Inicio</a>
+          <a href="#productos" onclick="mostrarProductos()">Productos</a>
+          <a href="#contacto" onclick="mostrarContacto()">Contacto</a>
+          <a href="#proyectos" onclick="mostrarProyectos()">Proyectos</a>
+        </nav>
+        <div class="social-icons">
+          <a
+            href="https://www.facebook.com/tilinflperu"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a
+            href="https://www.instagram.com/tilinflperu"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a
+            href="https://wa.me/51969780198"
+            target="_blank"
+            rel="noopener"
+            aria-label="WhatsApp"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+          <a
+            href="https://www.tiktok.com/@drplop_oficial"
+            target="_blank"
+            rel="noopener"
+            aria-label="TikTok"
+            ><i class="fab fa-tiktok"></i
+          ></a>
+        </div>
       </div>
       <div class="dog-animation" aria-hidden="true">
         <img src="images/perrito.gif" alt="" class="perrito" />
+      </div>
+      <div class="footer-bottom">
+        <p>
+          © 2025 Corporación Plop — Dr. Augusto Durand · Todos los derechos
+          reservados · Hecho con ❤️ en Perú 🇵🇪
+        </p>
       </div>
     </footer>
 
