@@ -10,8 +10,10 @@ const productos = [
     imagen: "images/Perros-4.5-10kg.jpg",
     opciones: [
       { tipo: "Unidad", precio: 35 },
-      { tipo: "Media docena (6 unid. a S/25 c/u)", precio: 150 },
-      { tipo: "Docena (12 unid. a S/25 c/u)", precio: 300 },
+      { tipo: "PROMO: Docena (12 unid. a S/25 c/u)", precio: 300 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/25 c/u)", precio: 1800 },
+      { tipo: "PROMO: 12 Docenas (144 unid. a S/25 c/u)", precio: 3600 },
+      { tipo: "PROMO: 24 Docenas (288 unid. a S/25 c/u)", precio: 7200 },
     ],
   },
   {
@@ -21,8 +23,10 @@ const productos = [
     imagen: "images/Perros-10-20kg.jpg",
     opciones: [
       { tipo: "Unidad", precio: 40 },
-      { tipo: "Media docena (6 unid. a S/27.50 c/u)", precio: 165 },
-      { tipo: "Docena (12 unid. a S/27.50 c/u)", precio: 330 },
+      { tipo: "PROMO: Docena (12 unid. a S/27.50 c/u)", precio: 330 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/27.50 c/u)", precio: 1980 },
+      { tipo: "PROMO: 12 Docenas (144 unid. a S/27.50 c/u)", precio: 3960 },
+      { tipo: "PROMO: 24 Docenas (288 unid. a S/27.50 c/u)", precio: 7920 },
     ],
   },
   {
@@ -32,8 +36,16 @@ const productos = [
     imagen: "images/Perros-20-40kg.jpg",
     opciones: [
       { tipo: "Unidad", precio: 45 },
-      { tipo: "PROMO: Media docena (6 unid. a S/30 c/u) 👉", precio: 180 },
-      { tipo: "PROMO: Docena (12 unid. a S/30 c/u) 👉", precio: 360 },
+      { tipo: "PROMO: Docena (12 unid. a S/30 c/u) ", precio: 360 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/30 c/u) ", precio: 2160 },
+      {
+        tipo: "PROMO: 12 Docenas (144 unid + 1 DOC de Regalo. a S/30 c/u) ",
+        precio: 4320,
+      },
+      {
+        tipo: "PROMO: 24 Docenas (288 unid + 4 DOC de Regalo. a S/30 c/u) ",
+        precio: 8640,
+      },
     ],
   },
   {
@@ -42,9 +54,9 @@ const productos = [
       "Protección total: contra pulgas, garrapatas, ácaros y parásitos internos por hasta 3 meses continuos.",
     imagen: "images/TILIN360.png",
     opciones: [
-      { tipo: "4.5–10 kg: 1 tableta interna + 1 antipulgas 👉", precio: 45 },
-      { tipo: "10–20 kg: 2 tabletas internas + 1 antipulgas 👉", precio: 50 },
-      { tipo: "20–40 kg: 4 tabletas internas + 1 antipulgas 👉", precio: 60 },
+      { tipo: "4.5–10 kg: 1 tableta interna + 1 antipulgas ", precio: 45 },
+      { tipo: "10–20 kg: 2 tabletas internas + 1 antipulgas ", precio: 50 },
+      { tipo: "20–40 kg: 4 tabletas internas + 1 antipulgas ", precio: 60 },
     ],
   },
   {
