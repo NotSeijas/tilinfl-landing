@@ -1908,3 +1908,350 @@ body.has-announcement #particles-css {
     padding: 0.4rem 2.5rem;
   }
 }
+
+/* ============================================================
+   ESTÉTICA A+C: Organic & Warm — blobs · gradiente texto ·
+   glassmorphism · bounce · spotlight · dot pattern
+   ============================================================ */
+
+/* ── Variables estéticas nuevas ─────────────────────────────── */
+:root {
+  --gradient-brand: linear-gradient(
+    135deg,
+    #903f7d 0%,
+    #e0529a 50%,
+    #c04fa0 100%
+  );
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(144, 63, 125, 0.14);
+  --glass-blur: blur(14px);
+  --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Gradiente en títulos hero ─────────────────────────────── */
+.hero-text h1 em {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Blob orgánico detrás del hero image ───────────────────── */
+.hero-blob {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: linear-gradient(
+    135deg,
+    rgba(144, 63, 125, 0.13) 0%,
+    rgba(224, 82, 154, 0.09) 50%,
+    rgba(255, 180, 220, 0.08) 100%
+  );
+  border-radius: 60% 40% 55% 45% / 50% 45% 55% 50%;
+  animation: blob-morph 9s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 60% 40% 55% 45% / 50% 45% 55% 50%;
+    transform: rotate(0deg);
+  }
+  33% {
+    border-radius: 40% 60% 45% 55% / 55% 50% 45% 50%;
+    transform: rotate(4deg);
+  }
+  66% {
+    border-radius: 55% 45% 60% 40% / 45% 55% 50% 50%;
+    transform: rotate(-4deg);
+  }
+}
+
+/* ── Dot-pattern sutil en el card principal ────────────────── */
+.intro-content {
+  background-image: radial-gradient(
+    rgba(144, 63, 125, 0.055) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 26px 26px;
+}
+
+/* ── Glassmorphism en cards de beneficios ──────────────────── */
+.beneficio-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--color-primary-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.beneficio-card::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(
+    circle,
+    rgba(144, 63, 125, 0.07) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.beneficio-card:hover {
+  border-left-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* ── Bounce animations de entrada ─────────────────────────── */
+.anim {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.6s var(--bounce);
+}
+.anim.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variante: entrada desde izquierda */
+.anim-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.6s var(--bounce);
+}
+.anim-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Variante: entrada desde derecha */
+.anim-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.6s var(--bounce);
+}
+.anim-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Delays */
+.anim-delay-1 {
+  transition-delay: 0.1s;
+}
+.anim-delay-2 {
+  transition-delay: 0.2s;
+}
+.anim-delay-3 {
+  transition-delay: 0.3s;
+}
+.anim-delay-4 {
+  transition-delay: 0.4s;
+}
+
+/* ── Spotlight detrás del producto ─────────────────────────── */
+.product-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-spotlight {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(
+    circle,
+    rgba(144, 63, 125, 0.14) 0%,
+    rgba(224, 82, 154, 0.07) 45%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: spotlight-breathe 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes spotlight-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Productos: fondo cálido con blob */
+#productos {
+  background: linear-gradient(145deg, #fdf2fa 0%, #f0eaff 40%, #fde8f4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+#productos::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(144, 63, 125, 0.08) 0%,
+    transparent 65%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#productos::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(
+    circle,
+    rgba(224, 82, 154, 0.07) 0%,
+    transparent 65%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ── Nav activo ────────────────────────────────────────────── */
+nav a.nav-active {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+nav a.nav-active::after {
+  width: 100%;
+}
+
+/* ── Sección Contacto — warm split ─────────────────────────── */
+#contacto {
+  background: linear-gradient(150deg, #fff9fe 0%, #fdf0f8 50%, #f5eeff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+#contacto::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(144, 63, 125, 0.07) 0%,
+    transparent 65%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contacto-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(144, 63, 125, 0.12);
+}
+
+/* ── Testimonios — glassmorphism ───────────────────────────── */
+.testimonio-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(144, 63, 125, 0.08);
+}
+
+/* ── Bio card warm ─────────────────────────────────────────── */
+.bio-section-v2 {
+  background: linear-gradient(135deg, #fff5fc 0%, #f8f0ff 100%);
+  border: 1px solid rgba(144, 63, 125, 0.1);
+}
+
+/* ── Sección proyectos warm ────────────────────────────────── */
+#proyectos {
+  background: linear-gradient(150deg, #fff9fe 0%, #f0eaff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Transición suave entre secciones ──────────────────────── */
+.seccion {
+  transition: opacity 0.35s ease;
+}
+
+@keyframes seccionEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Stats bar — forma más orgánica ────────────────────────── */
+.stats-bar {
+  border-radius: 20px;
+  background: linear-gradient(135deg, #903f7d 0%, #c04fa0 50%, #e0529a 100%);
+}
+
+/* ── Gradient en heading secciones ─────────────────────────── */
+.section-title-gradient {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* ── Hero badge — estilo cálido ─────────────────────────────── */
+.hero-badge {
+  background: linear-gradient(
+    135deg,
+    rgba(144, 63, 125, 0.12),
+    rgba(224, 82, 154, 0.08)
+  );
+  border: 1px solid rgba(144, 63, 125, 0.22);
+  color: var(--color-primary);
+}
+
+/* ── Intro-content warm shadow ──────────────────────────────── */
+.intro-content {
+  box-shadow:
+    0 12px 48px rgba(144, 63, 125, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}

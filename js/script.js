@@ -1,8 +1,7 @@
 // ============================================================
-//  TILIN FL — script.js  (versión completa optimizada)
+//  TILIN FL — script.js  (versión final completa)
 // ============================================================
 
-// ── Datos de productos ──────────────────────────────────────
 const productos = [
   {
     nombre: "Tilin Perros 4.5 a 10 kg",
@@ -72,25 +71,20 @@ const productos = [
   },
 ];
 
-// ── Estado global ───────────────────────────────────────────
-var carrito = [];
-var currentIndex = 0;
-var particlesActive = false;
+// ── Estado ──────────────────────────────────────────────────
+let carrito = [];
+let currentIndex = 0;
+let particlesActive = false;
 
-// ── Utilidades ──────────────────────────────────────────────
-var $ = function (id) {
-  return document.getElementById(id);
-};
-var $$ = function (sel) {
-  return document.querySelectorAll(sel);
-};
+const $ = (id) => document.getElementById(id);
+const $$ = (sel) => document.querySelectorAll(sel);
 
-// ── Navegación de secciones ─────────────────────────────────
-var SECCIONES = ["inicio", "productos", "contacto", "carrito", "proyectos"];
+// ── Secciones ────────────────────────────────────────────────
+const SECCIONES = ["inicio", "productos", "contacto", "carrito", "proyectos"];
 
 function ocultarTodasLasSecciones() {
-  SECCIONES.forEach(function (id) {
-    var el = $(id);
+  SECCIONES.forEach((id) => {
+    const el = $(id);
     if (el) el.classList.remove("seccion-visible");
   });
   $("nav-arrows").classList.remove("seccion-visible");
@@ -98,16 +92,24 @@ function ocultarTodasLasSecciones() {
   desactivarParticulas();
 }
 
-function mostrarSeccion(id, opts) {
-  opts = opts || {};
+function mostrarSeccion(id, opts = {}) {
   ocultarTodasLasSecciones();
-  var el = $(id);
+  const el = $(id);
   if (!el) return;
-  requestAnimationFrame(function () {
+  requestAnimationFrame(() => {
     el.classList.add("seccion-visible");
     if (opts.arrows) $("nav-arrows").classList.add("seccion-visible");
     if (opts.footer) $("footer-inicio").classList.add("seccion-visible");
     if (opts.particles) activarParticulas();
+    actualizarNavActivo(id);
+  });
+}
+
+// ── Nav activo ───────────────────────────────────────────────
+function actualizarNavActivo(seccionId) {
+  $$("nav a").forEach((a) => {
+    const href = a.getAttribute("href")?.replace("#", "");
+    a.classList.toggle("nav-active", href === seccionId);
   });
 }
 
@@ -129,76 +131,64 @@ function mostrarCarritoManual() {
   mostrarSeccion("carrito");
 }
 
-// ── Menú hamburguesa ────────────────────────────────────────
+// ── Menú hamburguesa ─────────────────────────────────────────
 function toggleMenu() {
-  var menu = $("mobileMenu");
-  var isOpen = menu.classList.toggle("open");
+  const menu = $("mobileMenu");
+  const isOpen = menu.classList.toggle("open");
   menu.setAttribute("aria-expanded", String(isOpen));
 }
 
-document.addEventListener("click", function (e) {
-  var menu = $("mobileMenu");
-  var toggle = document.querySelector(".menu-toggle");
-  if (
-    menu &&
-    toggle &&
-    !menu.contains(e.target) &&
-    !toggle.contains(e.target)
-  ) {
+document.addEventListener("click", (e) => {
+  const menu = $("mobileMenu");
+  const toggle = document.querySelector(".menu-toggle");
+  if (menu && toggle && !menu.contains(e.target) && !toggle.contains(e.target))
     menu.classList.remove("open");
-  }
 });
 
-// ── Productos mejorado ──────────────────────────────────────
+// ── Slider con teclado ───────────────────────────────────────
+document.addEventListener("keydown", (e) => {
+  if (!$("productos")?.classList.contains("seccion-visible")) return;
+  if (e.key === "ArrowRight") nextSlide();
+  if (e.key === "ArrowLeft") prevSlide();
+});
+
 function actualizarProducto() {
-  var producto = productos[currentIndex];
-  var img = $("product-img");
+  const producto = productos[currentIndex];
+  const img = $("product-img");
 
-  // Contador
-  var counter = $("product-counter");
+  const counter = $("product-counter");
   if (counter)
-    counter.textContent = currentIndex + 1 + " de " + productos.length;
+    counter.textContent = `${currentIndex + 1} de ${productos.length}`;
 
-  // Animación slide
   img.classList.add("product-slide-out");
-  setTimeout(function () {
+  setTimeout(() => {
     $("product-title").textContent = producto.nombre;
     $("product-desc").textContent = producto.descripcion;
     img.src = producto.imagen;
     img.alt = producto.nombre;
     img.classList.remove("product-slide-out");
     img.classList.add("product-slide-in");
-    setTimeout(function () {
-      img.classList.remove("product-slide-in");
-    }, 400);
+    setTimeout(() => img.classList.remove("product-slide-in"), 400);
   }, 200);
 
-  // Select de opciones
-  var select = $("product-options");
+  const select = $("product-options");
   select.innerHTML = "";
-  producto.opciones.forEach(function (opcion, i) {
-    var option = document.createElement("option");
+  producto.opciones.forEach((opcion, i) => {
+    const option = document.createElement("option");
     option.value = i;
-    option.textContent = opcion.tipo + " — S/ " + opcion.precio.toFixed(2);
+    option.textContent = `${opcion.tipo} — S/ ${opcion.precio.toFixed(2)}`;
     select.appendChild(option);
   });
 
-  // Actualizar thumbnails
-  actualizarThumbs();
-}
-
-function actualizarThumbs() {
-  var thumbs = $$(".product-thumb");
-  thumbs.forEach(function (t, i) {
-    t.classList.toggle("active", i === currentIndex);
-  });
+  $$(".product-thumb").forEach((t, i) =>
+    t.classList.toggle("active", i === currentIndex),
+  );
 }
 
 function irAProducto(idx) {
   currentIndex = idx;
   actualizarProducto();
 }
-
 function nextSlide() {
   currentIndex = (currentIndex + 1) % productos.length;
   actualizarProducto();
@@ -208,13 +198,30 @@ function prevSlide() {
   actualizarProducto();
 }
 
-// ── Carrito ─────────────────────────────────────────────────
+// ── Swipe táctil ─────────────────────────────────────────────
+function initSwipe() {
+  const slider = $("productos");
+  if (!slider) return;
+  let startX = 0;
+  slider.addEventListener(
+    "touchstart",
+    (e) => {
+      startX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+  slider.addEventListener("touchend", (e) => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+}
+
+// ── Carrito ──────────────────────────────────────────────────
 function agregarAlCarrito() {
-  var producto = productos[currentIndex];
-  var opcionIndex = Number($("product-options").value);
-  var opcion = producto.opciones[opcionIndex];
+  const producto = productos[currentIndex];
+  const opcion = producto.opciones[Number($("product-options").value)];
   carrito.push({
-    nombre: producto.nombre + " — " + opcion.tipo,
+    nombre: `${producto.nombre} — ${opcion.tipo}`,
     precio: opcion.precio,
   });
   actualizarContadorCarrito();
@@ -228,80 +235,58 @@ function eliminarDelCarrito(index) {
 }
 
 function actualizarContadorCarrito() {
-  $$(".cart-count").forEach(function (el) {
-    el.textContent = carrito.length;
-  });
+  $$(".cart-count").forEach((el) => (el.textContent = carrito.length));
 }
 
 function renderCarrito() {
-  var lista = $("lista-carrito");
-  var totalEl = $("total-carrito");
-  var subtotalEl = $("subtotal");
-  var btn = $("whatsapp-btn");
+  const lista = $("lista-carrito");
+  const btn = $("whatsapp-btn");
 
   lista.innerHTML = "";
 
-  // Estado vacío
   if (carrito.length === 0) {
-    lista.innerHTML =
-      '<div class="carrito-vacio">' +
-      '<span class="empty-icon">🛒</span>' +
-      "<p>Tu carrito está vacío</p>" +
-      '<a href="#productos" onclick="mostrarProductos()">Ver productos</a>' +
-      "</div>";
-    if (subtotalEl) subtotalEl.textContent = "S/ 0.00";
-    if (totalEl) totalEl.textContent = "S/ 0.00";
+    lista.innerHTML = `<div class="carrito-vacio">
+      <span class="empty-icon">🛒</span>
+      <p>Tu carrito está vacío</p>
+      <a href="#productos" onclick="mostrarProductos()">Ver productos</a>
+    </div>`;
+    $("subtotal").textContent = "S/ 0.00";
+    $("total-carrito").textContent = "S/ 0.00";
     btn.href = "#";
-    btn.onclick = function (e) {
-      e.preventDefault();
-    };
+    btn.onclick = (e) => e.preventDefault();
     return;
   }
 
-  var suma = 0;
-  carrito.forEach(function (item, index) {
+  let suma = 0;
+  carrito.forEach((item, index) => {
     suma += item.precio;
-    var li = document.createElement("li");
-    li.innerHTML =
-      "<span>" +
-      item.nombre +
-      " — <strong>S/ " +
-      item.precio.toFixed(2) +
-      "</strong></span>" +
-      '<button class="btn-eliminar" aria-label="Eliminar" onclick="eliminarDelCarrito(' +
-      index +
-      ')">✕</button>';
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${item.nombre} — <strong>S/ ${item.precio.toFixed(2)}</strong></span>
+      <button class="btn-eliminar" onclick="eliminarDelCarrito(${index})">✕</button>`;
     lista.appendChild(li);
   });
 
-  var sumaStr = suma.toFixed(2);
-  if (subtotalEl) subtotalEl.textContent = "S/ " + sumaStr;
-  if (totalEl) totalEl.textContent = "S/ " + sumaStr;
+  const sumaStr = suma.toFixed(2);
+  $("subtotal").textContent = `S/ ${sumaStr}`;
+  $("total-carrito").textContent = `S/ ${sumaStr}`;
 
-  var msg = encodeURIComponent(
-    "Hola, quiero comprar:\n" +
-      carrito
-        .map(function (p) {
-          return "- " + p.nombre + " (S/ " + p.precio.toFixed(2) + ")";
-        })
-        .join("\n") +
-      "\nTotal: S/ " +
-      sumaStr,
+  const msg = encodeURIComponent(
+    `Hola, quiero comprar:\n${carrito.map((p) => `- ${p.nombre} (S/ ${p.precio.toFixed(2)})`).join("\n")}\nTotal: S/ ${sumaStr}`,
   );
-  btn.href = "https://wa.me/+51963195119?text=" + msg;
+  btn.href = `https://wa.me/+51963195119?text=${msg}`;
 
-  btn.onclick = function (e) {
+  btn.onclick = (e) => {
     e.preventDefault();
     if (suma > 0 && typeof gtag !== "undefined") {
       gtag("event", "conversion", {
         send_to: "AW-17490215386/mUR0CMH9-IgbENqD_pNB",
         value: suma,
         currency: "PEN",
-        event_callback: function () {
+        event_callback: () => {
           window.location.href = btn.href;
         },
       });
-      setTimeout(function () {
+      setTimeout(() => {
         window.location.href = btn.href;
       }, 1000);
     } else {
@@ -310,51 +295,25 @@ function renderCarrito() {
   };
 }
 
-// ── Toast ────────────────────────────────────────────────────
-function mostrarToast(mensaje) {
-  var toast = $("toast");
-  toast.textContent = mensaje;
+// ── Toast ─────────────────────────────────────────────────────
+function mostrarToast(msg) {
+  const toast = $("toast");
+  toast.textContent = msg;
   toast.classList.add("show");
   clearTimeout(toast._timer);
-  toast._timer = setTimeout(function () {
-    toast.classList.remove("show");
-  }, 3000);
+  toast._timer = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-// ── Partículas CSS (sin librería externa) ────────────────────
-var particleEls = [];
-
+// ── Partículas CSS ───────────────────────────────────────────
 function crearParticulas() {
-  var container = $("particles-css");
+  const container = $("particles-css");
   if (!container || container.children.length > 0) return;
-  var colores = ["#903f7d", "#c04fa0", "#d4a0c0", "#e8c8dc"];
-  for (var i = 0; i < 40; i++) {
-    var p = document.createElement("span");
+  const colores = ["#903f7d", "#c04fa0", "#e0529a", "#d4a0c0", "#f0c8e0"];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement("span");
     p.className = "particle";
-    var size = Math.random() * 6 + 3;
-    var left = Math.random() * 100;
-    var delay = Math.random() * 12;
-    var duration = Math.random() * 10 + 8;
-    var color = colores[Math.floor(Math.random() * colores.length)];
-    p.style.cssText =
-      "width:" +
-      size +
-      "px;" +
-      "height:" +
-      size +
-      "px;" +
-      "left:" +
-      left +
-      "%;" +
-      "background:" +
-      color +
-      ";" +
-      "animation-duration:" +
-      duration +
-      "s;" +
-      "animation-delay:" +
-      delay +
-      "s;";
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;background:${colores[i % colores.length]};animation-duration:${Math.random() * 10 + 8}s;animation-delay:${Math.random() * 12}s;`;
     container.appendChild(p);
   }
 }
@@ -362,34 +321,33 @@ function crearParticulas() {
 function activarParticulas() {
   if (particlesActive) return;
   crearParticulas();
-  var container = $("particles-css");
-  if (container) container.classList.add("active");
+  $("particles-css")?.classList.add("active");
   particlesActive = true;
 }
 
 function desactivarParticulas() {
   if (!particlesActive) return;
-  var container = $("particles-css");
-  if (container) container.classList.remove("active");
+  $("particles-css")?.classList.remove("active");
   particlesActive = false;
 }
 
 // ── Barra de anuncio ─────────────────────────────────────────
 function initAnnouncementBar() {
-  var bar = document.querySelector(".announcement-bar");
+  const bar = document.querySelector(".announcement-bar");
   if (!bar) return;
-  var barH = bar.offsetHeight;
-  document.documentElement.style.setProperty("--bar-h", barH + "px");
+  document.documentElement.style.setProperty(
+    "--bar-h",
+    bar.offsetHeight + "px",
+  );
   document.body.classList.add("has-announcement");
 }
 
 function cerrarAnuncio() {
-  var bar = document.querySelector(".announcement-bar");
+  const bar = document.querySelector(".announcement-bar");
   if (!bar) return;
-  bar.style.transition = "opacity 0.3s, transform 0.3s";
-  bar.style.opacity = "0";
-  bar.style.transform = "translateY(-100%)";
-  setTimeout(function () {
+  bar.style.cssText =
+    "opacity:0;transform:translateY(-100%);transition:opacity 0.3s,transform 0.3s";
+  setTimeout(() => {
     bar.remove();
     document.body.classList.remove("has-announcement");
     document.documentElement.style.removeProperty("--bar-h");
@@ -397,62 +355,62 @@ function cerrarAnuncio() {
 }
 
 // ── Stats animados ───────────────────────────────────────────
-function animarContador(el, target, duracion, sufijo) {
-  var inicio = 0;
-  var incremento = target / (duracion / 16);
-  var timer = setInterval(function () {
-    inicio = Math.min(inicio + incremento, target);
-    el.textContent = Math.floor(inicio) + sufijo;
-    if (inicio >= target) clearInterval(timer);
+function animarContador(el, target, ms, suffix) {
+  const step = target / (ms / 16);
+  let val = 0;
+  const t = setInterval(() => {
+    val = Math.min(val + step, target);
+    el.textContent = Math.floor(val) + suffix;
+    if (val >= target) clearInterval(t);
   }, 16);
 }
 
 function initStats() {
-  var statsBar = document.querySelector(".stats-bar");
-  if (!statsBar) return;
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
+  const bar = document.querySelector(".stats-bar");
+  if (!bar) return;
+  new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        entry.target.querySelectorAll("[data-count]").forEach(function (item) {
-          animarContador(
-            item,
-            parseFloat(item.dataset.count),
-            1400,
-            item.dataset.suffix || "",
+        entry.target
+          .querySelectorAll("[data-count]")
+          .forEach((el) =>
+            animarContador(
+              el,
+              parseFloat(el.dataset.count),
+              1400,
+              el.dataset.suffix || "",
+            ),
           );
-        });
-        observer.unobserve(entry.target);
+        obs.unobserve(entry.target);
       });
     },
     { threshold: 0.3 },
-  );
-  observer.observe(statsBar);
+  ).observe(bar);
 }
 
-// ── Animaciones scroll (IntersectionObserver) ─────────────────
+// ── IntersectionObserver — scroll animations ─────────────────
 function initScrollAnimations() {
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
+          obs.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
   );
-  $$(".anim").forEach(function (el) {
-    observer.observe(el);
-  });
+  $$(".anim, .anim-left, .anim-right").forEach((el) => obs.observe(el));
 }
 
 // ── Carrusel testimonios ─────────────────────────────────────
 (function () {
-  var track,
+  let track,
     total,
-    current = 0;
+    current = 0,
+    autoTimer;
 
   function init() {
     track = document.querySelector(".testimonios-track");
@@ -460,34 +418,41 @@ function initScrollAnimations() {
     total = track.children.length;
     renderDots();
     update();
-    setInterval(function () {
-      mover(1);
-    }, 5500);
+    autoTimer = setInterval(() => mover(1), 5500);
+
+    // Swipe en testimonios
+    let sx = 0;
+    track.addEventListener(
+      "touchstart",
+      (e) => {
+        sx = e.touches[0].clientX;
+        clearInterval(autoTimer);
+      },
+      { passive: true },
+    );
+    track.addEventListener("touchend", (e) => {
+      const diff = sx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) mover(diff > 0 ? 1 : -1);
+      autoTimer = setInterval(() => mover(1), 5500);
+    });
   }
 
   function renderDots() {
-    var c = document.querySelector(".testimonios-dots");
+    const c = document.querySelector(".testimonios-dots");
     if (!c) return;
-    c.innerHTML = "";
-    for (var i = 0; i < total; i++) {
-      var d = document.createElement("span");
-      d.className = "dot" + (i === 0 ? " active" : "");
-      d.setAttribute("data-i", i);
-      d.onclick = (function (idx) {
-        return function () {
-          current = idx;
-          update();
-        };
-      })(i);
-      c.appendChild(d);
-    }
+    c.innerHTML = [...Array(total)]
+      .map(
+        (_, i) =>
+          `<span class="dot${i === 0 ? " active" : ""}" onclick="irATestimonio(${i})"></span>`,
+      )
+      .join("");
   }
 
   function update() {
-    if (track) track.style.transform = "translateX(-" + current * 100 + "%)";
-    $$(".testimonios-dots .dot").forEach(function (d, i) {
-      d.classList.toggle("active", i === current);
-    });
+    if (track) track.style.transform = `translateX(-${current * 100}%)`;
+    $$(".testimonios-dots .dot").forEach((d, i) =>
+      d.classList.toggle("active", i === current),
+    );
   }
 
   function mover(dir) {
@@ -495,38 +460,23 @@ function initScrollAnimations() {
     update();
   }
 
-  window.prevTestimonio = function () {
+  window.prevTestimonio = () => {
     mover(-1);
   };
-  window.nextTestimonio = function () {
+  window.nextTestimonio = () => {
     mover(1);
   };
+  window.irATestimonio = (i) => {
+    current = i;
+    update();
+  };
+
   document.addEventListener("DOMContentLoaded", init);
 })();
 
-// ── Swipe táctil en el slider ────────────────────────────────
-function initSwipe() {
-  var slider = $("productos");
-  if (!slider) return;
-  var startX = 0;
-  slider.addEventListener(
-    "touchstart",
-    function (e) {
-      startX = e.touches[0].clientX;
-    },
-    { passive: true },
-  );
-  slider.addEventListener("touchend", function (e) {
-    var diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? nextSlide() : prevSlide();
-    }
-  });
-}
-
-// ── Routing por hash ─────────────────────────────────────────
+// ── Routing y arranque ────────────────────────────────────────
 function rutearHash() {
-  var rutas = {
+  const rutas = {
     productos: mostrarProductos,
     contacto: mostrarContacto,
     proyectos: mostrarProyectos,
@@ -535,8 +485,7 @@ function rutearHash() {
   (rutas[window.location.hash.slice(1)] || mostrarInicio)();
 }
 
-// ── Inicialización ───────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   initScrollAnimations();
   initSwipe();
   initStats();
@@ -546,7 +495,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.addEventListener("hashchange", rutearHash);
 
-// Exponer al scope global para onclick inline
 Object.assign(window, {
   toggleMenu,
   mostrarInicio,
