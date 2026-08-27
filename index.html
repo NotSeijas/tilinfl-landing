@@ -24,7 +24,7 @@
     />
     <meta
       property="og:image"
-      content="https://draugustodurand.com/images/Tilin-logo-transparent.png"
+      content="https://draugustodurand.com/images/tilin.png"
     />
     <meta property="og:url" content="https://draugustodurand.com" />
     <meta property="og:type" content="website" />
@@ -38,7 +38,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://draugustodurand.com/images/Tilin-logo-transparent.png"
+      content="https://draugustodurand.com/images/tilin.png"
     />
 
     <!-- Canonical -->
@@ -57,7 +57,7 @@
         "@type": "Organization",
         "name": "Dr. Augusto Durand",
         "url": "https://draugustodurand.com",
-        "logo": "https://draugustodurand.com/images/Tilin-logo-transparent.png",
+        "logo": "https://draugustodurand.com/images/tilin.png",
         "sameAs": [
           "https://www.facebook.com/tilinflperu",
           "https://www.instagram.com/tilinflperu"
@@ -85,7 +85,7 @@
     <!-- Favicon y color de tema -->
     <link
       rel="icon"
-      href="images/Tilin-logo-transparent.png"
+      href="images/tilin-transparent.png"
       type="image/png"
     />
     <meta name="theme-color" content="#903f7d" />
@@ -105,7 +105,24 @@
     </script>
   </head>
 
-  <body>
+  <body class="is-loading">
+    <!-- Pantalla de carga -->
+    <div id="loading-screen">
+      <div class="loading-content">
+        <img
+          src="images/tilin.png"
+          alt="Tilin FL"
+          class="loading-logo"
+        />
+        <div class="loading-track">
+          <img src="images/perrito.gif" alt="" class="loading-dog" />
+        </div>
+        <p class="loading-text">
+          Cargando<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </p>
+      </div>
+    </div>
+
     <!-- Barra de anuncio -->
     <div class="announcement-bar">
       🔥 Compra en docena y ahorra hasta <strong>S/120</strong> &nbsp;·&nbsp;
@@ -137,7 +154,7 @@
     <!-- ── HEADER ─────────────────────────────────────────────── -->
     <header>
       <img
-        src="images/Tilin-logo-transparent.png"
+        src="images/tilin.png"
         alt="Tilin FL Logo"
         class="logo-img"
         onclick="mostrarInicio()"
@@ -237,6 +254,15 @@
       <div class="intro-content">
         <!-- ── HERO ─────────────────────────────────────────── -->
         <div class="hero">
+          <span class="hero-ghost-word" aria-hidden="true">CONFIANZA</span>
+
+          <div class="hero-badge-float hero-badge-float-1 anim anim-delay-2">
+            🔬 Fórmula veterinaria
+          </div>
+          <div class="hero-badge-float hero-badge-float-2 anim anim-delay-3">
+            🇵🇪 100% peruano
+          </div>
+
           <div class="hero-text anim">
             <span class="hero-badge">🐾 Protección veterinaria premium</span>
             <h1>Cuida a tu mascota<br />con <em>ciencia y confianza</em></h1>
@@ -263,15 +289,34 @@
               </a>
             </div>
           </div>
-          <div class="hero-image anim anim-delay-2" style="position: relative">
-            <div class="hero-blob"></div>
-            <div class="hero-image-glow"></div>
-            <img
-              src="images/tilin4k.jpeg"
-              alt="Tilin — pastilla antipulgas para perros"
-              class="hero-product-img"
-              loading="eager"
-            />
+
+          <div class="hero-image anim anim-delay-2">
+            <div class="hero-orb">
+              <video
+                class="hero-touch-video"
+                src="images/manopatita.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+                aria-hidden="true"
+              ></video>
+            </div>
+          </div>
+
+          <div class="hero-footnote anim anim-delay-3">
+            <div class="hero-footnote-text">
+              <span class="eyebrow">Cuidado preventivo</span>
+              <p>
+                El vínculo entre tú y tu mascota, protegido por ciencia
+                veterinaria real.
+              </p>
+            </div>
+            <div class="hero-footnote-tags">
+              <span class="tag-pill">Antipulgas</span>
+              <span class="tag-pill">Antigarrapatas</span>
+              <span class="tag-pill">Antiácaros</span>
+            </div>
           </div>
         </div>
 
@@ -633,22 +678,42 @@
 
         <!-- ── VIDEOS TIKTOK ──────────────────────────────── -->
         <div class="video-row">
-          <blockquote
-            class="tiktok-embed anim"
-            cite="https://www.tiktok.com/@tilinflperu/video/7544073761805438216"
-            data-video-id="7544073761805438216"
-            style="max-width: 325px"
-          >
-            <section></section>
-          </blockquote>
-          <blockquote
-            class="tiktok-embed anim anim-delay-1"
-            cite="https://www.tiktok.com/@drplop_oficial/photo/7507595616936070407"
-            data-video-id="7507595616936070407"
-            style="max-width: 325px"
-          >
-            <section></section>
-          </blockquote>
+          <div class="tiktok-card anim">
+            <blockquote
+              class="tiktok-embed"
+              cite="https://www.tiktok.com/@tilinflperu/video/7544073761805438216"
+              data-video-id="7544073761805438216"
+              style="max-width: 325px"
+            >
+              <section></section>
+            </blockquote>
+            <a
+              class="tiktok-fallback"
+              href="https://www.tiktok.com/@tilinflperu/video/7544073761805438216"
+              target="_blank"
+              rel="noopener"
+            >
+              <i class="fab fa-tiktok"></i> Ver en TikTok
+            </a>
+          </div>
+          <div class="tiktok-card anim anim-delay-1">
+            <blockquote
+              class="tiktok-embed"
+              cite="https://www.tiktok.com/@drplop_oficial/photo/7507595616936070407"
+              data-video-id="7507595616936070407"
+              style="max-width: 325px"
+            >
+              <section></section>
+            </blockquote>
+            <a
+              class="tiktok-fallback"
+              href="https://www.tiktok.com/@drplop_oficial/photo/7507595616936070407"
+              target="_blank"
+              rel="noopener"
+            >
+              <i class="fab fa-tiktok"></i> Ver en TikTok
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -658,6 +723,8 @@
   ══════════════════════════════════════════════════════════ -->
     <section id="productos" class="seccion">
       <div class="info">
+        <span class="product-ghost-num" id="product-ghost-num" aria-hidden="true">01</span>
+        <span class="eyebrow">Catálogo Tilin</span>
         <p class="product-counter" id="product-counter">1 de 6</p>
         <h2 id="product-title"></h2>
         <p id="product-desc"></p>
@@ -740,6 +807,7 @@
   ══════════════════════════════════════════════════════════ -->
     <section id="carrito" class="seccion">
       <div class="carrito-container">
+        <span class="eyebrow eyebrow-center">Tu pedido</span>
         <h2>Carrito</h2>
         <ul id="lista-carrito" class="lista-carrito"></ul>
         <div class="resumen">
@@ -772,13 +840,14 @@
     <section id="contacto" class="seccion">
       <div class="contacto-img anim">
         <img
-          src="images/Tilin-logo-transparent.png"
+          src="images/tilin.png"
           alt="Tilin Logo"
           style="max-width: 220px; border-radius: 0; box-shadow: none"
           loading="lazy"
         />
       </div>
       <div class="contacto-card anim anim-delay-1">
+        <span class="eyebrow">Hablemos</span>
         <p class="contacto-intro">
           ¿Te interesa nuestro producto?<br />
           <strong>Contáctanos directamente por nuestras redes:</strong>
@@ -814,12 +883,20 @@
             ><i class="fab fa-tiktok"></i> TikTok</a
           >
         </div>
-        <h3>✉️ Correo</h3>
-        <p>Corporacionplop2025@hotmail.com</p>
-        <h3>📍 Direcciones</h3>
-        <p>Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</p>
-        <p>Surco: Jiron Pablo Picasso 158</p>
-        <p>Surco: Av. Caminos del Inca 941</p>
+        <div class="info-row">
+          <span class="info-row-icon">✉️</span>
+          <div>
+            <strong>Correo</strong>
+            <p>Corporacionplop2025@hotmail.com</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-row-icon">📍</span>
+          <div>
+            <strong>Dirección</strong>
+            <p>Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</p>
+          </div>
+        </div>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
           loading="lazy"
@@ -834,6 +911,7 @@
   ══════════════════════════════════════════════════════════ -->
     <section id="proyectos" class="seccion">
       <div class="proyectos-container">
+        <span class="eyebrow eyebrow-center anim">En desarrollo</span>
         <h2 class="anim">
           <span class="section-title-gradient"
             >Nuevos Proyectos en Desarrollo</span

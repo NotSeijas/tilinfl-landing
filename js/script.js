@@ -172,6 +172,9 @@ function actualizarProducto() {
   if (counter)
     counter.textContent = `${currentIndex + 1} de ${productos.length}`;
 
+  const ghostNum = $("product-ghost-num");
+  if (ghostNum) ghostNum.textContent = String(currentIndex + 1).padStart(2, "0");
+
   img.classList.add("product-slide-out");
   setTimeout(() => {
     $("product-title").textContent = producto.nombre;
@@ -497,11 +500,30 @@ function rutearHash() {
   (rutas[window.location.hash.slice(1)] || mostrarInicio)();
 }
 
+// ── Pantalla de carga ─────────────────────────────────────────
+function initLoadingScreen() {
+  const screen = $("loading-screen");
+  if (!screen) return;
+  const MIN_TIME = 1000;
+  const start = Date.now();
+  const finish = () => {
+    const wait = Math.max(MIN_TIME - (Date.now() - start), 0);
+    setTimeout(() => {
+      screen.classList.add("loaded");
+      document.body.classList.remove("is-loading");
+      setTimeout(() => screen.remove(), 650);
+    }, wait);
+  };
+  if (document.readyState === "complete") finish();
+  else window.addEventListener("load", finish);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initScrollAnimations();
   initSwipe();
   initStats();
   initAnnouncementBar();
+  initLoadingScreen();
   rutearHash();
 });
 
