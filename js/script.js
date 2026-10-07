@@ -245,7 +245,6 @@ function pedirNumero() {
   void box.offsetWidth;
   box.classList.add("shake");
   $("wa-legend").textContent = "Elige un número para continuar";
-  mostrarToast("Elige un número de ventas");
 }
 
 function renderNumeros() {
@@ -284,6 +283,7 @@ function mostrarToast(msg) {
 
 // ── Panel del carrito ────────────────────────────────────────
 function abrirCarrito() {
+  $("toast").classList.remove("show");
   renderCarrito();
   $("drawer").classList.add("open");
   $("drawer").setAttribute("aria-hidden", "false");
