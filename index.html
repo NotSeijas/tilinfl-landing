@@ -65,30 +65,25 @@
       }
     </script>
 
-    <!-- Preconnect para fuentes -->
+    <!-- Fuentes y estilos -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Fuentes y estilos externos -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-
-    <!-- Estilos propios -->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Favicon y color de tema -->
-    <link
-      rel="icon"
-      href="images/tilin-transparent.png"
-      type="image/png"
-    />
-    <meta name="theme-color" content="#903f7d" />
+    <link rel="icon" href="images/tilin.png" type="image/png" />
+    <meta name="theme-color" content="#1c0a18" />
+
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
 
     <!-- Google Ads -->
     <script
@@ -107,578 +102,518 @@
 
   <body class="is-loading">
     <!-- Pantalla de carga -->
-    <div id="loading-screen">
-      <div class="loading-content">
-        <img
-          src="images/tilin.png"
-          alt="Tilin FL"
-          class="loading-logo"
-        />
-        <div class="loading-track">
-          <img src="images/perrito.gif" alt="" class="loading-dog" />
-        </div>
-        <p class="loading-text">
-          Cargando<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
-        </p>
-      </div>
+    <div id="loading-screen" aria-hidden="true">
+      <img src="images/tilin.png" alt="" class="loading-logo" />
+      <div class="loading-line"><span></span></div>
     </div>
 
-    <!-- Barra de anuncio -->
-    <div class="announcement-bar">
-      🔥 Compra en docena y ahorra hasta <strong>S/120</strong> &nbsp;·&nbsp;
-      <a onclick="mostrarProductos()" href="#productos">Ver oferta →</a>
-      <button
-        class="announcement-close"
-        onclick="cerrarAnuncio()"
-        aria-label="Cerrar"
-      >
-        ✕
-      </button>
-    </div>
+    <!-- ── HEADER (anuncio + navegación) ───────────────────────── -->
+    <header class="site-header" id="site-header">
+      <div class="announce" id="announce">
+        <p>
+          Compra en docena y ahorra hasta <strong>S/120</strong>
+          <a href="#productos">Ver oferta →</a>
+        </p>
+        <button id="announce-close" aria-label="Cerrar anuncio">✕</button>
+      </div>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#inicio" class="nav-logo" aria-label="Tilin FL — inicio">
+          <img src="images/tilin.png" alt="Tilin FL" />
+        </a>
+
+        <div class="nav-links" id="nav-links">
+          <a href="#inicio" data-nav="inicio">Inicio</a>
+          <a href="#proteccion" data-nav="proteccion">Protección</a>
+          <a href="#doctor" data-nav="doctor">El doctor</a>
+          <a href="#productos" data-nav="productos">Productos</a>
+          <a href="#opiniones" data-nav="opiniones">Opiniones</a>
+          <a href="#contacto" data-nav="contacto">Contacto</a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="nav-cart" id="open-cart" aria-label="Abrir carrito">
+            Carrito <span class="cart-count" aria-live="polite">0</span>
+          </button>
+          <button
+            class="nav-burger"
+            id="burger"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+            aria-controls="nav-links"
+          >
+            <span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
 
     <!-- Botón flotante WhatsApp -->
     <a
-      class="whatsapp-fab"
+      class="wa-fab"
       href="https://wa.me/51969780198"
       target="_blank"
       rel="noopener"
       aria-label="Contactar por WhatsApp"
     >
       <i class="fab fa-whatsapp"></i>
-      <span class="whatsapp-fab-tooltip">¡Escríbenos!</span>
     </a>
 
-    <!-- Partículas CSS (sin librería externa) -->
-    <div id="particles-css" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
 
-    <!-- ── HEADER ─────────────────────────────────────────────── -->
-    <header>
-      <img
-        src="images/tilin.png"
-        alt="Tilin FL Logo"
-        class="logo-img"
-        onclick="mostrarInicio()"
-      />
-
-      <!-- Hamburguesa (móvil) -->
-      <button
-        class="menu-toggle"
-        onclick="toggleMenu()"
-        aria-label="Abrir menú"
-        aria-controls="mobileMenu"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <!-- Nav desktop -->
-      <nav class="desktop" aria-label="Navegación principal">
-        <a href="#inicio" onclick="mostrarInicio()">Inicio</a>
-        <a href="#productos" onclick="mostrarProductos()">Productos</a>
-        <a href="#contacto" onclick="mostrarContacto()">Contacto</a>
-        <a href="#proyectos" onclick="mostrarProyectos()">Proyectos</a>
-        <a
-          href="#carrito"
-          onclick="mostrarCarritoManual()"
-          id="cart-icon"
-          aria-label="Carrito"
-        >
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-count" aria-live="polite">0</span>
-        </a>
-      </nav>
-
-      <!-- Nav móvil -->
-      <nav
-        class="responsive"
-        id="mobileMenu"
-        aria-label="Menú móvil"
-        aria-expanded="false"
-      >
-        <a
-          href="#inicio"
-          onclick="
-            mostrarInicio();
-            toggleMenu();
-          "
-          >Inicio</a
-        >
-        <a
-          href="#productos"
-          onclick="
-            mostrarProductos();
-            toggleMenu();
-          "
-          >Productos</a
-        >
-        <a
-          href="#contacto"
-          onclick="
-            mostrarContacto();
-            toggleMenu();
-          "
-          >Contacto</a
-        >
-        <a
-          href="#proyectos"
-          onclick="
-            mostrarProyectos();
-            toggleMenu();
-          "
-          >Proyectos</a
-        >
-        <div class="cart-mobile-wrapper">
-          <a
-            href="#carrito"
-            onclick="
-              mostrarCarritoManual();
-              toggleMenu();
-            "
-            aria-label="Carrito"
-          >
-            <i class="fas fa-shopping-cart"></i>
-          </a>
-          <span class="cart-count cart-badge" aria-live="polite">0</span>
+    <main>
+      <!-- ══════════════════════════════════════════════════════
+           01 · HERO
+      ══════════════════════════════════════════════════════ -->
+      <section id="inicio" class="hero theme-dark">
+        <div class="hero-media">
+          <img
+            src="images/tilin4k.jpeg"
+            alt="Cajas de Tilin FL, pastilla masticable antipulgas para perros"
+            fetchpriority="high"
+          />
         </div>
-      </nav>
-    </header>
+        <div class="hero-shade"></div>
 
-    <!-- Toast de notificación -->
-    <div id="toast" role="status" onclick="mostrarCarritoManual()"></div>
-
-    <!-- ══════════════════════════════════════════════════════════
-       SECCIÓN: INICIO
-  ══════════════════════════════════════════════════════════ -->
-    <section id="inicio" class="seccion">
-      <div class="intro-content">
-        <!-- ── HERO ─────────────────────────────────────────── -->
-        <div class="hero">
-          <span class="hero-ghost-word" aria-hidden="true">CONFIANZA</span>
-
-          <div class="hero-badge-float hero-badge-float-1 anim anim-delay-2">
-            🔬 Fórmula veterinaria
-          </div>
-          <div class="hero-badge-float hero-badge-float-2 anim anim-delay-3">
-            🇵🇪 100% peruano
-          </div>
-
-          <div class="hero-text anim">
-            <span class="hero-badge">🐾 Protección veterinaria premium</span>
-            <h1>Cuida a tu mascota<br />con <em>ciencia y confianza</em></h1>
-            <p class="hero-tagline">
-              Tilin es la pastilla masticable antipulgas, antigarrapatas y
-              ácaros que protege a tu perro por
-              <strong>3 meses continuos</strong>. Sin inyecciones. Sin estrés.
-              Formulada por el Dr. Plop.
-            </p>
-            <div class="hero-ctas">
-              <a
-                href="#productos"
-                onclick="mostrarProductos()"
-                class="btn-hero-primary"
-              >
-                <i class="fas fa-shopping-cart"></i> Comprar ahora
-              </a>
-              <a
-                href="#contacto"
-                onclick="mostrarContacto()"
-                class="btn-hero-secondary"
-              >
-                <i class="fab fa-whatsapp"></i> Consultar
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-image anim anim-delay-2">
-            <div class="hero-orb">
-              <video
-                class="hero-touch-video"
-                src="images/manopatita.mp4"
-                autoplay
-                loop
-                muted
-                playsinline
-                aria-hidden="true"
-              ></video>
-            </div>
-          </div>
-
-          <div class="hero-footnote anim anim-delay-3">
-            <div class="hero-footnote-text">
-              <span class="eyebrow">Cuidado preventivo</span>
-              <p>
-                El vínculo entre tú y tu mascota, protegido por ciencia
-                veterinaria real.
-              </p>
-            </div>
-            <div class="hero-footnote-tags">
-              <span class="tag-pill">Antipulgas</span>
-              <span class="tag-pill">Antigarrapatas</span>
-              <span class="tag-pill">Antiácaros</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── STATS BAR ──────────────────────────────────── -->
-        <div class="stats-bar anim">
-          <div class="stat-item">
-            <span class="stat-number" data-count="25" data-suffix="+">0+</span>
-            <span class="stat-label">Años de experiencia</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="6" data-suffix="">0</span>
-            <span class="stat-label">Productos en catálogo</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="3" data-suffix=" meses"
-              >0 meses</span
-            >
-            <span class="stat-label">Protección continua</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="100" data-suffix="%">0%</span>
-            <span class="stat-label"
-              >Fórmulada con Fluralaner y Silimarina</span
-            >
-          </div>
-        </div>
-
-        <!-- ── BENEFICIOS ─────────────────────────────────── -->
-        <div class="beneficios-section">
-          <h2 class="anim">¿Por qué elegir Tilin?</h2>
-          <p class="section-subtitle anim anim-delay-1">
-            Ventajas que lo hacen único en el mercado
+        <div class="hero-inner">
+          <p class="eyebrow" data-reveal>Protección veterinaria premium</p>
+          <h1 class="display" data-split>
+            Cuida a tu mascota con <em>ciencia y confianza</em>
+          </h1>
+          <p class="lead hero-lead" data-reveal style="--d: 0.35s">
+            Tilin es la pastilla masticable antipulgas, antigarrapatas y ácaros
+            que protege a tu perro por <strong>3 meses continuos</strong>. Sin
+            inyecciones. Sin estrés.
           </p>
-          <div class="beneficios-grid">
-            <div class="beneficio-card anim">
-              <span class="beneficio-icon">💊</span>
-              <h4>Pastilla masticable</h4>
-              <p>
-                Sin pipetas ni sprays. Fácil de dar, igual que una golosina.
-              </p>
-            </div>
-            <div class="beneficio-card anim anim-delay-1">
-              <span class="beneficio-icon">🛡️</span>
-              <h4>3 meses de protección</h4>
-              <p>
-                Una sola dosis protege contra pulgas, garrapatas y ácaros por 90
-                días.
-              </p>
-            </div>
-            <div class="beneficio-card anim anim-delay-2">
-              <span class="beneficio-icon">🔬</span>
-              <h4>Respaldo científico</h4>
-              <p>
-                Formulada por el Dr. Augusto Durand con más de 25 años en salud
-                animal.
-              </p>
-            </div>
-            <div class="beneficio-card anim">
-              <span class="beneficio-icon">🐕</span>
-              <h4>Para todos los tamaños</h4>
-              <p>
-                Disponible para perros de 4.5 a 40 kg. Dosis exacta según el
-                peso.
-              </p>
-            </div>
-            <div class="beneficio-card anim anim-delay-1">
-              <span class="beneficio-icon">⚡</span>
-              <h4>Acción desde adentro</h4>
-              <p>
-                Actúa sistémicamente: el parásito muere al entrar en contacto
-                con la piel.
-              </p>
-            </div>
-            <div class="beneficio-card anim anim-delay-2">
-              <span class="beneficio-icon">🇵🇪</span>
-              <h4>Hecho en Perú</h4>
-              <p>Marca 100% peruana con distribución directa al consumidor.</p>
-            </div>
+          <div class="hero-ctas" data-reveal style="--d: 0.5s">
+            <a href="#productos" class="btn btn-fill">Comprar ahora →</a>
+            <a href="#contacto" class="btn btn-ghost">Consultar</a>
           </div>
         </div>
 
-        <hr class="section-divider" />
+        <aside class="hero-card" data-reveal style="--d: 0.7s">
+          <h2>Formulada por el Dr. Plop, con más de 25 años en salud animal.</h2>
+          <hr class="dash" />
+          <p>
+            Fluralaner y silimarina en una sola pastilla: actúa desde adentro y
+            cuida el hígado de tu perro.
+          </p>
+        </aside>
 
-        <!-- ── BIO DEL DOCTOR ─────────────────────────────── -->
-        <div class="bio-section-v2 anim">
-          <div class="bio-foto-wrap anim-left">
+        <button
+          class="hero-video"
+          id="open-video"
+          data-reveal
+          style="--d: 0.85s"
+          aria-label="Ver video"
+        >
+          <img src="images/tilin.png" alt="" />
+          <span class="play"><i class="fas fa-play"></i></span>
+          <span class="hero-video-label">Ver video</span>
+        </button>
+
+        <span class="side-label" aria-hidden="true">
+          Tilin FL · 3 meses de protección
+        </span>
+        <span class="scroll-cue" aria-hidden="true"><i></i>Desliza</span>
+      </section>
+
+      <!-- Cinta -->
+      <div class="marquee theme-plum" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Antipulgas</span><i>✦</i><span>Antigarrapatas</span><i>✦</i
+          ><span>Antiácaros</span><i>✦</i><span>3 meses de protección</span
+          ><i>✦</i><span>Hecho en Perú</span><i>✦</i><span>Antipulgas</span
+          ><i>✦</i><span>Antigarrapatas</span><i>✦</i><span>Antiácaros</span
+          ><i>✦</i><span>3 meses de protección</span><i>✦</i
+          ><span>Hecho en Perú</span><i>✦</i>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           02 · PROTECCIÓN (escena fijada por scroll)
+      ══════════════════════════════════════════════════════ -->
+      <section id="proteccion" class="pin theme-dark" data-pin>
+        <div class="pin-sticky">
+          <div class="pin-left">
+            <p class="eyebrow" data-reveal>Una pastilla</p>
+            <h2 class="h2" data-split>Para cada tamaño. Tres meses.</h2>
+            <div class="pin-count" aria-hidden="true">
+              <span id="pin-num">01</span> / 03
+            </div>
+          </div>
+
+          <div class="pin-stage" aria-live="polite">
             <img
-              src="images/imgDocPix.png"
-              alt="Dr. Augusto Durand — Dr. Plop"
+              class="active"
+              src="images/Perros-4.5-10kg.jpg"
+              alt="Tilin FL para perros de 4.5 a 10 kg"
+              style="object-position: 50% 78%"
               loading="lazy"
             />
-            <span class="bio-foto-badge">Dr. Plop</span>
+            <img
+              src="images/Perros-10-20kg.jpg"
+              alt="Tilin FL para perros de 10 a 20 kg"
+              style="object-position: 50% 78%"
+              loading="lazy"
+            />
+            <img
+              src="images/Perros-20-40kg.jpg"
+              alt="Tilin FL para perros de 20 a 40 kg"
+              style="object-position: 50% 78%"
+              loading="lazy"
+            />
+            <div class="pin-kg" id="pin-kg">4.5 — 10 kg</div>
           </div>
-          <div class="bio-contenido anim-right">
-            <h3>El Dr. Augusto Durand</h3>
-            <p>
-              Profesional peruano con más de
-              <strong>25 años de experiencia</strong> en el mundo empresarial,
-              especializado en el desarrollo de productos para la salud animal y
-              el control de plagas.
+
+          <div class="pin-right">
+            <p class="lead">
+              Pastilla masticable antipulgas, antigarrapatas y ácaros. Una sola
+              dosis protege a tu perro durante 90 días, según su peso.
             </p>
-            <p>
-              Creador de toda la <strong>marca Plop</strong>: Plop Forte, Tilin
-              Antipulgas, Xtrim, Shampoo Pillin, Curabicheras,
-              <strong>MATAX</strong> y muchos más.
-            </p>
-            <p>
-              Su compromiso con la innovación y la ciencia lo llevó a
-              desarrollar
-              <strong style="color: var(--color-primary)">Tilin</strong>, la
-              solución antiparasitaria más práctica y duradera del mercado
-              peruano.
-            </p>
-            <div class="bio-tags">
-              <span class="bio-tag">🏥 Salud Animal</span>
-              <span class="bio-tag">🐛 Control de Plagas</span>
-              <span class="bio-tag">🧪 I+D Veterinario</span>
-              <span class="bio-tag">🇵🇪 25+ años</span>
-            </div>
+            <ol class="pin-steps">
+              <li>
+                <button data-step="0" class="active">
+                  <span>01</span> 4.5 a 10 kg <em>Razas pequeñas</em>
+                </button>
+              </li>
+              <li>
+                <button data-step="1">
+                  <span>02</span> 10 a 20 kg <em>Razas medianas</em>
+                </button>
+              </li>
+              <li>
+                <button data-step="2">
+                  <span>03</span> 20 a 40 kg <em>Razas grandes</em>
+                </button>
+              </li>
+            </ol>
+            <a href="#productos" class="btn btn-ghost">Ver presentaciones →</a>
           </div>
+          <div class="pin-bar" aria-hidden="true"><i id="pin-bar"></i></div>
         </div>
+      </section>
 
-        <hr class="section-divider" />
+      <!-- ══════════════════════════════════════════════════════
+           03 · NÚMEROS
+      ══════════════════════════════════════════════════════ -->
+      <section class="stats theme-light" aria-label="Tilin en cifras">
+        <div class="stat" data-reveal>
+          <span class="stat-n" data-count="25" data-suffix="+">25+</span>
+          <span class="stat-l">Años de experiencia</span>
+        </div>
+        <div class="stat" data-reveal style="--d: 0.1s">
+          <span class="stat-n" data-count="6" data-suffix="">6</span>
+          <span class="stat-l">Productos en catálogo</span>
+        </div>
+        <div class="stat" data-reveal style="--d: 0.2s">
+          <span class="stat-n" data-count="3" data-suffix=" meses">3 meses</span>
+          <span class="stat-l">Protección continua</span>
+        </div>
+        <div class="stat" data-reveal style="--d: 0.3s">
+          <span class="stat-n" data-count="100" data-suffix="%">100%</span>
+          <span class="stat-l">Formulado con fluralaner y silimarina</span>
+        </div>
+      </section>
 
-        <!-- ── TESTIMONIOS ─────────────────────────────────── -->
-        <div class="testimonios-section">
-          <h2 class="anim">
-            <span class="section-title-gradient"
-              >Lo que dicen nuestros clientes</span
-            >
-          </h2>
-          <p class="section-subtitle anim anim-delay-1">
-            Familias que ya protegen a sus mascotas con Tilin
+      <!-- ══════════════════════════════════════════════════════
+           04 · BENEFICIOS
+      ══════════════════════════════════════════════════════ -->
+      <section id="beneficios" class="benefits theme-light">
+        <div class="benefits-head">
+          <p class="eyebrow" data-reveal>Ventajas</p>
+          <h2 class="h2" data-split>¿Por qué elegir Tilin?</h2>
+          <p class="lead" data-reveal style="--d: 0.2s">
+            Ventajas que lo hacen único en el mercado.
           </p>
-          <div class="testimonios-carousel anim anim-delay-2">
-            <div class="testimonios-track">
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Increíble. Mi perro tenía muchas pulgas y en menos de una
-                  semana desaparecieron por completo. Llevo 2 meses y no ha
-                  vuelto ninguna. Totalmente recomendado."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐶</div>
-                  <div class="testimonio-info">
-                    <strong>María R.</strong><span>Lima · Beagle 12 kg</span>
-                  </div>
-                </div>
-              </div>
+        </div>
+        <ul class="benefits-list">
+          <li data-reveal>
+            <span class="b-num">01</span>
+            <h3>Pastilla masticable</h3>
+            <p>Sin pipetas ni sprays. Fácil de dar, igual que una golosina.</p>
+            <span class="b-ico" aria-hidden="true">💊</span>
+          </li>
+          <li data-reveal>
+            <span class="b-num">02</span>
+            <h3>3 meses de protección</h3>
+            <p>
+              Una sola dosis protege contra pulgas, garrapatas y ácaros por 90
+              días.
+            </p>
+            <span class="b-ico" aria-hidden="true">🛡️</span>
+          </li>
+          <li data-reveal>
+            <span class="b-num">03</span>
+            <h3>Respaldo científico</h3>
+            <p>
+              Formulada por el Dr. Augusto Durand con más de 25 años en salud
+              animal.
+            </p>
+            <span class="b-ico" aria-hidden="true">🔬</span>
+          </li>
+          <li data-reveal>
+            <span class="b-num">04</span>
+            <h3>Para todos los tamaños</h3>
+            <p>
+              Disponible para perros de 4.5 a 40 kg. Dosis exacta según el
+              peso.
+            </p>
+            <span class="b-ico" aria-hidden="true">🐕</span>
+          </li>
+          <li data-reveal>
+            <span class="b-num">05</span>
+            <h3>Acción desde adentro</h3>
+            <p>
+              Actúa sistémicamente: el parásito muere al entrar en contacto con
+              la piel.
+            </p>
+            <span class="b-ico" aria-hidden="true">⚡</span>
+          </li>
+          <li data-reveal>
+            <span class="b-num">06</span>
+            <h3>Hecho en Perú</h3>
+            <p>Marca 100% peruana con distribución directa al consumidor.</p>
+            <span class="b-ico" aria-hidden="true">🇵🇪</span>
+          </li>
+        </ul>
+      </section>
 
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Es una pastilla que mi perro se come sin problema mezclada
-                  con la comida. Antes con las pipetas era un drama. Muy
-                  práctico y efectivo."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐕</div>
-                  <div class="testimonio-info">
-                    <strong>Carlos M.</strong
-                    ><span>San Isidro · Labrador 28 kg</span>
-                  </div>
-                </div>
-              </div>
+      <!-- ══════════════════════════════════════════════════════
+           05 · EL DOCTOR
+      ══════════════════════════════════════════════════════ -->
+      <section id="doctor" class="doctor theme-dark">
+        <div class="doctor-photo" data-reveal>
+          <span class="doctor-ghost" aria-hidden="true">Dr. Plop</span>
+          <img
+            src="images/imgDocPix.png"
+            alt="Dr. Augusto Durand — Dr. Plop"
+            loading="lazy"
+          />
+        </div>
+        <div class="doctor-copy">
+          <p class="eyebrow" data-reveal>El creador</p>
+          <h2 class="h2" data-split>El Dr. Augusto Durand</h2>
+          <p class="lead" data-reveal>
+            Profesional peruano con más de
+            <strong>25 años de experiencia</strong> en el mundo empresarial,
+            especializado en el desarrollo de productos para la salud animal y
+            el control de plagas.
+          </p>
+          <hr class="dash" />
+          <p class="body" data-reveal>
+            Creador de toda la <strong>marca Plop</strong>: Plop Forte, Tilin
+            Antipulgas, Xtrim, Shampoo Pillin, Curabicheras,
+            <strong>MATAX</strong> y muchos más. Su compromiso con la
+            innovación y la ciencia lo llevó a desarrollar
+            <strong>Tilin</strong>, la solución antiparasitaria más práctica y
+            duradera del mercado peruano.
+          </p>
+          <ul class="tags" data-reveal>
+            <li>Salud animal</li>
+            <li>Control de plagas</li>
+            <li>I+D veterinario</li>
+            <li>25+ años</li>
+          </ul>
+        </div>
+      </section>
 
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Compré el PACK 360 y es excelente. Protección completa
-                  interna y externa. El Dr. Durand sabe lo que hace, se nota la
-                  diferencia con otros productos del mercado."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐩</div>
-                  <div class="testimonio-info">
-                    <strong>Luisa V.</strong
-                    ><span>Miraflores · Caniche 7 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Tengo 3 perros de distintos tamaños y compro las 3 versiones.
-                  Calidad constante, mis mascotas están sin pulgas hace meses.
-                  Super recomendado para hogares con varios perros."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐾</div>
-                  <div class="testimonio-info">
-                    <strong>Ana P.</strong
-                    ><span>Surco · 3 perros, distintos tamaños</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Mi golden retriever es grande y siempre le llegaban
-                  garrapatas del parque. Con Tilin 20-40kg desaparecieron por
-                  completo. Ya compré la docena para tener stock."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🦮</div>
-                  <div class="testimonio-info">
-                    <strong>Jorge L.</strong
-                    ><span>La Molina · Golden Retriever 35 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Usé el MATAX para cucarachas en mi cocina. En 48 horas no
-                  quedó ninguna. Llevaba semanas con el problema y otros
-                  productos no funcionaban. Este sí."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🏠</div>
-                  <div class="testimonio-info">
-                    <strong>Patricia G.</strong
-                    ><span>Los Olivos · MATAX Cucarachas</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Compro en media docena para ahorrar. El precio por unidad
-                  baja bastante y la calidad es la misma. Mi perrita de 8 kg
-                  lleva 6 meses sin ni una pulga."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐕‍🦺</div>
-                  <div class="testimonio-info">
-                    <strong>Rosario C.</strong
-                    ><span>Jesús María · Schnauzer 8 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "El Dr. Plop me recomendó personalmente el PACK 360 para mi
-                  perro que tenía parásitos internos y externos. Resultado
-                  excelente. Muy buen servicio y atención por WhatsApp."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">👨‍⚕️</div>
-                  <div class="testimonio-info">
-                    <strong>Eduardo R.</strong><span>Surco · Husky 27 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "El MATAX para hormigas funcionó perfecto en mi jardín.
-                  Apliqué en las esquinas y en 3 días desaparecieron las
-                  colonias. Llevo un mes sin ver ni una. 100% efectivo."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🌿</div>
-                  <div class="testimonio-info">
-                    <strong>Carmen H.</strong
-                    ><span>Pueblo Libre · MATAX Hormigas</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Mi veterinaria me recomendó Tilin. Quedé impresionada con los
-                  resultados. Mi perro saltaba de alegría y ya no se rasca.
-                  Definitivamente no vuelvo a las pipetas."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">💊</div>
-                  <div class="testimonio-info">
-                    <strong>Valeria M.</strong
-                    ><span>Barranco · Cocker 11 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Excelente relación precio-calidad. Compré la docena para mi
-                  negocio de peluquería canina y mis clientes están muy
-                  contentos. Los perros llegan y salen protegidos."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">✂️</div>
-                  <div class="testimonio-info">
-                    <strong>Milagros T.</strong
-                    ><span>San Borja · Peluquería canina</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Tenía miedo de darle una pastilla a mi perro por primera vez
-                  pero se la comió solita. Sin drama, sin estrés. Y lo mejor: 3
-                  meses de protección total. No lo cambio por nada."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">❤️</div>
-                  <div class="testimonio-info">
-                    <strong>Daniela F.</strong
-                    ><span>Miraflores · Poodle 6 kg</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="testimonio-card">
-                <div class="testimonio-estrellas">★★★★★</div>
-                <p class="testimonio-texto">
-                  "Compré para mis dos bulldogs. El de 22 kg y el de 31 kg. Los
-                  dos perfectos, sin pulgas ni garrapatas. La entrega fue rápida
-                  y el producto llegó bien embalado. Volveré a comprar."
-                </p>
-                <div class="testimonio-autor">
-                  <div class="testimonio-avatar">🐾</div>
-                  <div class="testimonio-info">
-                    <strong>Roberto S.</strong
-                    ><span>San Miguel · 2 Bulldogs</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <!-- ══════════════════════════════════════════════════════
+           06 · CATÁLOGO
+      ══════════════════════════════════════════════════════ -->
+      <section id="productos" class="catalog theme-light">
+        <div class="catalog-head">
+          <div>
+            <p class="eyebrow" data-reveal>Catálogo Tilin</p>
+            <h2 class="h2" data-split>Elige la presentación de tu mascota</h2>
           </div>
-          <div class="testimonios-nav">
-            <button onclick="prevTestimonio()" aria-label="Testimonio anterior">
-              &#8249;
-            </button>
-            <div class="testimonios-dots"></div>
-            <button
-              onclick="nextTestimonio()"
-              aria-label="Testimonio siguiente"
-            >
-              &#8250;
-            </button>
+          <div class="filters" role="group" aria-label="Filtrar productos">
+            <button class="chip active" data-filter="todos">Todos</button>
+            <button class="chip" data-filter="perros">Perros</button>
+            <button class="chip" data-filter="hogar">Hogar</button>
+          </div>
+        </div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+        <p class="catalog-note">
+          Envío a coordinar por WhatsApp. Precios en soles (S/).
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════
+           07 · OPINIONES
+      ══════════════════════════════════════════════════════ -->
+      <section id="opiniones" class="reviews theme-dark">
+        <div class="reviews-head">
+          <div>
+            <p class="eyebrow" data-reveal>Opiniones</p>
+            <h2 class="h2" data-split>Lo que dicen nuestros clientes</h2>
+            <p class="lead" data-reveal>
+              Familias que ya protegen a sus mascotas con Tilin.
+            </p>
+          </div>
+          <div class="reviews-nav">
+            <span class="reviews-count" id="reviews-count">01 / 13</span>
+            <button id="rev-prev" aria-label="Opinión anterior">←</button>
+            <button id="rev-next" aria-label="Opinión siguiente">→</button>
           </div>
         </div>
 
-        <hr class="section-divider" />
+        <div class="reviews-track" id="reviews-track" tabindex="0">
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Increíble. Mi perro tenía muchas pulgas y en menos de una semana
+              desaparecieron por completo. Llevo 2 meses y no ha vuelto
+              ninguna. Totalmente recomendado."
+            </p>
+            <footer><span>🐶</span><b>María R.</b>Lima · Beagle 12 kg</footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Es una pastilla que mi perro se come sin problema mezclada con
+              la comida. Antes con las pipetas era un drama. Muy práctico y
+              efectivo."
+            </p>
+            <footer>
+              <span>🐕</span><b>Carlos M.</b>San Isidro · Labrador 28 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Compré el PACK 360 y es excelente. Protección completa interna
+              y externa. El Dr. Durand sabe lo que hace, se nota la diferencia
+              con otros productos del mercado."
+            </p>
+            <footer>
+              <span>🐩</span><b>Luisa V.</b>Miraflores · Caniche 7 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Tengo 3 perros de distintos tamaños y compro las 3 versiones.
+              Calidad constante, mis mascotas están sin pulgas hace meses.
+              Super recomendado para hogares con varios perros."
+            </p>
+            <footer>
+              <span>🐾</span><b>Ana P.</b>Surco · 3 perros, distintos tamaños
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Mi golden retriever es grande y siempre le llegaban garrapatas
+              del parque. Con Tilin 20-40kg desaparecieron por completo. Ya
+              compré la docena para tener stock."
+            </p>
+            <footer>
+              <span>🦮</span><b>Jorge L.</b>La Molina · Golden Retriever 35 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Usé el MATAX para cucarachas en mi cocina. En 48 horas no quedó
+              ninguna. Llevaba semanas con el problema y otros productos no
+              funcionaban. Este sí."
+            </p>
+            <footer>
+              <span>🏠</span><b>Patricia G.</b>Los Olivos · MATAX Cucarachas
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Compro en media docena para ahorrar. El precio por unidad baja
+              bastante y la calidad es la misma. Mi perrita de 8 kg lleva 6
+              meses sin ni una pulga."
+            </p>
+            <footer>
+              <span>🐕‍🦺</span><b>Rosario C.</b>Jesús María · Schnauzer 8 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "El Dr. Plop me recomendó personalmente el PACK 360 para mi
+              perro que tenía parásitos internos y externos. Resultado
+              excelente. Muy buen servicio y atención por WhatsApp."
+            </p>
+            <footer>
+              <span>👨‍⚕️</span><b>Eduardo R.</b>Surco · Husky 27 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "El MATAX para hormigas funcionó perfecto en mi jardín. Apliqué
+              en las esquinas y en 3 días desaparecieron las colonias. Llevo un
+              mes sin ver ni una. 100% efectivo."
+            </p>
+            <footer>
+              <span>🌿</span><b>Carmen H.</b>Pueblo Libre · MATAX Hormigas
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Mi veterinaria me recomendó Tilin. Quedé impresionada con los
+              resultados. Mi perro saltaba de alegría y ya no se rasca.
+              Definitivamente no vuelvo a las pipetas."
+            </p>
+            <footer>
+              <span>💊</span><b>Valeria M.</b>Barranco · Cocker 11 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Excelente relación precio-calidad. Compré la docena para mi
+              negocio de peluquería canina y mis clientes están muy contentos.
+              Los perros llegan y salen protegidos."
+            </p>
+            <footer>
+              <span>✂️</span><b>Milagros T.</b>San Borja · Peluquería canina
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Tenía miedo de darle una pastilla a mi perro por primera vez
+              pero se la comió solita. Sin drama, sin estrés. Y lo mejor: 3
+              meses de protección total. No lo cambio por nada."
+            </p>
+            <footer>
+              <span>❤️</span><b>Daniela F.</b>Miraflores · Poodle 6 kg
+            </footer>
+          </article>
+          <article class="review">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>
+              "Compré para mis dos bulldogs. El de 22 kg y el de 31 kg. Los dos
+              perfectos, sin pulgas ni garrapatas. La entrega fue rápida y el
+              producto llegó bien embalado. Volveré a comprar."
+            </p>
+            <footer>
+              <span>🐾</span><b>Roberto S.</b>San Miguel · 2 Bulldogs
+            </footer>
+          </article>
+        </div>
+        <div class="reviews-progress" aria-hidden="true"><i id="rev-bar"></i></div>
+      </section>
 
-        <!-- ── VIDEOS TIKTOK ──────────────────────────────── -->
+      <!-- ══════════════════════════════════════════════════════
+           08 · TIKTOK
+      ══════════════════════════════════════════════════════ -->
+      <section class="videos theme-light" id="videos">
+        <div class="videos-head">
+          <p class="eyebrow" data-reveal>En redes</p>
+          <h2 class="h2" data-split>Míralo en acción</h2>
+        </div>
         <div class="video-row">
-          <div class="tiktok-card anim">
+          <div class="tiktok-card" data-reveal>
             <blockquote
               class="tiktok-embed"
               cite="https://www.tiktok.com/@tilinflperu/video/7544073761805438216"
@@ -696,7 +631,7 @@
               <i class="fab fa-tiktok"></i> Ver en TikTok
             </a>
           </div>
-          <div class="tiktok-card anim anim-delay-1">
+          <div class="tiktok-card" data-reveal style="--d: 0.15s">
             <blockquote
               class="tiktok-embed"
               cite="https://www.tiktok.com/@drplop_oficial/photo/7507595616936070407"
@@ -715,255 +650,122 @@
             </a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ══════════════════════════════════════════════════════════
-       SECCIÓN: PRODUCTOS
-  ══════════════════════════════════════════════════════════ -->
-    <section id="productos" class="seccion">
-      <div class="info">
-        <span class="product-ghost-num" id="product-ghost-num" aria-hidden="true">01</span>
-        <span class="eyebrow">Catálogo Tilin</span>
-        <p class="product-counter" id="product-counter">1 de 6</p>
-        <h2 id="product-title"></h2>
-        <p id="product-desc"></p>
-        <select id="product-options" aria-label="Opciones de producto"></select>
-        <button id="product-btn" onclick="agregarAlCarrito()">
-          <i class="fas fa-cart-plus" style="margin-right: 6px"></i>Agregar al
-          carrito
-        </button>
-        <!-- Thumbnails de navegación rápida -->
-        <div class="product-thumbnails">
-          <img
-            class="product-thumb active"
-            src="images/Perros-4.5-10kg.jpg"
-            alt="Tilin 4.5-10kg"
-            onclick="irAProducto(0)"
-            loading="lazy"
-          />
-          <img
-            class="product-thumb"
-            src="images/Perros-10-20kg.jpg"
-            alt="Tilin 10-20kg"
-            onclick="irAProducto(1)"
-            loading="lazy"
-          />
-          <img
-            class="product-thumb"
-            src="images/Perros-20-40kg.jpg"
-            alt="Tilin 20-40kg"
-            onclick="irAProducto(2)"
-            loading="lazy"
-          />
-          <img
-            class="product-thumb"
-            src="images/TILIN360.png"
-            alt="Pack 360"
-            onclick="irAProducto(3)"
-            loading="lazy"
-          />
-          <img
-            class="product-thumb"
-            src="images/cucarachas.png"
-            alt="Matax cucarachas"
-            onclick="irAProducto(4)"
-            loading="lazy"
-          />
-          <img
-            class="product-thumb"
-            src="images/hormigas.png"
-            alt="Matax hormigas"
-            onclick="irAProducto(5)"
-            loading="lazy"
-          />
+      <!-- ══════════════════════════════════════════════════════
+           09 · PROYECTOS
+      ══════════════════════════════════════════════════════ -->
+      <section id="proyectos" class="projects theme-plum">
+        <div class="projects-copy">
+          <p class="eyebrow" data-reveal>En desarrollo</p>
+          <h2 class="h2" data-split>Nuevos proyectos en desarrollo</h2>
+          <p class="lead" data-reveal>
+            El Dr. Augusto Durand sigue innovando. Actualmente está
+            desarrollando nuevos productos contra
+            <strong>cucarachas y hormigas</strong>, un
+            <strong>shampoo antipulgas y un spray antipulgas</strong> para
+            perros, y otros productos orientados a la salud y el cuidado de tus
+            mascotas.
+          </p>
+          <hr class="dash" />
+          <p class="body" data-reveal>
+            ¡Próximamente disponibles para que sigas protegiendo a quienes más
+            quieres!
+          </p>
         </div>
-      </div>
-      <div class="product-stage">
-        <div class="product-spotlight"></div>
-        <img
-          id="product-img"
-          class="product-img"
-          src=""
-          alt="Producto"
-          loading="lazy"
-          style="position: relative; z-index: 1"
-        />
-      </div>
-    </section>
+        <div class="projects-imgs">
+          <figure data-reveal>
+            <img
+              src="images/matax.png"
+              alt="MATAX - producto contra cucarachas y hormigas"
+              loading="lazy"
+            />
+            <figcaption>Matax</figcaption>
+          </figure>
+          <figure data-reveal style="--d: 0.15s">
+            <img
+              src="images/proyecto2.jpg"
+              alt="Shampoo antipulgas para perros"
+              loading="lazy"
+            />
+            <figcaption>Shampoo antipulgas</figcaption>
+          </figure>
+        </div>
+      </section>
 
-    <!-- Flechas de navegación del slider -->
-    <div class="nav-buttons" id="nav-arrows">
-      <button onclick="prevSlide()" aria-label="Producto anterior">
-        &#8249;
-      </button>
-      <button onclick="nextSlide()" aria-label="Producto siguiente">
-        &#8250;
-      </button>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════
-       SECCIÓN: CARRITO
-  ══════════════════════════════════════════════════════════ -->
-    <section id="carrito" class="seccion">
-      <div class="carrito-container">
-        <span class="eyebrow eyebrow-center">Tu pedido</span>
-        <h2>Carrito</h2>
-        <ul id="lista-carrito" class="lista-carrito"></ul>
-        <div class="resumen">
-          <div class="subtotal">
-            <span>Subtotal</span>
-            <span id="subtotal">S/ 0.00</span>
-          </div>
-          <div class="envio">
-            <span>Envío</span>
-            <span class="free">Consultar</span>
-          </div>
-          <hr
-            style="border: none; border-top: 1px solid #eee; margin: 0.75rem 0"
-          />
-          <div class="total">
-            <strong>Total</strong>
-            <strong id="total-carrito">S/ 0.00</strong>
+      <!-- ══════════════════════════════════════════════════════
+           10 · CONTACTO
+      ══════════════════════════════════════════════════════ -->
+      <section id="contacto" class="contact theme-light">
+        <div class="contact-main">
+          <p class="eyebrow" data-reveal>Hablemos</p>
+          <h2 class="display" data-split>¿Te interesa nuestro producto?</h2>
+          <p class="lead" data-reveal>
+            <strong>Contáctanos directamente por nuestras redes.</strong>
+          </p>
+          <div class="pills" data-reveal>
+            <a
+              href="https://wa.me/51969382661"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-fill"
+              ><i class="fab fa-whatsapp"></i> WhatsApp</a
+            >
+            <a
+              href="https://www.facebook.com/tilinflperu"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+              ><i class="fab fa-facebook-f"></i> Facebook</a
+            >
+            <a
+              href="https://www.instagram.com/tilinflperu"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+              ><i class="fab fa-instagram"></i> Instagram</a
+            >
+            <a
+              href="https://www.tiktok.com/@drplop_oficial"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+              ><i class="fab fa-tiktok"></i> TikTok</a
+            >
           </div>
         </div>
-        <a id="whatsapp-btn" href="#" target="_blank" class="checkout-btn">
-          <i class="fab fa-whatsapp" style="margin-right: 8px"></i> Check out
-          por WhatsApp
-        </a>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-       SECCIÓN: CONTACTO
-  ══════════════════════════════════════════════════════════ -->
-    <section id="contacto" class="seccion">
-      <div class="contacto-img anim">
-        <img
-          src="images/tilin.png"
-          alt="Tilin Logo"
-          style="max-width: 220px; border-radius: 0; box-shadow: none"
-          loading="lazy"
-        />
-      </div>
-      <div class="contacto-card anim anim-delay-1">
-        <span class="eyebrow">Hablemos</span>
-        <p class="contacto-intro">
-          ¿Te interesa nuestro producto?<br />
-          <strong>Contáctanos directamente por nuestras redes:</strong>
-        </p>
-        <span class="contacto-social-label">Síguenos en</span>
-        <div class="contacto-pills">
-          <a
-            href="https://www.facebook.com/tilinflperu"
-            target="_blank"
-            rel="noopener"
-            class="social-pill fb"
-            ><i class="fab fa-facebook-f"></i> Facebook</a
-          >
-          <a
-            href="https://www.instagram.com/tilinflperu"
-            target="_blank"
-            rel="noopener"
-            class="social-pill ig"
-            ><i class="fab fa-instagram"></i> Instagram</a
-          >
-          <a
-            href="https://wa.me/51969382661"
-            target="_blank"
-            rel="noopener"
-            class="social-pill wa"
-            ><i class="fab fa-whatsapp"></i> WhatsApp</a
-          >
-          <a
-            href="https://www.tiktok.com/@drplop_oficial"
-            target="_blank"
-            rel="noopener"
-            class="social-pill tt"
-            ><i class="fab fa-tiktok"></i> TikTok</a
-          >
-        </div>
-        <div class="info-row">
-          <span class="info-row-icon">✉️</span>
-          <div>
-            <strong>Correo</strong>
-            <p>Corporacionplop2025@hotmail.com</p>
-          </div>
-        </div>
-        <div class="info-row">
-          <span class="info-row-icon">📍</span>
-          <div>
-            <strong>Dirección</strong>
-            <p>Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</p>
-          </div>
-        </div>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Mapa de ubicación"
-        ></iframe>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════════════
-       SECCIÓN: PROYECTOS
-  ══════════════════════════════════════════════════════════ -->
-    <section id="proyectos" class="seccion">
-      <div class="proyectos-container">
-        <span class="eyebrow eyebrow-center anim">En desarrollo</span>
-        <h2 class="anim">
-          <span class="section-title-gradient"
-            >Nuevos Proyectos en Desarrollo</span
-          >
-        </h2>
-        <p class="anim anim-delay-1">
-          El Dr. Augusto Durand sigue innovando. Actualmente está desarrollando
-          nuevos productos contra
-          <strong>cucarachas y hormigas</strong>, un
-          <strong>shampoo antipulgas y un spray antipulgas</strong>
-          para perros, y otros productos orientados a la salud y el cuidado de
-          tus mascotas.
-        </p>
-        <p class="anim anim-delay-2">
-          ¡Próximamente disponibles para que sigas protegiendo a quienes más
-          quieres!
-        </p>
-        <div class="proyectos-imgs">
-          <img
-            src="images/matax.png"
-            alt="MATAX - producto contra cucarachas y hormigas"
+        <div class="contact-side" data-reveal>
+          <dl class="info">
+            <div>
+              <dt>Correo</dt>
+              <dd>Corporacionplop2025@hotmail.com</dd>
+            </div>
+            <div>
+              <dt>Dirección</dt>
+              <dd>Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad</dd>
+            </div>
+          </dl>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
             loading="lazy"
-            class="anim anim-delay-1"
-          />
-          <img
-            src="images/proyecto2.jpg"
-            alt="Shampoo antipulgas para perros"
-            loading="lazy"
-            class="anim anim-delay-2"
-          />
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa de ubicación"
+          ></iframe>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
-    <footer class="footer" id="footer-inicio">
+    <footer class="footer theme-dark">
       <div class="footer-top">
-        <div class="footer-brand">
-          <img
-            src="images/Tilin-logo-transparent.png"
-            alt="Tilin FL"
-            style="max-height: 50px; border-radius: 0; box-shadow: none"
-            loading="lazy"
-          />
-        </div>
-        <nav class="footer-links" aria-label="Links del footer">
-          <a href="#inicio" onclick="mostrarInicio()">Inicio</a>
-          <a href="#productos" onclick="mostrarProductos()">Productos</a>
-          <a href="#contacto" onclick="mostrarContacto()">Contacto</a>
-          <a href="#proyectos" onclick="mostrarProyectos()">Proyectos</a>
+        <img src="images/tilin.png" alt="Tilin FL" class="footer-logo" loading="lazy" />
+        <nav class="footer-links" aria-label="Links del pie de página">
+          <a href="#inicio">Inicio</a>
+          <a href="#productos">Productos</a>
+          <a href="#doctor">El doctor</a>
+          <a href="#contacto">Contacto</a>
         </nav>
-        <div class="social-icons">
+        <div class="footer-social">
           <a
             href="https://www.facebook.com/tilinflperu"
             target="_blank"
@@ -994,18 +796,43 @@
           ></a>
         </div>
       </div>
-      <div class="dog-animation" aria-hidden="true">
-        <img src="images/perrito.gif" alt="" class="perrito" />
+      <div class="footer-run" aria-hidden="true">
+        <img src="images/perrito.gif" alt="" loading="lazy" />
       </div>
-      <div class="footer-bottom">
-        <p>
-          © 2025 Corporación Plop — Dr. Augusto Durand · Todos los derechos
-          reservados · Hecho con ❤️ en Perú 🇵🇪
-        </p>
-      </div>
+      <p class="footer-word" aria-hidden="true">Tilin FL</p>
+      <p class="footer-legal">
+        © 2025 Corporación Plop — Dr. Augusto Durand · Todos los derechos
+        reservados · Hecho en Perú
+      </p>
     </footer>
 
-    <!-- Scripts -->
+    <!-- ── CARRITO (panel lateral) ─────────────────────────────── -->
+    <div class="overlay" id="overlay"></div>
+    <aside class="drawer" id="drawer" aria-label="Carrito" aria-hidden="true">
+      <div class="drawer-head">
+        <h2>Tu pedido</h2>
+        <button id="close-cart" aria-label="Cerrar carrito">✕</button>
+      </div>
+      <ul id="lista-carrito" class="cart-list"></ul>
+      <div class="drawer-foot">
+        <div class="row"><span>Subtotal</span><span id="subtotal">S/ 0.00</span></div>
+        <div class="row"><span>Envío</span><span>Consultar</span></div>
+        <hr class="dash" />
+        <div class="row total">
+          <strong>Total</strong><strong id="total-carrito">S/ 0.00</strong>
+        </div>
+        <a id="whatsapp-btn" href="#" target="_blank" class="btn btn-fill btn-block">
+          <i class="fab fa-whatsapp"></i> Check out por WhatsApp
+        </a>
+      </div>
+    </aside>
+
+    <!-- ── VIDEO (modal) ───────────────────────────────────────── -->
+    <div class="modal" id="video-modal" aria-hidden="true">
+      <button class="modal-close" id="close-video" aria-label="Cerrar video">✕</button>
+      <video id="modal-video" playsinline loop muted controls preload="none"></video>
+    </div>
+
     <script async src="https://www.tiktok.com/embed.js"></script>
     <script src="js/script.js" defer></script>
   </body>
