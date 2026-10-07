@@ -57,13 +57,12 @@ const productos = [
   {
     nombre: "PACK TILIN 360",
     grupo: "pack360",
-    tipo: "plate",
+    tipo: "cut wide",
     tag: "Pack 360°",
     cap: "Desparasitación total · Interna y externa",
     descripcion:
       "Protección total: contra pulgas, garrapatas, ácaros y parásitos internos por hasta 3 meses continuos.",
-    imagen: "images/TILIN360.png",
-    posicion: "50% 47%",
+    imagen: "images/tilin-pack360.webp",
     opciones: [
       { tipo: "4.5–10 kg: 1 tableta interna + 1 antipulgas ", precio: 45 },
       { tipo: "10–20 kg: 2 tabletas internas + 1 antipulgas ", precio: 50 },
@@ -99,6 +98,21 @@ const productos = [
     ],
   },
 ];
+
+// Números de ventas (el cliente elige a cuál escribir al finalizar el pedido)
+const NUMEROS = [
+  "984455040",
+  "963195119",
+  "967810477",
+  "969780198",
+  "969382661",
+];
+const fmtNum = (n) => `${n.slice(0, 3)} ${n.slice(3, 6)} ${n.slice(6)}`;
+let numeroElegido = "";
+try {
+  const guardado = localStorage.getItem("tilin-wa") || "";
+  if (NUMEROS.includes(guardado)) numeroElegido = guardado;
+} catch (_) {}
 
 const $ = (id) => document.getElementById(id);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -166,9 +180,11 @@ function renderCarrito() {
     $("subtotal").textContent = "S/ 0.00";
     $("total-carrito").textContent = "S/ 0.00";
     btn.href = "#";
+    btn.setAttribute("aria-disabled", "true");
     btn.onclick = (e) => e.preventDefault();
     return;
   }
+  btn.removeAttribute("aria-disabled");
 
   let suma = 0;
   carrito.forEach((item, index) => {
@@ -195,10 +211,16 @@ function renderCarrito() {
   const msg = encodeURIComponent(
     `Hola, quiero comprar:\n${carrito.map((p) => `- ${p.nombre} (S/ ${p.precio.toFixed(2)})`).join("\n")}\nTotal: S/ ${sumaStr}`,
   );
-  btn.href = `https://wa.me/+51963195119?text=${msg}`;
+  btn.href = numeroElegido
+    ? `https://wa.me/51${numeroElegido}?text=${msg}`
+    : "#";
 
   btn.onclick = (e) => {
     e.preventDefault();
+    if (!numeroElegido) {
+      pedirNumero();
+      return;
+    }
     if (suma > 0 && typeof gtag !== "undefined") {
       gtag("event", "conversion", {
         send_to: "AW-17490215386/mUR0CMH9-IgbENqD_pNB",
@@ -215,6 +237,41 @@ function renderCarrito() {
       window.location.href = btn.href;
     }
   };
+}
+
+function pedirNumero() {
+  const box = $("wa-numbers");
+  box.classList.remove("shake");
+  void box.offsetWidth;
+  box.classList.add("shake");
+  $("wa-legend").textContent = "Elige un número para continuar";
+  mostrarToast("Elige un número de ventas");
+}
+
+function renderNumeros() {
+  const list = $("num-list");
+  if (!list) return;
+  NUMEROS.forEach((n) => {
+    const label = document.createElement("label");
+    label.className = "num";
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "wa-num";
+    input.value = n;
+    input.checked = n === numeroElegido;
+    const span = document.createElement("span");
+    span.textContent = fmtNum(n);
+    label.append(input, span);
+    list.appendChild(label);
+  });
+  list.addEventListener("change", (e) => {
+    numeroElegido = e.target.value;
+    try {
+      localStorage.setItem("tilin-wa", numeroElegido);
+    } catch (_) {}
+    $("wa-legend").textContent = "¿A qué número quieres escribir?";
+    renderCarrito();
+  });
 }
 
 function mostrarToast(msg) {
@@ -253,6 +310,7 @@ function initCarritoUI() {
       toggleMenu(false);
     }
   });
+  renderNumeros();
   actualizarContadorCarrito();
   renderCarrito();
 }
@@ -350,10 +408,10 @@ function splitChars(el) {
   el.textContent = "";
   [...text].forEach((c, i) => {
     const ch = document.createElement("span");
-    ch.className = "ch";
+    ch.className = c === " " ? "ch sp" : "ch";
     ch.setAttribute("aria-hidden", "true");
     const s = document.createElement("span");
-    s.textContent = c;
+    s.textContent = c === " " ? "\u00a0" : c;
     s.style.setProperty("--i", i);
     ch.appendChild(s);
     el.appendChild(ch);

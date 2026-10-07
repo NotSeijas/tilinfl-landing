@@ -413,6 +413,7 @@ ul {
   --word: var(--butter);
 }
 .hero {
+  --w: clamp(3.6rem, 21.5vw, 19.5rem);
   padding-top: calc(var(--header-h) + 36px);
 }
 
@@ -470,6 +471,9 @@ ul {
   overflow: hidden;
   height: 0.74em;
   line-height: 0.7;
+}
+.bb-word .ch.sp {
+  width: 0.28em;
 }
 .bb-word .ch > span {
   display: inline-block;
@@ -588,8 +592,12 @@ ul {
 
 /* Pack 360: una sola columna centrada */
 .row-solo .item {
-  max-width: 380px;
+  max-width: 600px;
   margin-inline: auto;
+}
+.item.cut.wide .item-media img {
+  width: 100%;
+  height: auto;
 }
 .row-solo .item.plate .item-media {
   aspect-ratio: 1 / 1;
@@ -741,6 +749,40 @@ ul {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+/* ── Sello del Dr. Plop ─────────────────────────────────────── */
+.plop-sello {
+  position: absolute;
+  z-index: 4;
+  top: calc(var(--header-h) + 6px);
+  right: calc(var(--pad) + 4px);
+  width: clamp(88px, 11.5vw, 168px);
+  height: auto;
+  mix-blend-mode: multiply;
+  transform: rotate(8deg);
+  animation:
+    sello-in 1s var(--ease) 0.7s both,
+    sello-sway 7s ease-in-out 1.7s infinite;
+}
+@keyframes sello-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-24deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(8deg);
+  }
+}
+@keyframes sello-sway {
+  0%,
+  100% {
+    transform: rotate(8deg) translateY(0);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-5px);
+  }
 }
 
 /* ── Sello giratorio ────────────────────────────────────────── */
@@ -904,6 +946,74 @@ ul {
   color: var(--ink);
 }
 
+/* Selector de número de WhatsApp */
+.numbers {
+  border: 0;
+  margin: 0 0 14px;
+}
+.numbers legend {
+  margin-bottom: 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.num-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.num {
+  position: relative;
+  cursor: pointer;
+}
+.num input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+}
+.num span {
+  display: block;
+  padding: 9px 4px;
+  border: 1.5px solid var(--primary);
+  border-radius: var(--r-pill);
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--primary);
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.num:hover span {
+  background: rgba(144, 63, 125, 0.08);
+}
+.num input:checked + span {
+  background: var(--primary);
+  color: #fff;
+}
+.num input:focus-visible + span {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.numbers.shake {
+  animation: shake 0.5s var(--ease);
+}
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+.pill-solid[aria-disabled="true"] {
+  opacity: 0.45;
+}
+
 /* ══════════════════════════════════════════════════════════════
    ANIMACIONES DE ENTRADA (solo con JS)
    ══════════════════════════════════════════════════════════════ */
@@ -941,6 +1051,13 @@ ul {
   }
   .seal {
     display: none;
+  }
+  .plop-sello {
+    width: 84px;
+    top: calc(var(--header-h) + 4px);
+  }
+  .hero-intro h1 {
+    max-width: calc(100% - 96px);
   }
 
   /* Filas de producto: carrusel horizontal */
