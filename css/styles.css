@@ -590,6 +590,67 @@ ul {
   letter-spacing: -0.03em;
 }
 
+.item-promo {
+  margin-top: 10px;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--butter);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* Promo media docena */
+.promo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: clamp(28px, 4vw, 48px);
+  border-top: 1.5px solid var(--ink);
+}
+.promo h2 {
+  margin: 10px 0 14px;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+.promo .note {
+  color: var(--ink-soft);
+  max-width: 30em;
+}
+.promo-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.15);
+}
+.promo-list li:first-child {
+  border-top: 1px solid rgba(51, 51, 51, 0.15);
+}
+.promo-list span {
+  flex: 1;
+  font-size: 0.9375rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.promo-list b {
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--primary);
+}
+.promo-list small {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
 /* Pack 360: una sola columna centrada */
 .row-solo .item {
   max-width: 600px;
@@ -898,6 +959,17 @@ ul {
   font-weight: 500;
   font-size: 1.1rem;
 }
+.cart-promo {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--butter);
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-style: normal;
+  vertical-align: middle;
+}
 .cart-list .rm {
   flex: none;
   width: 30px;
@@ -1084,6 +1156,10 @@ ul {
     scroll-snap-align: start;
   }
 
+
+  .promo {
+    grid-template-columns: 1fr;
+  }
 
   .doctor {
     grid-template-columns: 1fr;

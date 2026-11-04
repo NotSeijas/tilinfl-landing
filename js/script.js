@@ -8,14 +8,16 @@ const productos = [
     grupo: "tilin",
     tipo: "cut",
     tag: "4.5 — 10 kg",
+    promo: 25, // precio c/u desde 6 unidades del mismo tamaño
     cap: "Tilin FL Pequeño · Antipulgas, garrapatas y ácaros",
     imagen: "images/tilin-pequeno.webp",
     opciones: [
-      { tipo: "Unidad", precio: 35 },
-      { tipo: "PROMO: Docena (12 unid. a S/25 c/u)", precio: 300 },
-      { tipo: "PROMO: 6 Docenas (72 unid. a S/25 c/u)", precio: 1800 },
-      { tipo: "PROMO: 12 Docenas (144 unid. a S/25 c/u)", precio: 3600 },
-      { tipo: "PROMO: 24 Docenas (288 unid. a S/25 c/u)", precio: 7200 },
+      { tipo: "Unidad", precio: 35, unidades: 1 },
+      { tipo: "PROMO: Media docena (6 unid. a S/25 c/u)", precio: 150, unidades: 6 },
+      { tipo: "PROMO: Docena (12 unid. a S/25 c/u)", precio: 300, unidades: 12 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/25 c/u)", precio: 1800, unidades: 72 },
+      { tipo: "PROMO: 12 Docenas (144 unid. a S/25 c/u)", precio: 3600, unidades: 144 },
+      { tipo: "PROMO: 24 Docenas (288 unid. a S/25 c/u)", precio: 7200, unidades: 288 },
     ],
   },
   {
@@ -23,14 +25,16 @@ const productos = [
     grupo: "tilin",
     tipo: "cut",
     tag: "10 — 20 kg",
+    promo: 27.5, // precio c/u desde 6 unidades del mismo tamaño
     cap: "Tilin FL Mediano · Antipulgas, garrapatas y ácaros",
     imagen: "images/tilin-mediano.webp",
     opciones: [
-      { tipo: "Unidad", precio: 40 },
-      { tipo: "PROMO: Docena (12 unid. a S/27.50 c/u)", precio: 330 },
-      { tipo: "PROMO: 6 Docenas (72 unid. a S/27.50 c/u)", precio: 1980 },
-      { tipo: "PROMO: 12 Docenas (144 unid. a S/27.50 c/u)", precio: 3960 },
-      { tipo: "PROMO: 24 Docenas (288 unid. a S/27.50 c/u)", precio: 7920 },
+      { tipo: "Unidad", precio: 40, unidades: 1 },
+      { tipo: "PROMO: Media docena (6 unid. a S/27.50 c/u)", precio: 165, unidades: 6 },
+      { tipo: "PROMO: Docena (12 unid. a S/27.50 c/u)", precio: 330, unidades: 12 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/27.50 c/u)", precio: 1980, unidades: 72 },
+      { tipo: "PROMO: 12 Docenas (144 unid. a S/27.50 c/u)", precio: 3960, unidades: 144 },
+      { tipo: "PROMO: 24 Docenas (288 unid. a S/27.50 c/u)", precio: 7920, unidades: 288 },
     ],
   },
   {
@@ -38,19 +42,23 @@ const productos = [
     grupo: "tilin",
     tipo: "cut",
     tag: "20 — 40 kg",
+    promo: 30, // precio c/u desde 6 unidades del mismo tamaño
     cap: "Tilin FL Grande · Antipulgas, garrapatas y ácaros",
     imagen: "images/tilin-grande.webp",
     opciones: [
-      { tipo: "Unidad", precio: 45 },
-      { tipo: "PROMO: Docena (12 unid. a S/30 c/u) ", precio: 360 },
-      { tipo: "PROMO: 6 Docenas (72 unid. a S/30 c/u) ", precio: 2160 },
+      { tipo: "Unidad", precio: 45, unidades: 1 },
+      { tipo: "PROMO: Media docena (6 unid. a S/30 c/u)", precio: 180, unidades: 6 },
+      { tipo: "PROMO: Docena (12 unid. a S/30 c/u) ", precio: 360, unidades: 12 },
+      { tipo: "PROMO: 6 Docenas (72 unid. a S/30 c/u) ", precio: 2160, unidades: 72 },
       {
         tipo: "PROMO: 12 Docenas (144 unid + 1 DOC de Regalo. a S/30 c/u) ",
         precio: 4320,
+        unidades: 144,
       },
       {
         tipo: "PROMO: 24 Docenas (288 unid + 4 DOC de Regalo. a S/30 c/u) ",
         precio: 8640,
+        unidades: 288,
       },
     ],
   },
@@ -140,13 +148,30 @@ function agregarAlCarrito(idx, opcionIdx) {
   const producto = productos[idx];
   const opcion = producto.opciones[opcionIdx];
   carrito.push({
-    nombre: `${producto.nombre} — ${opcion.tipo}`,
+    nombre: `${producto.nombre} — ${opcion.tipo.trim()}`,
     precio: opcion.precio,
+    producto: producto.nombre,
+    unidades: opcion.unidades || 0,
   });
   guardarCarrito();
   actualizarContadorCarrito(true);
   renderCarrito();
   mostrarToast("Agregado al carrito");
+}
+
+// Promo media docena: desde 6 unidades del mismo tamaño, cada unidad suelta
+// pasa al precio de promoción de ese tamaño.
+function preciosCarrito() {
+  const unidades = {};
+  carrito.forEach((item) => {
+    unidades[item.producto] = (unidades[item.producto] || 0) + (item.unidades || 0);
+  });
+  return carrito.map((item) => {
+    const p = productos.find((x) => x.nombre === item.producto);
+    const promo =
+      item.unidades === 1 && p?.promo && unidades[item.producto] >= 6;
+    return { ...item, precio: promo ? p.promo : item.precio, promo };
+  });
 }
 
 function eliminarDelCarrito(index) {
@@ -186,14 +211,21 @@ function renderCarrito() {
   }
   btn.removeAttribute("aria-disabled");
 
+  const items = preciosCarrito();
   let suma = 0;
-  carrito.forEach((item, index) => {
+  items.forEach((item, index) => {
     suma += item.precio;
     const li = document.createElement("li");
     const info = document.createElement("span");
     info.textContent = item.nombre;
     const precio = document.createElement("strong");
     precio.textContent = `S/ ${item.precio.toFixed(2)}`;
+    if (item.promo) {
+      const promo = document.createElement("em");
+      promo.className = "cart-promo";
+      promo.textContent = "Promo desde 6 unid.";
+      precio.appendChild(promo);
+    }
     info.appendChild(precio);
     const rm = document.createElement("button");
     rm.className = "rm";
@@ -209,7 +241,7 @@ function renderCarrito() {
   $("total-carrito").textContent = `S/ ${sumaStr}`;
 
   const msg = encodeURIComponent(
-    `Hola, quiero comprar:\n${carrito.map((p) => `- ${p.nombre} (S/ ${p.precio.toFixed(2)})`).join("\n")}\nTotal: S/ ${sumaStr}`,
+    `Hola, quiero comprar:\n${items.map((p) => `- ${p.nombre} (S/ ${p.precio.toFixed(2)}${p.promo ? " — promo desde 6 unid." : ""})`).join("\n")}\nTotal: S/ ${sumaStr}`,
   );
   btn.href = numeroElegido
     ? `https://wa.me/51${numeroElegido}?text=${msg}`
@@ -372,6 +404,12 @@ function renderProductos() {
     );
 
     item.append(media, tag, cap);
+    if (p.promo) {
+      const promo = document.createElement("p");
+      promo.className = "item-promo";
+      promo.textContent = `Desde 6 unid.: S/ ${p.promo.toFixed(2)} c/u`;
+      item.appendChild(promo);
+    }
     if (p.descripcion) {
       const desc = document.createElement("p");
       desc.className = "item-desc";
