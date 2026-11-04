@@ -407,7 +407,7 @@ function renderProductos() {
     if (p.promo) {
       const promo = document.createElement("p");
       promo.className = "item-promo";
-      promo.textContent = `Desde 6 unid.: S/ ${p.promo.toFixed(2)} c/u`;
+      promo.textContent = `Pack de 6: S/ ${(p.promo * 6).toFixed(2)} · S/ ${p.promo.toFixed(2)} c/u`;
       item.appendChild(promo);
     }
     if (p.descripcion) {

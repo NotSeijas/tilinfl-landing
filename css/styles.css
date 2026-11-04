@@ -625,8 +625,8 @@ ul {
 }
 .promo-list li {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
   padding: 16px 0;
   border-bottom: 1px solid rgba(51, 51, 51, 0.15);
 }
@@ -635,7 +635,8 @@ ul {
 }
 .promo-list span {
   flex: 1;
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -645,9 +646,15 @@ ul {
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--primary);
+  text-align: right;
 }
 .promo-list small {
-  font-size: 0.875rem;
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
   color: var(--ink-soft);
 }
 
