@@ -255,14 +255,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@600;700;800;900&family=Onest:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="css/tilin.css?v=20261111" />
+    <link rel="stylesheet" href="css/tilin.css?v=20261112" />
 
     <link rel="icon" href="images/tilin.png" type="image/png" />
     <meta name="theme-color" content="#fbf7f2" />
@@ -366,27 +366,22 @@
       <section class="portada" id="inicio">
         <div class="portada-texto">
           <h1 class="titulo">
-            <span class="linea"><span>Una pastilla.</span></span>
-            <span class="linea"><span>Tres meses</span></span>
-            <span class="linea"><span><mark>sin pulgas</mark> ni</span></span>
-            <span class="linea"><span>garrapatas.</span></span>
+            <span class="linea pegatina"><span>Chau</span></span>
+            <span class="linea pegatina"><span>pulgas,</span></span>
+            <span class="linea bajo"><span>por tres meses.</span></span>
           </h1>
           <p class="portada-bajada aparece">
-            Masticable contra pulgas, garrapatas y ácaros. Formulada por el
+            Una pastilla masticable de Tilin FL protege a tu perro de pulgas,
+            garrapatas y ácaros durante 90 días. Formulada por el
             Dr.&nbsp;Augusto Durand, con silimarina para cuidar su hígado.
           </p>
           <div class="portada-botones aparece">
-            <a href="#elegir" class="btn btn-principal">Elegir según su peso <svg><use href="#i-flecha" /></svg></a>
-            <a href="catalogo/" class="btn btn-claro"><svg><use href="#i-libro" /></svg> Ver catálogo</a>
+            <a href="#elegir" class="btn btn-principal">Elegir según su peso</a>
+            <a href="catalogo/" class="enlace-catalogo"><svg><use href="#i-libro" /></svg> Ver catálogo</a>
           </div>
-          <ul class="portada-datos aparece">
-            <li><svg><use href="#i-camion" /></svg> Envíos a todo el Perú</li>
-            <li><svg><use href="#i-escudo" /></svg> Uso veterinario</li>
-          </ul>
         </div>
 
         <div class="portada-visual">
-          <div class="arco" aria-hidden="true"></div>
           <div class="abanico" id="abanico">
             <button type="button" class="caja caja-p" data-peso="7" aria-label="Tilin FL Pequeño, perros de 4.5 a 10 kg">
               <img src="images/tilin-pequeno.webp" alt="" width="620" height="1386" />
@@ -398,8 +393,16 @@
               <img src="images/tilin-mediano.webp" alt="" width="571" height="1312" />
             </button>
           </div>
+          <div class="calendario" id="calendario">
+            <p class="cal-titulo"><b id="cal-dias">90</b> <span>días protegido<br />con una sola pastilla</span></p>
+            <div class="cal-meses" aria-hidden="true">
+              <div class="mes"><span>Mes 1</span><div class="dias"></div></div>
+              <div class="mes"><span>Mes 2</span><div class="dias"></div></div>
+              <div class="mes"><span>Mes 3</span><div class="dias"></div></div>
+            </div>
+            <p class="cal-pie">El día 90 le toca la siguiente. Así de simple.</p>
+          </div>
           <img class="sello" src="images/plop-sello.webp" alt="Un producto del Dr. Plop" width="338" height="333" />
-          <p class="toca">Toca una caja</p>
         </div>
       </section>
 
@@ -414,7 +417,7 @@
           <div class="peso">
             <output class="peso-numero" id="peso-numero" for="peso" aria-live="polite"><b>15</b><span>kg</span></output>
             <input type="range" id="peso" min="4.5" max="40" step="0.5" value="15" aria-label="Peso de tu perro en kilos" />
-            <div class="peso-marcas" aria-hidden="true"><span>4.5</span><span>10</span><span>20</span><span>40 kg</span></div>
+            <div class="peso-marcas" aria-hidden="true"><span style="--en:0%">4.5</span><span style="--en:15.49%">10</span><span style="--en:43.66%">20</span><span style="--en:100%">40 kg</span></div>
             <div class="tallas" role="group" aria-label="Elegir por tamaño">
               <button type="button" data-talla="p" data-peso="7">Pequeño<small>4.5 a 10 kg</small></button>
               <button type="button" data-talla="m" data-peso="15">Mediano<small>10 a 20 kg</small></button>
@@ -597,6 +600,6 @@
       </div>
     </aside>
 
-    <script src="js/tilin.js?v=20261111" defer></script>
+    <script src="js/tilin.js?v=20261112" defer></script>
   </body>
 </html>

@@ -201,6 +201,7 @@ function mostrarTalla(t, anima = true) {
   const cambio = t !== talla;
   talla = t;
   $$(".tallas button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.talla === t)));
+  $("resultado").dataset.talla = t;
   $("res-nombre").textContent = d.titulo;
   $("res-rango").textContent = d.rango;
   $("res-flu").textContent = d.flu;
@@ -482,6 +483,32 @@ function initVideos() {
   $$("[data-video] video").forEach((v) => obs.observe(v));
 }
 
+// ── Calendario de la portada: 90 días con una pastilla ──
+const DIA_MS = 13;
+function initCalendario() {
+  let n = 0;
+  $$("#calendario .dias").forEach((d) => {
+    for (let k = 0; k < 30; k++) {
+      const i = document.createElement("i");
+      i.style.setProperty("--i", n++);
+      d.appendChild(i);
+    }
+  });
+}
+function contarDias() {
+  const b = $("cal-dias");
+  if (!b || sinMovimiento) return;
+  const espera = 520, dura = 90 * DIA_MS;
+  const t0 = performance.now();
+  b.textContent = "0";
+  const paso = (t) => {
+    const k = Math.min(1, Math.max(0, (t - t0 - espera) / dura));
+    b.textContent = String(Math.round(k * 90));
+    if (k < 1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+}
+
 // ── Pantalla de carga ───────────────────────────────────────
 function initCarga(alTerminar) {
   const carga = $("carga");
@@ -495,7 +522,7 @@ function initCarga(alTerminar) {
     setTimeout(() => {
       carga.classList.add("sale");
       document.body.classList.remove("cargando");
-      setTimeout(() => document.body.classList.add("listo"), sinMovimiento ? 0 : 320);
+      setTimeout(() => { document.body.classList.add("listo"); contarDias(); }, sinMovimiento ? 0 : 320);
       setTimeout(() => { carga.classList.add("fuera"); alTerminar(); }, sinMovimiento ? 0 : 820);
       try { sessionStorage.setItem("tilin-visto", "1"); } catch (_) {}
     }, Math.max(0, minimo - (performance.now() - t0)));
@@ -512,6 +539,7 @@ function rutear() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initCalendario();
   initSelector();
   pintarPack();
   pintarMatax();
