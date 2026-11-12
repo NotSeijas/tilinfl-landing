@@ -90,7 +90,7 @@ function pintarPedido(salto) {
     }
     const pr = document.createElement("span");
     pr.className = "item-precio";
-    pr.textContent = soles(l.precio * l.cant);
+    pr.textContent = `S/ ${miles(l.precio * l.cant)}`;
     const cant = document.createElement("div");
     cant.className = "cantidad";
     cant.innerHTML = `<button type="button" aria-label="Quitar uno"><svg><use href="#i-menos"/></svg></button><span aria-live="polite">${l.cant}</span><button type="button" aria-label="Agregar uno"><svg><use href="#i-mas"/></svg></button>`;
@@ -205,10 +205,7 @@ function mostrarTalla(t, anima = true) {
   $("res-rango").textContent = d.rango;
   $("res-flu").textContent = d.flu;
   $("res-sil").textContent = d.sil;
-  $("res-unidad").textContent = soles(d.unidad);
-  $("res-pack").textContent = soles(d.promo * 6);
-  $("res-cu").textContent = `${soles(d.promo)} c/u`;
-  $("res-ahorro").textContent = `Ahorras S/ ${(d.unidad * 6 - d.promo * 6).toFixed(0)}`;
+  pintarOpciones(d);
   const img = $("res-img");
   if (cambio && anima && !sinMovimiento) {
     img.classList.add("cambia");
@@ -222,6 +219,39 @@ function mostrarTalla(t, anima = true) {
     img.alt = `Caja de ${d.titulo}`;
   }
   if (cambio) Mascota.decir(t === "p" ? "¡Los chiquitos también se protegen!" : t === "m" ? "¡Ese es mi tamaño!" : "¡Para los grandotes, la caja verde!", "mira");
+}
+
+// Todas las presentaciones del catálogo (precio por pastilla = promo desde 6)
+const PRESENTACIONES = [
+  { n: 6, nombre: "Pack de 6", base: true },
+  { n: 12, nombre: "Docena", base: true },
+  { n: 72, nombre: "6 docenas" },
+  { n: 144, nombre: "12 docenas", regalo: "+1 docena de regalo" },
+  { n: 288, nombre: "24 docenas", regalo: "+4 docenas de regalo" },
+  { n: 600, nombre: "50 docenas", regalo: "+10 docenas de regalo" },
+];
+let cantidadElegida = 6;
+const miles = (n) => n.toLocaleString("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function pintarOpciones(d) {
+  const base = $("opciones-base");
+  const mayor = $("opciones-mayor");
+  base.textContent = "";
+  mayor.textContent = "";
+  const fila = (n, nombre, precio, extra, compacta) => {
+    const l = document.createElement("label");
+    l.className = compacta ? "opcion opcion-mini" : "opcion";
+    l.innerHTML = `<input type="radio" name="cantidad" value="${n}" ${n === cantidadElegida ? "checked" : ""}>
+      <span class="opcion-nombre">${nombre}${extra ? `<em>${extra}</em>` : ""}</span>
+      <span class="opcion-precio">S/ ${miles(precio)}${n > 1 ? `<small>S/ ${d.promo.toFixed(2)} c/u</small>` : ""}</span>`;
+    l.querySelector("input").addEventListener("change", () => { cantidadElegida = n; });
+    return l;
+  };
+  base.appendChild(fila(1, "1 unidad", d.unidad));
+  PRESENTACIONES.forEach((p) => {
+    const ahorro = p.base ? `Ahorras S/ ${miles((d.unidad - d.promo) * p.n).replace(/\.00$/, "")}` : p.regalo;
+    (p.base ? base : mayor).appendChild(fila(p.n, p.base ? p.nombre : `${p.n} pastillas`, d.promo * p.n, p.base ? ahorro : p.regalo || p.nombre, !p.base));
+  });
 }
 
 function fijarPeso(kg, anima = true) {
@@ -251,11 +281,12 @@ function initSelector() {
   );
   $("res-agregar").addEventListener("click", () => {
     const d = TILIN[talla];
-    const seis = document.querySelector('input[name="cantidad"]:checked')?.value === "6";
+    const n = cantidadElegida;
+    const p = PRESENTACIONES.find((x) => x.n === n);
     agregar(
-      seis
-        ? { clave: `${talla}-6`, nombre: `${d.titulo} · Pack de 6 (${soles(d.promo)} c/u)`, precio: d.promo * 6, producto: d.nombre, unidades: 6 }
-        : { clave: `${talla}-1`, nombre: `${d.titulo} · Unidad`, precio: d.unidad, producto: d.nombre, unidades: 1 },
+      n === 1
+        ? { clave: `${talla}-1`, nombre: `${d.titulo} · Unidad`, precio: d.unidad, producto: d.nombre, unidades: 1 }
+        : { clave: `${talla}-${n}`, nombre: `${d.titulo} · ${p.base ? p.nombre : `${n} pastillas`} (${soles(d.promo)} c/u${p.regalo ? `, ${p.regalo}` : ""})`, precio: d.promo * n, producto: d.nombre, unidades: n },
     );
   });
   pintarPeso(false);
@@ -423,11 +454,39 @@ const Mascota = (() => {
   return { iniciar, decir, esconder };
 })();
 
+// ── Videos decorativos: se reproducen en silencio solo cuando se ven ──
+function initVideos() {
+  $$("[data-video]").forEach((fig) => {
+    const v = fig.querySelector("video");
+    const b = fig.querySelector(".video-sonido");
+    b.addEventListener("click", () => {
+      v.muted = !v.muted;
+      b.setAttribute("aria-pressed", String(!v.muted));
+      b.setAttribute("aria-label", v.muted ? "Activar sonido" : "Silenciar");
+      if (!v.muted) {
+        $$("[data-video]").forEach((o) => {
+          if (o === fig) return;
+          o.querySelector("video").muted = true;
+          o.querySelector(".video-sonido").setAttribute("aria-pressed", "false");
+        });
+        v.play().catch(() => {});
+      }
+    });
+  });
+  if (!("IntersectionObserver" in window)) return;
+  const obs = new IntersectionObserver((ents) => ents.forEach((e) => {
+    const v = e.target;
+    if (e.isIntersecting && !sinMovimiento) { v.preload = "auto"; v.play().catch(() => {}); }
+    else v.pause();
+  }), { threshold: 0.35 });
+  $$("[data-video] video").forEach((v) => obs.observe(v));
+}
+
 // ── Pantalla de carga ───────────────────────────────────────
 function initCarga(alTerminar) {
   const carga = $("carga");
   const visto = document.documentElement.classList.contains("visto");
-  const minimo = sinMovimiento ? 0 : visto ? 450 : 1650;
+  const minimo = sinMovimiento ? 0 : visto ? 500 : 2650;
   const t0 = performance.now();
   let hecho = false;
   const terminar = () => {
@@ -436,14 +495,14 @@ function initCarga(alTerminar) {
     setTimeout(() => {
       carga.classList.add("sale");
       document.body.classList.remove("cargando");
-      setTimeout(() => document.body.classList.add("listo"), sinMovimiento ? 0 : 260);
-      setTimeout(() => { carga.classList.add("fuera"); alTerminar(); }, sinMovimiento ? 0 : 760);
+      setTimeout(() => document.body.classList.add("listo"), sinMovimiento ? 0 : 320);
+      setTimeout(() => { carga.classList.add("fuera"); alTerminar(); }, sinMovimiento ? 0 : 820);
       try { sessionStorage.setItem("tilin-visto", "1"); } catch (_) {}
     }, Math.max(0, minimo - (performance.now() - t0)));
   };
   if (document.readyState === "complete") terminar();
   else addEventListener("load", terminar);
-  setTimeout(terminar, 4500);
+  setTimeout(terminar, 5000);
 }
 
 // Enlaces antiguos (#carrito, #productos)
@@ -473,6 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initCarga(() => {
     initRevela();
+    initVideos();
     Mascota.iniciar();
     rutear();
   });

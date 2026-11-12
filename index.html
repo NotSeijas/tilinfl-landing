@@ -294,6 +294,7 @@
     <!-- Iconos (un solo trazo, dibujados para la marca) -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
       <symbol id="i-huella" viewBox="0 0 32 32"><g fill="currentColor"><ellipse cx="16" cy="21.5" rx="7" ry="6"/><ellipse cx="7" cy="13" rx="3" ry="3.8" transform="rotate(-18 7 13)"/><ellipse cx="13" cy="7.5" rx="3" ry="4" transform="rotate(-6 13 7.5)"/><ellipse cx="19.5" cy="7.5" rx="3" ry="4" transform="rotate(6 19.5 7.5)"/><ellipse cx="25.5" cy="13" rx="3" ry="3.8" transform="rotate(18 25.5 13)"/></g></symbol>
+      <symbol id="i-pulga" viewBox="0 0 24 24"><g fill="#3a2418" stroke="#3a2418" stroke-width="1.4" stroke-linecap="round"><ellipse cx="12" cy="12" rx="5.5" ry="4.2" stroke="none"/><circle cx="17.6" cy="10.4" r="2.2" stroke="none"/><path d="M8 15l-3 4M11 16l-1 4.5M14 15.5l2.5 4M9 9l-2.5-3.5M14 8.6l1.2-3.6" fill="none"/></g></symbol>
       <symbol id="i-bolsa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></g></symbol>
       <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-camion" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></g></symbol>
@@ -308,25 +309,20 @@
 
     <!-- ══ Pantalla de carga ══════════════════════════════════════ -->
     <div id="carga" aria-hidden="true">
-      <div class="carga-centro">
-        <div class="carga-cajas">
-          <img src="images/tilin-pequeno.webp" alt="" />
-          <img src="images/tilin-mediano.webp" alt="" />
-          <img src="images/tilin-grande.webp" alt="" />
+      <div class="escena-carga">
+        <div class="onda"></div>
+        <div class="escudo">
+          <svg viewBox="0 0 120 136"><path d="M60 4l50 18v38c0 33-21 60-50 72C31 120 10 93 10 60V22z" class="escudo-fondo"/><path d="M60 16l39 14v30c0 26-16 48-39 58-23-10-39-32-39-58V30z" class="escudo-borde"/></svg>
+          <span><b>3</b>meses</span>
         </div>
-        <div class="cinta">
-          <svg class="cinta-forma" viewBox="0 0 420 110" preserveAspectRatio="none">
-            <path d="M0 28 L46 22 L36 56 L50 92 L0 98 L14 62 Z" class="cinta-cola" />
-            <path d="M420 28 L374 22 L384 56 L370 92 L420 98 L406 62 Z" class="cinta-cola" />
-            <path d="M40 12 Q210 -4 380 12 L380 88 Q210 72 40 88 Z" class="cinta-cuerpo" />
-          </svg>
-          <span class="cinta-texto">TILIN FL</span>
-          <img class="carga-mascota" src="images/mascota.webp" alt="" />
-        </div>
-        <p class="carga-lema">Tres meses de protección</p>
+        <p class="picazon">¡Qué picazón!</p>
+        <div class="perro"><img src="images/mascota.webp" alt="" /></div>
+        <div class="pastilla"><i></i></div>
+        <span class="pulga" style="--px:-92px;--py:-40px;--fx:-260px;--fy:-220px;--d:0ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:78px;--py:-70px;--fx:240px;--fy:-260px;--d:90ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:-60px;--py:30px;--fx:-300px;--fy:80px;--d:40ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:96px;--py:20px;--fx:300px;--fy:40px;--d:140ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:-20px;--py:-96px;--fx:-60px;--fy:-320px;--d:60ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:40px;--py:64px;--fx:140px;--fy:300px;--d:120ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:-104px;--py:70px;--fx:-280px;--fy:260px;--d:20ms"><svg><use href="#i-pulga" /></svg></span><span class="pulga" style="--px:10px;--py:-20px;--fx:40px;--fy:-300px;--d:100ms"><svg><use href="#i-pulga" /></svg></span>
       </div>
-      <div class="carga-huellas">
-        <svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg>
+      <div class="carga-marca">
+        <p class="carga-logo">TILIN <span>FL</span></p>
+        <p class="carga-lema">Chau pulgas. Por tres meses.</p>
       </div>
     </div>
 
@@ -424,7 +420,6 @@
               <button type="button" data-talla="m" data-peso="15">Mediano<small>10 a 20 kg</small></button>
               <button type="button" data-talla="g" data-peso="30">Grande<small>20 a 40 kg</small></button>
             </div>
-            <p class="peso-nota">¿Pesa más de 40 kg? <a href="https://wa.me/51969382661?text=Hola%2C%20mi%20perro%20pesa%20m%C3%A1s%20de%2040%20kg.%20%C2%BFQu%C3%A9%20dosis%20de%20Tilin%20FL%20le%20corresponde%3F" target="_blank" rel="noopener">Pregúntanos la dosis</a>.</p>
           </div>
 
           <div class="resultado" id="resultado">
@@ -439,24 +434,17 @@
                 <div><dt>Silimarina</dt><dd id="res-sil">100 mg</dd></div>
               </dl>
 
-              <fieldset class="opciones">
+              <fieldset class="opciones" id="opciones">
                 <legend>¿Cuántas?</legend>
-                <label class="opcion">
-                  <input type="radio" name="cantidad" value="1" />
-                  <span class="opcion-nombre">1 unidad</span>
-                  <span class="opcion-precio" id="res-unidad">S/ 40.00</span>
-                </label>
-                <label class="opcion opcion-promo">
-                  <input type="radio" name="cantidad" value="6" checked />
-                  <span class="opcion-nombre">Pack de 6 <em id="res-ahorro">Ahorras S/ 75</em></span>
-                  <span class="opcion-precio"><span id="res-pack">S/ 165.00</span><small id="res-cu">S/ 27.50 c/u</small></span>
-                </label>
+                <div class="opciones-base" id="opciones-base"></div>
+                <p class="opciones-mayor">Por mayor <span>mismo precio por pastilla, con docenas de regalo</span></p>
+                <div class="opciones-mayor-lista" id="opciones-mayor"></div>
               </fieldset>
 
               <button type="button" class="btn btn-principal btn-ancho" id="res-agregar">
                 <svg><use href="#i-bolsa" /></svg> Agregar al pedido
               </button>
-              <a class="mayor" href="catalogo/">¿Compras por docena o más? Ve los precios por mayor en el catálogo <svg><use href="#i-flecha" /></svg></a>
+              <a class="mayor" href="catalogo/">Ver el catálogo completo <svg><use href="#i-flecha" /></svg></a>
             </div>
           </div>
         </div>
@@ -498,6 +486,12 @@
           <p>Más de 25 años desarrollando productos para la salud animal. Creador de las marcas Plop, Tilin y Matax.</p>
           <p class="pronto">Próximamente: shampoo y spray antipulgas.</p>
         </div>
+        <figure class="video-deco" data-video>
+            <video src="videos/doctor.mp4" poster="videos/doctor.webp" muted loop playsinline preload="none" aria-label="Video del Dr. Augusto Durand explicando Tilin FL"></video>
+            <button type="button" class="video-sonido" aria-pressed="false" aria-label="Activar sonido">
+              <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="ondas" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="mudo" d="M16 10l5 5M21 10l-5 5"/></g></svg>
+            </button>
+          </figure>
       </section>
 
       <!-- ══ Opiniones ════════════════════════════════════════════ -->
@@ -510,6 +504,12 @@
           </div>
         </div>
         <ul class="pista" id="pista" tabindex="0" aria-label="Opiniones, desliza para ver más">
+          <li class="pista-video"><figure class="video-deco" data-video>
+            <video src="videos/pisu.mp4" poster="videos/pisu.webp" muted loop playsinline preload="none" aria-label="Pisu Cocina recomienda Tilin FL con su perro"></video>
+            <button type="button" class="video-sonido" aria-pressed="false" aria-label="Activar sonido">
+              <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="ondas" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="mudo" d="M16 10l5 5M21 10l-5 5"/></g></svg>
+            </button>
+          </figure><p><b>Pisu Cocina</b> también confía en Tilin FL</p></li>
           <li><blockquote>Mi perro tenía muchas pulgas y en menos de una semana desaparecieron por completo. Llevo 2 meses y no ha vuelto ninguna.</blockquote><p><b>María R.</b> Lima · Beagle 12 kg</p></li>
           <li><blockquote>Se la come sin problema mezclada con la comida. Antes con las pipetas era un drama. Muy práctico y efectivo.</blockquote><p><b>Carlos M.</b> San Isidro · Labrador 28 kg</p></li>
           <li><blockquote>Compré el Pack 360 y es excelente. Protección completa interna y externa. Se nota la diferencia con otros productos.</blockquote><p><b>Luisa V.</b> Miraflores · Caniche 7 kg</p></li>
@@ -531,7 +531,7 @@
         <h2 id="envios-titulo">Te lo enviamos a todo el Perú.</h2>
         <ul class="envios-lista">
           <li><svg><use href="#i-camion" /></svg><b>Despacho de lunes a viernes</b><span>Enviamos a Lima y a provincias.</span></li>
-          <li><svg><use href="#i-reloj" /></svg><b>Lima Metropolitana: 18 a 36 h</b><span>Fuera de Lima Metropolitana, de 24 a 48 horas.</span></li>
+          <li><svg><use href="#i-reloj" /></svg><b>Lima Metropolitana: te llega en el día</b><span>Nunca más de 24 horas. A provincias, de 24 a 48 horas.</span></li>
           <li><svg><use href="#i-banco" /></svg><b>Pago por transferencia</b><span>Te pasamos los datos de la cuenta BCP por WhatsApp.</span></li>
         </ul>
       </section>
