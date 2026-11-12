@@ -255,20 +255,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="css/styles.css?v=20261006" />
+    <link rel="stylesheet" href="css/tilin.css?v=20261111" />
 
     <link rel="icon" href="images/tilin.png" type="image/png" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#fbf7f2" />
+    <link rel="preload" as="image" href="images/tilin-mediano.webp" />
 
     <script>
       document.documentElement.classList.add("js");
+      try {
+        if (sessionStorage.getItem("tilin-visto")) document.documentElement.classList.add("visto");
+      } catch (_) {}
     </script>
 
     <!-- Google Ads -->
@@ -286,364 +290,313 @@
     </script>
   </head>
 
-  <body class="is-loading">
-    <!-- Pantalla de carga -->
-    <div id="loading-screen" aria-hidden="true">
-      <img src="images/tilin.png" alt="" class="loading-logo" />
+  <body class="cargando">
+    <!-- Iconos (un solo trazo, dibujados para la marca) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="i-huella" viewBox="0 0 32 32"><g fill="currentColor"><ellipse cx="16" cy="21.5" rx="7" ry="6"/><ellipse cx="7" cy="13" rx="3" ry="3.8" transform="rotate(-18 7 13)"/><ellipse cx="13" cy="7.5" rx="3" ry="4" transform="rotate(-6 13 7.5)"/><ellipse cx="19.5" cy="7.5" rx="3" ry="4" transform="rotate(6 19.5 7.5)"/><ellipse cx="25.5" cy="13" rx="3" ry="3.8" transform="rotate(18 25.5 13)"/></g></symbol>
+      <symbol id="i-bolsa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></g></symbol>
+      <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-camion" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></g></symbol>
+      <symbol id="i-reloj" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></g></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.4-3 7.9-7 9.5-4-1.6-7-5.1-7-9.5V6l7-3z"/><path d="M9 12l2.2 2.2L15.5 10"/></g></symbol>
+      <symbol id="i-banco" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 4l9 5.5M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 20h18"/></g></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-menos" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-libro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></g></symbol>
+    </svg>
+
+    <!-- ══ Pantalla de carga ══════════════════════════════════════ -->
+    <div id="carga" aria-hidden="true">
+      <div class="carga-centro">
+        <div class="carga-cajas">
+          <img src="images/tilin-pequeno.webp" alt="" />
+          <img src="images/tilin-mediano.webp" alt="" />
+          <img src="images/tilin-grande.webp" alt="" />
+        </div>
+        <div class="cinta">
+          <svg class="cinta-forma" viewBox="0 0 420 110" preserveAspectRatio="none">
+            <path d="M0 28 L46 22 L36 56 L50 92 L0 98 L14 62 Z" class="cinta-cola" />
+            <path d="M420 28 L374 22 L384 56 L370 92 L420 98 L406 62 Z" class="cinta-cola" />
+            <path d="M40 12 Q210 -4 380 12 L380 88 Q210 72 40 88 Z" class="cinta-cuerpo" />
+          </svg>
+          <span class="cinta-texto">TILIN FL</span>
+          <img class="carga-mascota" src="images/mascota.webp" alt="" />
+        </div>
+        <p class="carga-lema">Tres meses de protección</p>
+      </div>
+      <div class="carga-huellas">
+        <svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg><svg><use href="#i-huella" /></svg>
+      </div>
     </div>
 
-    <!-- ── CABECERA ────────────────────────────────────────────── -->
-    <header class="site-header" id="site-header">
-      <a href="#inicio" class="logo" aria-label="Tilin FL — inicio">
-        <img src="images/tilin.png" alt="Tilin FL" />
+    <!-- ══ Cabecera ═══════════════════════════════════════════════ -->
+    <header class="cabecera" id="cabecera">
+      <a href="#inicio" class="logo" aria-label="Tilin FL, ir al inicio">
+        <img src="images/logo-tilin.webp" alt="Tilin FL" />
+        <span>Tilin FL</span>
       </a>
-      <div class="head-actions">
-        <button class="link-btn" id="open-cart" aria-label="Abrir carrito">
-          Carrito <span class="cart-count" aria-live="polite">0</span>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#elegir">Elegir dosis</a>
+        <a href="#pack360">Pack 360°</a>
+        <a href="#matax">Matax</a>
+        <a href="#opiniones">Opiniones</a>
+        <a href="catalogo/">Catálogo</a>
+      </nav>
+      <div class="cabecera-acciones">
+        <button class="btn-pedido" id="abrir-pedido" type="button" aria-label="Abrir tu pedido">
+          <svg><use href="#i-bolsa" /></svg>
+          <span class="txt">Pedido</span>
+          <span class="contador" aria-live="polite">0</span>
         </button>
-        <button
-          class="menu-btn"
-          id="menu-btn"
-          aria-expanded="false"
-          aria-controls="menu"
-        >
-          <span class="menu-word">Menú</span>
-          <span class="menu-lines" aria-hidden="true"><i></i><i></i><i></i></span>
+        <button class="btn-menu" id="btn-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+          <i></i><i></i>
         </button>
       </div>
     </header>
 
-    <!-- Menú a pantalla completa -->
-    <nav class="menu" id="menu" aria-label="Navegación principal" aria-hidden="true">
-      <a href="#inicio">Inicio</a>
-      <a href="#pack360">Pack 360</a>
+    <nav class="menu" id="menu" aria-label="Menú" aria-hidden="true">
+      <a href="#elegir">Elegir dosis</a>
+      <a href="#pack360">Pack 360°</a>
       <a href="#matax">Matax</a>
       <a href="#doctor">El doctor</a>
       <a href="#opiniones">Opiniones</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#envios">Envíos</a>
+      <a href="catalogo/">Catálogo</a>
     </nav>
 
-    <a
-      class="wa-fab"
-      href="https://wa.me/51969780198"
-      target="_blank"
-      rel="noopener"
-      aria-label="Contactar por WhatsApp"
-    >
-      <i class="fab fa-whatsapp"></i>
-    </a>
-    <div id="toast" role="status" aria-live="polite"></div>
-
     <main>
-      <!-- ══ 01 · TILIN (hero + productos) ════════════════════════ -->
-      <section id="inicio" class="bb bb-a hero">
-        <img
-          class="plop-sello"
-          src="images/plop-sello.webp"
-          alt="Un producto del Dr. Plop"
-          width="338"
-          height="333"
-        />
-        <div class="hero-intro">
-          <h1 data-reveal>
-            Antipulgas, antigarrapatas y ácaros en una sola pastilla.
-            <span>Protección por 3 meses.</span>
+      <!-- ══ Portada ════════════════════════════════════════════════ -->
+      <section class="portada" id="inicio">
+        <div class="portada-texto">
+          <h1 class="titulo">
+            <span class="linea"><span>Una pastilla.</span></span>
+            <span class="linea"><span>Tres meses</span></span>
+            <span class="linea"><span><mark>sin pulgas</mark> ni</span></span>
+            <span class="linea"><span>garrapatas.</span></span>
           </h1>
-          <a href="#tilin" class="pill" data-reveal style="--d: 0.15s"
-            >Ver productos ↓</a
-          >
+          <p class="portada-bajada aparece">
+            Masticable contra pulgas, garrapatas y ácaros. Formulada por el
+            Dr.&nbsp;Augusto Durand, con silimarina para cuidar su hígado.
+          </p>
+          <div class="portada-botones aparece">
+            <a href="#elegir" class="btn btn-principal">Elegir según su peso <svg><use href="#i-flecha" /></svg></a>
+            <a href="catalogo/" class="btn btn-claro"><svg><use href="#i-libro" /></svg> Ver catálogo</a>
+          </div>
+          <ul class="portada-datos aparece">
+            <li><svg><use href="#i-camion" /></svg> Envíos a todo el Perú</li>
+            <li><svg><use href="#i-escudo" /></svg> Uso veterinario</li>
+          </ul>
         </div>
 
-        <div class="stage" id="tilin">
-          <p class="bb-word" aria-label="Tilin FL" data-word>Tilin FL</p>
-
-          <div class="seal" aria-hidden="true">
-            <svg viewBox="0 0 120 120">
-              <defs>
-                <path
-                  id="seal-path"
-                  d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"
-                />
-              </defs>
-              <text>
-                <textPath href="#seal-path">
-                  Protección 3 meses · Fórmula veterinaria ·
-                </textPath>
-              </text>
-            </svg>
-            <b>3</b>
+        <div class="portada-visual">
+          <div class="arco" aria-hidden="true"></div>
+          <div class="abanico" id="abanico">
+            <button type="button" class="caja caja-p" data-peso="7" aria-label="Tilin FL Pequeño, perros de 4.5 a 10 kg">
+              <img src="images/tilin-pequeno.webp" alt="" width="620" height="1386" />
+            </button>
+            <button type="button" class="caja caja-g" data-peso="30" aria-label="Tilin FL Grande, perros de 20 a 40 kg">
+              <img src="images/tilin-grande.webp" alt="" width="606" height="1340" />
+            </button>
+            <button type="button" class="caja caja-m" data-peso="15" aria-label="Tilin FL Mediano, perros de 10 a 20 kg">
+              <img src="images/tilin-mediano.webp" alt="" width="571" height="1312" />
+            </button>
           </div>
+          <img class="sello" src="images/plop-sello.webp" alt="Un producto del Dr. Plop" width="338" height="333" />
+          <p class="toca">Toca una caja</p>
+        </div>
+      </section>
 
-          <div class="row row-3" data-group="tilin"></div>
+      <!-- ══ Selector por peso ═════════════════════════════════════ -->
+      <section class="elegir" id="elegir" aria-labelledby="elegir-titulo">
+        <div class="elegir-cabeza">
+          <h2 id="elegir-titulo">¿Cuánto pesa tu perro?</h2>
+          <p>Mueve la barra y te mostramos la presentación exacta.</p>
+        </div>
 
-          <div class="promo" data-reveal>
-            <div class="promo-head">
-              <p class="tag">Promo media docena</p>
-              <h2>Pack de 6 unidades, pagas menos por cada Tilin.</h2>
-              <p class="note">
-                Según el peso de tu mascota. Desde 6 unidades del mismo tamaño,
-                el precio por unidad baja solo en el carrito.
-              </p>
+        <div class="elegir-cuerpo">
+          <div class="peso">
+            <output class="peso-numero" id="peso-numero" for="peso" aria-live="polite"><b>15</b><span>kg</span></output>
+            <input type="range" id="peso" min="4.5" max="40" step="0.5" value="15" aria-label="Peso de tu perro en kilos" />
+            <div class="peso-marcas" aria-hidden="true"><span>4.5</span><span>10</span><span>20</span><span>40 kg</span></div>
+            <div class="tallas" role="group" aria-label="Elegir por tamaño">
+              <button type="button" data-talla="p" data-peso="7">Pequeño<small>4.5 a 10 kg</small></button>
+              <button type="button" data-talla="m" data-peso="15">Mediano<small>10 a 20 kg</small></button>
+              <button type="button" data-talla="g" data-peso="30">Grande<small>20 a 40 kg</small></button>
             </div>
-            <ul class="promo-list">
-              <li>
-                <span>Pequeño<small>4.5 — 10 kg</small></span>
-                <b>S/ 150<small>6 unid. · S/ 25.00 c/u</small></b>
-              </li>
-              <li>
-                <span>Mediano<small>10 — 20 kg</small></span>
-                <b>S/ 165<small>6 unid. · S/ 27.50 c/u</small></b>
-              </li>
-              <li>
-                <span>Grande<small>20 — 40 kg</small></span>
-                <b>S/ 180<small>6 unid. · S/ 30.00 c/u</small></b>
-              </li>
-            </ul>
+            <p class="peso-nota">¿Pesa más de 40 kg? <a href="https://wa.me/51969382661?text=Hola%2C%20mi%20perro%20pesa%20m%C3%A1s%20de%2040%20kg.%20%C2%BFQu%C3%A9%20dosis%20de%20Tilin%20FL%20le%20corresponde%3F" target="_blank" rel="noopener">Pregúntanos la dosis</a>.</p>
+          </div>
+
+          <div class="resultado" id="resultado">
+            <div class="resultado-foto">
+              <img id="res-img" src="images/tilin-mediano.webp" alt="Caja de Tilin FL Mediano" width="571" height="1312" />
+            </div>
+            <div class="resultado-info">
+              <h3 id="res-nombre">Tilin FL Mediano</h3>
+              <p class="resultado-rango" id="res-rango">Para perros de 10 a 20 kg</p>
+              <dl class="formula">
+                <div><dt>Fluralaner</dt><dd id="res-flu">560 mg</dd></div>
+                <div><dt>Silimarina</dt><dd id="res-sil">100 mg</dd></div>
+              </dl>
+
+              <fieldset class="opciones">
+                <legend>¿Cuántas?</legend>
+                <label class="opcion">
+                  <input type="radio" name="cantidad" value="1" />
+                  <span class="opcion-nombre">1 unidad</span>
+                  <span class="opcion-precio" id="res-unidad">S/ 40.00</span>
+                </label>
+                <label class="opcion opcion-promo">
+                  <input type="radio" name="cantidad" value="6" checked />
+                  <span class="opcion-nombre">Pack de 6 <em id="res-ahorro">Ahorras S/ 75</em></span>
+                  <span class="opcion-precio"><span id="res-pack">S/ 165.00</span><small id="res-cu">S/ 27.50 c/u</small></span>
+                </label>
+              </fieldset>
+
+              <button type="button" class="btn btn-principal btn-ancho" id="res-agregar">
+                <svg><use href="#i-bolsa" /></svg> Agregar al pedido
+              </button>
+              <a class="mayor" href="catalogo/">¿Compras por docena o más? Ve los precios por mayor en el catálogo <svg><use href="#i-flecha" /></svg></a>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ══ 02 · PACK 360 ════════════════════════════════════════ -->
-      <section id="pack360" class="bb bb-b">
-        <div class="stage">
-          <p class="bb-word" aria-label="360" data-word>360</p>
-          <div class="row row-solo" data-group="pack360"></div>
+      <!-- ══ Pack 360 ══════════════════════════════════════════════ -->
+      <section class="pack" id="pack360" aria-labelledby="pack-titulo">
+        <div class="pack-foto">
+          <img src="images/tilin-pack360.webp" alt="Cajas del Pack Tilin FL 360°" width="1000" height="892" loading="lazy" />
+        </div>
+        <div class="pack-texto">
+          <h2 id="pack-titulo">Pack 360°: por dentro y por fuera.</h2>
+          <p>La antipulgas de siempre más pastillas antiparasitarias internas. Protección completa hasta por 3 meses.</p>
+
+          <ol class="pasos">
+            <li><span><b>Por la mañana</b> la pastilla antipulgas, en ayunas.</span></li>
+            <li><span><b>Por la tarde</b> las antiparasitarias, antes de su comida.</span></li>
+            <li><span><b>Listo:</b> protegido por dentro y por fuera.</span></li>
+          </ol>
+
+          <ul class="pack-lista" id="pack-lista"></ul>
         </div>
       </section>
 
-      <!-- ══ 03 · MATAX ═══════════════════════════════════════════ -->
-      <section id="matax" class="bb bb-a">
-        <div class="stage">
-          <p class="bb-word" aria-label="Matax" data-word>Matax</p>
-          <div class="row row-2" data-group="matax"></div>
+      <!-- ══ Matax ═════════════════════════════════════════════════ -->
+      <section class="matax" id="matax" aria-labelledby="matax-titulo">
+        <div class="matax-cabeza">
+          <h2 id="matax-titulo">Matax, para la casa.</h2>
+          <p>Spray contra cucarachas y hormigas, del mismo laboratorio.</p>
+        </div>
+        <div class="matax-lista" id="matax-lista"></div>
+      </section>
+
+      <!-- ══ El doctor ════════════════════════════════════════════ -->
+      <section class="doctor" id="doctor" aria-labelledby="doctor-titulo">
+        <img src="images/imgDocPix.png" alt="Ilustración del Dr. Augusto Durand, el Dr. Plop" width="396" height="428" loading="lazy" />
+        <div>
+          <h2 id="doctor-titulo">Dr. Augusto Durand</h2>
+          <p>Más de 25 años desarrollando productos para la salud animal. Creador de las marcas Plop, Tilin y Matax.</p>
+          <p class="pronto">Próximamente: shampoo y spray antipulgas.</p>
         </div>
       </section>
 
-      <!-- ══ 04 · EL DOCTOR ═══════════════════════════════════════ -->
-      <section id="doctor" class="doctor">
-        <img
-          src="images/imgDocPix.png"
-          alt="Dr. Augusto Durand — Dr. Plop"
-          loading="lazy"
-          data-reveal
-        />
-        <div class="doctor-copy">
-          <p class="tag" data-reveal>Formulado por</p>
-          <h2 data-reveal style="--d: 0.1s">Dr. Augusto Durand</h2>
-          <p class="note" data-reveal style="--d: 0.2s">
-            Más de 25 años desarrollando productos para la salud animal.
-            Creador de la marca Plop, Tilin y Matax.
-          </p>
-          <p class="note soon" data-reveal style="--d: 0.3s">
-            Próximamente: shampoo y spray antipulgas.
-          </p>
-        </div>
-      </section>
-
-      <!-- ══ 05 · OPINIONES ═══════════════════════════════════════ -->
-      <section id="opiniones" class="reviews">
-        <p class="tag" data-reveal>Opiniones</p>
-        <div class="quotes" id="quotes">
-          <figure class="quote active">
-            <blockquote>
-              Increíble. Mi perro tenía muchas pulgas y en menos de una semana
-              desaparecieron por completo. Llevo 2 meses y no ha vuelto
-              ninguna. Totalmente recomendado.
-            </blockquote>
-            <figcaption><b>María R.</b> Lima · Beagle 12 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Es una pastilla que mi perro se come sin problema mezclada con la
-              comida. Antes con las pipetas era un drama. Muy práctico y
-              efectivo.
-            </blockquote>
-            <figcaption><b>Carlos M.</b> San Isidro · Labrador 28 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Compré el PACK 360 y es excelente. Protección completa interna y
-              externa. El Dr. Durand sabe lo que hace, se nota la diferencia
-              con otros productos del mercado.
-            </blockquote>
-            <figcaption><b>Luisa V.</b> Miraflores · Caniche 7 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Tengo 3 perros de distintos tamaños y compro las 3 versiones.
-              Calidad constante, mis mascotas están sin pulgas hace meses.
-              Super recomendado para hogares con varios perros.
-            </blockquote>
-            <figcaption><b>Ana P.</b> Surco · 3 perros, distintos tamaños</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Mi golden retriever es grande y siempre le llegaban garrapatas
-              del parque. Con Tilin 20-40kg desaparecieron por completo. Ya
-              compré la docena para tener stock.
-            </blockquote>
-            <figcaption><b>Jorge L.</b> La Molina · Golden Retriever 35 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Usé el MATAX para cucarachas en mi cocina. En 48 horas no quedó
-              ninguna. Llevaba semanas con el problema y otros productos no
-              funcionaban. Este sí.
-            </blockquote>
-            <figcaption><b>Patricia G.</b> Los Olivos · MATAX Cucarachas</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Compro en media docena para ahorrar. El precio por unidad baja
-              bastante y la calidad es la misma. Mi perrita de 8 kg lleva 6
-              meses sin ni una pulga.
-            </blockquote>
-            <figcaption><b>Rosario C.</b> Jesús María · Schnauzer 8 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              El Dr. Plop me recomendó personalmente el PACK 360 para mi perro
-              que tenía parásitos internos y externos. Resultado excelente. Muy
-              buen servicio y atención por WhatsApp.
-            </blockquote>
-            <figcaption><b>Eduardo R.</b> Surco · Husky 27 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              El MATAX para hormigas funcionó perfecto en mi jardín. Apliqué en
-              las esquinas y en 3 días desaparecieron las colonias. Llevo un
-              mes sin ver ni una. 100% efectivo.
-            </blockquote>
-            <figcaption><b>Carmen H.</b> Pueblo Libre · MATAX Hormigas</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Mi veterinaria me recomendó Tilin. Quedé impresionada con los
-              resultados. Mi perro saltaba de alegría y ya no se rasca.
-              Definitivamente no vuelvo a las pipetas.
-            </blockquote>
-            <figcaption><b>Valeria M.</b> Barranco · Cocker 11 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Excelente relación precio-calidad. Compré la docena para mi
-              negocio de peluquería canina y mis clientes están muy contentos.
-              Los perros llegan y salen protegidos.
-            </blockquote>
-            <figcaption><b>Milagros T.</b> San Borja · Peluquería canina</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Tenía miedo de darle una pastilla a mi perro por primera vez pero
-              se la comió solita. Sin drama, sin estrés. Y lo mejor: 3 meses de
-              protección total. No lo cambio por nada.
-            </blockquote>
-            <figcaption><b>Daniela F.</b> Miraflores · Poodle 6 kg</figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>
-              Compré para mis dos bulldogs. El de 22 kg y el de 31 kg. Los dos
-              perfectos, sin pulgas ni garrapatas. La entrega fue rápida y el
-              producto llegó bien embalado. Volveré a comprar.
-            </blockquote>
-            <figcaption><b>Roberto S.</b> San Miguel · 2 Bulldogs</figcaption>
-          </figure>
-        </div>
-        <div class="quotes-nav">
-          <button class="circle" id="q-prev" aria-label="Opinión anterior">←</button>
-          <span id="q-count">01 / 13</span>
-          <button class="circle" id="q-next" aria-label="Opinión siguiente">→</button>
-        </div>
-      </section>
-
-      <!-- ══ 06 · CONTACTO ════════════════════════════════════════ -->
-      <section id="contacto" class="contact">
-        <div class="contact-copy">
-          <p class="tag" data-reveal>Contacto</p>
-          <h2 data-reveal style="--d: 0.1s">¿Te interesa nuestro producto?</h2>
-          <div class="pills" data-reveal style="--d: 0.2s">
-            <a
-              href="https://wa.me/51969382661"
-              target="_blank"
-              rel="noopener"
-              class="pill"
-              ><i class="fab fa-whatsapp"></i> WhatsApp</a
-            >
-            <a
-              href="https://www.facebook.com/tilinflperu"
-              target="_blank"
-              rel="noopener"
-              class="pill"
-              ><i class="fab fa-facebook-f"></i> Facebook</a
-            >
-            <a
-              href="https://www.instagram.com/tilinflperu"
-              target="_blank"
-              rel="noopener"
-              class="pill"
-              ><i class="fab fa-instagram"></i> Instagram</a
-            >
-            <a
-              href="https://www.tiktok.com/@drplop_oficial"
-              target="_blank"
-              rel="noopener"
-              class="pill"
-              ><i class="fab fa-tiktok"></i> TikTok</a
-            >
+      <!-- ══ Opiniones ════════════════════════════════════════════ -->
+      <section class="opiniones" id="opiniones" aria-labelledby="opiniones-titulo">
+        <div class="opiniones-cabeza">
+          <h2 id="opiniones-titulo">Lo que dicen quienes ya lo usan.</h2>
+          <div class="flechas">
+            <button type="button" id="op-ant" aria-label="Opiniones anteriores"><svg style="transform:scaleX(-1)"><use href="#i-flecha" /></svg></button>
+            <button type="button" id="op-sig" aria-label="Más opiniones"><svg><use href="#i-flecha" /></svg></button>
           </div>
-          <p class="note" data-reveal style="--d: 0.3s">
+        </div>
+        <ul class="pista" id="pista" tabindex="0" aria-label="Opiniones, desliza para ver más">
+          <li><blockquote>Mi perro tenía muchas pulgas y en menos de una semana desaparecieron por completo. Llevo 2 meses y no ha vuelto ninguna.</blockquote><p><b>María R.</b> Lima · Beagle 12 kg</p></li>
+          <li><blockquote>Se la come sin problema mezclada con la comida. Antes con las pipetas era un drama. Muy práctico y efectivo.</blockquote><p><b>Carlos M.</b> San Isidro · Labrador 28 kg</p></li>
+          <li><blockquote>Compré el Pack 360 y es excelente. Protección completa interna y externa. Se nota la diferencia con otros productos.</blockquote><p><b>Luisa V.</b> Miraflores · Caniche 7 kg</p></li>
+          <li><blockquote>Tengo 3 perros de distintos tamaños y compro las 3 versiones. Calidad constante, sin pulgas hace meses.</blockquote><p><b>Ana P.</b> Surco · 3 perros</p></li>
+          <li><blockquote>A mi golden siempre le llegaban garrapatas del parque. Con Tilin 20-40 kg desaparecieron por completo.</blockquote><p><b>Jorge L.</b> La Molina · Golden 35 kg</p></li>
+          <li><blockquote>Usé el Matax para cucarachas en mi cocina. En 48 horas no quedó ninguna. Otros productos no funcionaban. Este sí.</blockquote><p><b>Patricia G.</b> Los Olivos · Matax Cucarachas</p></li>
+          <li><blockquote>Compro en media docena para ahorrar. El precio por unidad baja bastante. Mi perrita lleva 6 meses sin ni una pulga.</blockquote><p><b>Rosario C.</b> Jesús María · Schnauzer 8 kg</p></li>
+          <li><blockquote>El Dr. Plop me recomendó el Pack 360 para mi perro con parásitos internos y externos. Resultado excelente.</blockquote><p><b>Eduardo R.</b> Surco · Husky 27 kg</p></li>
+          <li><blockquote>El Matax para hormigas funcionó perfecto en mi jardín. En 3 días desaparecieron las colonias.</blockquote><p><b>Carmen H.</b> Pueblo Libre · Matax Hormigas</p></li>
+          <li><blockquote>Mi veterinaria me recomendó Tilin. Mi perro ya no se rasca. Definitivamente no vuelvo a las pipetas.</blockquote><p><b>Valeria M.</b> Barranco · Cocker 11 kg</p></li>
+          <li><blockquote>Compré la docena para mi peluquería canina y mis clientes están muy contentos. Los perros salen protegidos.</blockquote><p><b>Milagros T.</b> San Borja · Peluquería canina</p></li>
+          <li><blockquote>Tenía miedo de darle una pastilla por primera vez pero se la comió solita. Sin drama y 3 meses de protección.</blockquote><p><b>Daniela F.</b> Miraflores · Poodle 6 kg</p></li>
+          <li><blockquote>Compré para mis dos bulldogs, de 22 y 31 kg. Los dos perfectos. La entrega fue rápida y llegó bien embalado.</blockquote><p><b>Roberto S.</b> San Miguel · 2 Bulldogs</p></li>
+        </ul>
+      </section>
+
+      <!-- ══ Envíos y pago ════════════════════════════════════════ -->
+      <section class="envios" id="envios" aria-labelledby="envios-titulo">
+        <h2 id="envios-titulo">Lo pides hoy, lo tienes en días.</h2>
+        <ul class="envios-lista">
+          <li><svg><use href="#i-camion" /></svg><b>Envíos a todo el país</b><span>Despachamos de lunes a viernes, a Lima y provincias.</span></li>
+          <li><svg><use href="#i-reloj" /></svg><b>Lima Metropolitana: 18 a 36 h</b><span>Fuera de Lima Metropolitana, de 24 a 48 horas.</span></li>
+          <li><svg><use href="#i-banco" /></svg><b>Pagas por depósito o transferencia</b><span>Te pasamos los datos de la cuenta BCP por WhatsApp.</span></li>
+        </ul>
+      </section>
+
+      <!-- ══ Contacto ═════════════════════════════════════════════ -->
+      <section class="contacto" id="contacto" aria-labelledby="contacto-titulo">
+        <div class="contacto-texto">
+          <h2 id="contacto-titulo">¿Dudas con la dosis? Escríbenos.</h2>
+          <div class="contacto-botones">
+            <a href="https://wa.me/51969382661" target="_blank" rel="noopener" class="btn btn-principal"><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+            <a href="https://www.facebook.com/tilinflperu" target="_blank" rel="noopener" class="redes" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/tilinflperu" target="_blank" rel="noopener" class="redes" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://www.tiktok.com/@drplop_oficial" target="_blank" rel="noopener" class="redes" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+          </div>
+          <p class="contacto-datos">
             Corporacionplop2025@hotmail.com<br />
-            Los Olivos: Calle 2 Mz D lote 36 cooperativa libertad
+            Los Olivos: Calle 2 Mz D lote 36, cooperativa Libertad
           </p>
         </div>
         <iframe
-          data-reveal
           src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4883.334364468777!2d-77.08507112493949!3d-12.001998488231324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAwJzA3LjIiUyA3N8KwMDQnNTcuMCJX!5e1!3m2!1ses!2spe!4v1752338710364!5m2!1ses!2spe"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="Mapa de ubicación"
+          title="Mapa: Corporación Plop en Los Olivos"
         ></iframe>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="footer-run" aria-hidden="true">
-        <img src="images/perrito.gif" alt="" loading="lazy" />
-      </div>
-      <p class="footer-legal">
-        © 2025 Corporación Plop — Dr. Augusto Durand · Todos los derechos
-        reservados · Hecho en Perú
-      </p>
+    <footer class="pie">
+      <div class="pie-corre" aria-hidden="true"><img src="images/perrito.gif" alt="" width="200" height="200" loading="lazy" /></div>
+      <p>© 2026 Corporación Plop · Dr. Augusto Durand · Hecho en Perú</p>
     </footer>
 
-    <!-- ── CARRITO ─────────────────────────────────────────────── -->
-    <div class="overlay" id="overlay"></div>
-    <aside class="drawer" id="drawer" aria-label="Carrito" aria-hidden="true">
-      <div class="drawer-head">
+    <!-- Barra inferior del pedido (celular) -->
+    <button type="button" class="barra-pedido" id="barra-pedido" aria-label="Ver tu pedido">
+      <span><b class="contador">0</b> en tu pedido</span>
+      <strong id="barra-total">S/ 0.00</strong>
+      <span class="barra-ver">Ver pedido <svg><use href="#i-flecha" /></svg></span>
+    </button>
+
+    <a class="wa-flotante" href="https://wa.me/51969780198" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+    <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+    <!-- ══ Pedido ════════════════════════════════════════════════ -->
+    <div class="velo" id="velo"></div>
+    <aside class="pedido" id="pedido" aria-label="Tu pedido" aria-hidden="true">
+      <div class="pedido-asa" aria-hidden="true"></div>
+      <div class="pedido-cabeza">
         <h2>Tu pedido</h2>
-        <button class="circle" id="close-cart" aria-label="Cerrar carrito">
-          ✕
-        </button>
+        <button type="button" class="btn-icono" id="cerrar-pedido" aria-label="Cerrar pedido"><svg><use href="#i-x" /></svg></button>
       </div>
-      <ul id="lista-carrito" class="cart-list"></ul>
-      <div class="drawer-foot">
-        <div class="row-line">
-          <span>Subtotal</span><span id="subtotal">S/ 0.00</span>
-        </div>
-        <div class="row-line"><span>Envío</span><span>Consultar</span></div>
-        <div class="row-line total">
-          <strong>Total</strong><strong id="total-carrito">S/ 0.00</strong>
-        </div>
-        <fieldset class="numbers" id="wa-numbers">
-          <legend id="wa-legend">¿A qué número quieres escribir?</legend>
-          <div class="num-list" id="num-list"></div>
+      <ul class="pedido-lista" id="pedido-lista"></ul>
+      <div class="pedido-pie">
+        <div class="fila"><span>Envío</span><span>Se coordina por WhatsApp</span></div>
+        <div class="fila total"><strong>Total</strong><strong id="pedido-total">S/ 0.00</strong></div>
+        <fieldset class="numeros" id="numeros">
+          <legend id="numeros-titulo">¿A qué número quieres escribir?</legend>
+          <div class="numeros-lista" id="numeros-lista"></div>
         </fieldset>
-        <a id="whatsapp-btn" href="#" target="_blank" class="pill pill-solid">
-          <i class="fab fa-whatsapp"></i> Check out por WhatsApp
+        <a id="btn-whatsapp" href="#" target="_blank" rel="noopener" class="btn btn-principal btn-ancho">
+          <i class="fab fa-whatsapp" aria-hidden="true"></i> Enviar pedido por WhatsApp
         </a>
       </div>
     </aside>
 
-    <script src="js/script.js?v=20261006" defer></script>
+    <script src="js/tilin.js?v=20261111" defer></script>
   </body>
 </html>
