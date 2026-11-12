@@ -416,7 +416,7 @@ const Mascota = (() => {
     el.type = "button";
     el.className = "mascota";
     el.setAttribute("aria-label", "Tilín, la mascota. Tócalo para un consejo");
-    el.innerHTML = `<span class="mascota-globo" role="status" aria-live="polite"></span><span class="mascota-cuerpo"><img src="images/mascota.webp" alt="" width="240" height="300"></span>`;
+    el.innerHTML = `<span class="mascota-globo" role="status" aria-live="polite"></span><span class="mascota-cuerpo"><img src="images/mascota.webp" alt="" width="336" height="481"></span>`;
     document.body.appendChild(el);
     globo = el.querySelector(".mascota-globo");
     el.addEventListener("click", () => decir(FRASES_TOQUE[iToque++ % FRASES_TOQUE.length], "salta"));

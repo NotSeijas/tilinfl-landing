@@ -603,7 +603,7 @@ body.con-pedido .wa-flotante { transform: translateY(-84px); }
 }
 
 /* ── Logo ────────────────────────────────────────────────── */
-.logo img { width: auto; height: 46px; }
+.logo img { width: auto; height: 50px; }
 .logo span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 /* ── Tilín, la mascota ───────────────────────────────────── */
@@ -691,3 +691,7 @@ body.con-pedido .mascota.entra:not(.escondida) { transform: translateY(-84px); }
 .pista-video .video-deco { box-shadow: none; border-radius: 14px; }
 .pista-video p { color: #e3d6e8; padding: 0 6px 6px; }
 .pista-video p b { display: inline; color: var(--papel); }
+
+/* La marca de la carga con el mismo trazo del logo */
+.carga-logo { color: #fff; -webkit-text-stroke: 7px #5c0b5a; paint-order: stroke fill; letter-spacing: 0.01em; }
+.carga-logo span { color: #fff; }
